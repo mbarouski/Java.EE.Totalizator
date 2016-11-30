@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.sql.Connection;
 import static junit.framework.TestCase.assertEquals;
 
-public class ConnectionPoolTests {
+public class ConnectionPoolTest {
     @Test
     public void ConnectionPoolTest(){
         ConnectionPool pool = ConnectionPool.getConnectionPool();

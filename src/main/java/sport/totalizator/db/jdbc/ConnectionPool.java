@@ -6,11 +6,8 @@ import org.apache.log4j.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
@@ -26,6 +23,12 @@ public class ConnectionPool {
     }
 
     private ConnectionPool(Properties properties){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException exc){
+            log.error(exc);
+        }
         int poolSize = Integer.parseInt(properties.getProperty("poolSize"));
         String url = properties.getProperty("url");
         String username = properties.getProperty("username");
