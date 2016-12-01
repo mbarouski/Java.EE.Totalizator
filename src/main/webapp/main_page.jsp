@@ -51,12 +51,12 @@
 					<div class="event">
 						<div class="event-main">
 							<h5 class="event-name"><c:out value="${event.eventName}" /></h5>
-							<p class="event-league">${event.leaugeName}</p>
-							<time class="event-date">${event.eventDate}</time>
+							<p class="event-league">${event.eventLeague}</p>
+							<time class="event-date">${event.eventDate} ${event.eventTime}</time>
 						</div>
 						<div class="event-secondary">
 							<p>Ставок: ${event.rateCount}</p>
-							<button class="event-btn">Перейти</button>
+							<a href="<c:url value="main?command=showEventPage&eventId=${event.eventId}" />"><button class="event-btn">Перейти</button></a>
 						</div>
 					</div>
 				</c:forEach>

@@ -29,7 +29,13 @@ public class EventDAOImpl implements EventDAO{
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM `event`";
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
+                "FROM `event` " +
+                "JOIN `league` " +
+                "ON `event`.`league_id` = `league`.`league_id` " +
+                "JOIN `rate` " +
+                "ON `rate`.`event_id` = `event`.`event_id` " +
+                "GROUP BY `rate`.`event_id`;";
         List<Event> result = new ArrayList<Event>();
         try {
             connection = pool.getConnection();
@@ -40,6 +46,11 @@ public class EventDAOImpl implements EventDAO{
             while(resultSet.next()){
                 event = new Event();
                 event.setEventName(resultSet.getString("event_name"));
+                event.setEventDate(resultSet.getDate("date"));
+                event.setEventTime(resultSet.getTime("date"));
+                event.setEventId(resultSet.getInt("id"));
+                event.setRateCount(resultSet.getInt("rate_count"));
+                event.setEventLeague(resultSet.getString("league_name"));
                 result.add(event);
             }
         }
