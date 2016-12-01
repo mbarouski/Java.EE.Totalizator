@@ -1,6 +1,7 @@
 package sport.totalizator.db.jdbc;
 
 
+import com.mysql.jdbc.Driver;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
