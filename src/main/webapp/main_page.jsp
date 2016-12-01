@@ -39,11 +39,9 @@
 					<a href="#">Ближайшие</a>
 					<a href="#">Интересные</a>
 					<b>Категории</b>
-					<a href="#">Футбол</a>
-					<a href="#">Хоккей</a>
-					<a href="#">Баскетбол</a>
-					<a href="#">Бадминтон</a>
-					<a href="#">Гандбол</a>
+					<c:forEach var="category" items="${categories}">
+						<a href="<c:url value="main?command=showCategoryPage&categoryId=${category.id}" />" >${category.name}</a>
+					</c:forEach>
 				</nav>
 			</div>
 			<div class="center-part">
