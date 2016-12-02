@@ -2,6 +2,7 @@ package sport.totalizator.dao.impl;
 
 import org.apache.log4j.Logger;
 import sport.totalizator.dao.UserDAO;
+import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.User;
 
@@ -21,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
         return instance;
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() throws DAOException {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;

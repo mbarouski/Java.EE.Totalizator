@@ -1,7 +1,8 @@
-package sport.totalizator.db.jdbc;
+package sport.totalizator.dao;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import sport.totalizator.db.jdbc.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

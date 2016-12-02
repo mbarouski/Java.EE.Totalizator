@@ -14,4 +14,8 @@
         <url-pattern>/main</url-pattern>
     </servlet-mapping>
 
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
 </web-app>

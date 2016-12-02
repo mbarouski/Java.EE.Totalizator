@@ -1,4 +1,4 @@
-package sport.totalizator.db.jdbc;
+package sport.totalizator.dao;
 
 
 import org.junit.Test;

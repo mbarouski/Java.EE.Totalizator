@@ -24,8 +24,7 @@
 			<div class="menu">
 				<nav class="main-menu">
 					<div class="main-menu-item-container">
-						<a class="active" href="#"><span>Главная</span></a>
-						<a href="#"><span>События</span></a>
+						<a class="active" href="<c:url value="main" />"><span>Главная</span></a>
 						<a href="#"><span>Результаты</span></a>
 						<a href="#"><span>Личная страница</span></a>
 					</div>
@@ -36,7 +35,7 @@
 		<div class="main">
 			<div class="left-menu">
 				<nav>
-					<a href="#">Ближайшие</a>
+					<a href="<c:url value="main?command=showNearestEventsPage" />">Ближайшие</a>
 					<a href="#">Интересные</a>
 					<b>Категории</b>
 					<c:forEach var="category" items="${categories}">
@@ -61,9 +60,7 @@
 
 			</div>
 		</div>
-		<footer>
-			<p>&copy; Maksim Barouski "Делай деньги" 2016</p>
-		</footer>
+		<%@ include file="footer.jsp" %>
 	</div>
 </body>
 </html>

@@ -2,6 +2,7 @@ package sport.totalizator.dao.impl;
 
 import org.apache.log4j.Logger;
 import sport.totalizator.dao.CategoryDAO;
+import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Category;
 
@@ -21,7 +22,7 @@ public class CategoryDAOImpl implements CategoryDAO{
         return instance;
     }
 
-    public List<Category> getAllCategories(){
+    public List<Category> getAllCategories() throws DAOException {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -29,35 +30,43 @@ public class CategoryDAOImpl implements CategoryDAO{
         List<Category> result = new ArrayList<Category>();
         try {
             connection = pool.getConnection();
-            statement = connection.createStatement();
-            statement.execute(sql);
-            resultSet = statement.getResultSet();
-            Category category;
-            while(resultSet.next()){
-                category = new Category();
-                category.setId(resultSet.getInt("category_id"));
-                category.setName(resultSet.getString("category_name"));
-                result.add(category);
+            try {
+                statement = connection.createStatement();
+                statement.execute(sql);
+                try {
+                    resultSet = statement.getResultSet();
+                    while (resultSet.next()) {
+                        result.add(createCategory(resultSet));
+                    }
+                } catch (SQLException exc) {
+                    log.error(exc);
+                    throw new DAOException(exc.getMessage());
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc.getMessage());
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
             }
-        }
-        catch (SQLException exc){
+        } catch (SQLException exc){
             log.error(exc);
-        }
-        finally {
+            throw new DAOException(exc.getMessage());
+        } finally {
             pool.returnConnectionToPool(connection);
-            try {
-                resultSet.close();
-            }
-            catch (SQLException exc){
-                log.error(exc);
-            }
-            try {
-                statement.close();
-            }
-            catch (SQLException exc){
-                log.error(exc);
-            }
         }
         return result;
+    }
+
+    private Category createCategory(ResultSet resultSet) throws SQLException{
+        Category category = new Category();
+        category.setId(resultSet.getInt("category_id"));
+        category.setName(resultSet.getString("category_name"));
+        return category;
     }
 }
