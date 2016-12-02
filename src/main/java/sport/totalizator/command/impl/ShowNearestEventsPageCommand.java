@@ -17,7 +17,7 @@ public class ShowNearestEventsPageCommand implements ICommand {
         EventDAO eventDAO = EventDAOImpl.getInstance();
         CategoryDAOImpl categoryDAO = CategoryDAOImpl.getInstance();
         try {
-            req.setAttribute("events", eventDAO.getAllEventsSortedByRateCount());
+            req.setAttribute("events", eventDAO.getAllEventsSortedByDate());
             req.setAttribute("categories", categoryDAO.getAllCategories());
         }
         catch (DAOException exc){

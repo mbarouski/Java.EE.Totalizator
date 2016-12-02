@@ -80,25 +80,26 @@ public class EventDAOImpl implements EventDAO{
     }
 
     public List<Event> getAllEventsSortedByDate() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
                 "FROM `event` " +
-                "JOIN `league` " +
+                "LEFT JOIN `league` " +
                 "ON `event`.`league_id` = `league`.`league_id` " +
-                "JOIN `rate` " +
+                "LEFT JOIN `rate` " +
                 "ON `rate`.`event_id` = `event`.`event_id` " +
+                "WHERE `event_status` = 'POSTED' " +
                 "GROUP BY `rate`.`event_id` " +
-                "ORDER BY `date` " +
-                "DESC; ";
+                "ORDER BY `date`;";
         return getEventsBySql(sql);
     }
 
     public List<Event> getAllEventsSortedByRateCount() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
                 "FROM `event` " +
-                "JOIN `league` " +
+                "LEFT JOIN `league` " +
                 "ON `event`.`league_id` = `league`.`league_id` " +
-                "JOIN `rate` " +
+                "LEFT JOIN `rate` " +
                 "ON `rate`.`event_id` = `event`.`event_id` " +
+                "WHERE `event_status` = 'POSTED' " +
                 "GROUP BY `rate`.`event_id` " +
                 "ORDER BY `rate_count` " +
                 "DESC; ";
@@ -106,12 +107,13 @@ public class EventDAOImpl implements EventDAO{
     }
 
     public List<Event> getAllEvents() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
                 "FROM `event` " +
-                "JOIN `league` " +
+                "LEFT JOIN `league` " +
                 "ON `event`.`league_id` = `league`.`league_id` " +
-                "JOIN `rate` " +
+                "LEFT JOIN `rate` " +
                 "ON `rate`.`event_id` = `event`.`event_id` " +
+                "WHERE `event_status` = 'POSTED' " +
                 "GROUP BY `rate`.`event_id`;";
         return getEventsBySql(sql);
     }

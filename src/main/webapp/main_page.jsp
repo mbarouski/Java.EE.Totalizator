@@ -36,7 +36,7 @@
 			<div class="left-menu">
 				<nav>
 					<a href="<c:url value="main?command=showNearestEventsPage" />">Ближайшие</a>
-					<a href="#">Интересные</a>
+					<a href="<c:url value="main?command=showMostInterestingEventsPage" />">Интересные</a>
 					<b>Категории</b>
 					<c:forEach var="category" items="${categories}">
 						<a href="<c:url value="main?command=showCategoryPage&categoryId=${category.id}" />" >${category.name}</a>
