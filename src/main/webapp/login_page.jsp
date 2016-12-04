@@ -17,7 +17,7 @@
         <%@ include file="left_menu.jsp" %>
         <div class="center-part">
             <div class="registration">
-                <form class="form" method="post" onsubmit="return validate();" action="main?command=register">
+                <form class="form" method="post" onsubmit="return validate();" action="main?command=login">
                     <div class="reg-form">
                         <div class="label-div">
                             <label><fmt:message bundle="${loc}" key="label.name"/> </label>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="btn-container">
-                        <button class="register-btn" type="submit"><fmt:message bundle="${loc}" key="link.registration" /></button>
+                        <button class="register-btn" type="submit"><fmt:message bundle="${loc}" key="link.login" /></button>
                     </div>
                 </form>
             </div>
