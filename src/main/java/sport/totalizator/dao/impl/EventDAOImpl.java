@@ -9,10 +9,7 @@ import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Event;
 import sport.totalizator.entity.User;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,17 +35,18 @@ public class EventDAOImpl implements EventDAO{
         return event;
     }
 
-    private List<Event> getEventsBySql(String sql) throws DAOException{
+    private List<Event> getEventsBySql(String sql, Object... params) throws DAOException {
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Event> result = new ArrayList<Event>();
 
         try {
             connection = pool.getConnection();
             try {
-                statement = connection.createStatement();
-                statement.execute(sql);
+                statement = connection.prepareStatement(sql);
+                insertParamsIntoPreparedStatement(statement, params);
+                statement.execute();
                 try {
                     resultSet = statement.getResultSet();
                     while (resultSet.next()) {
@@ -78,6 +76,20 @@ public class EventDAOImpl implements EventDAO{
         }
         return result;
     }
+
+    private void insertParamsIntoPreparedStatement(PreparedStatement statement, Object[] params) throws SQLException{
+        Object param;
+        for(int i = 0; i < params.length; i++){
+            param = params[i];
+            if(param.getClass() == Integer.class) {
+                statement.setInt(i + 1, (Integer) param);
+            }
+            else if (param.getClass() == String.class){
+                statement.setString(i + 1, (String) param);
+            }
+        }
+    }
+
 
     public List<Event> getAllEventsSortedByDate() throws DAOException {
         String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
@@ -116,5 +128,19 @@ public class EventDAOImpl implements EventDAO{
                 "WHERE `event_status` = 'POSTED' " +
                 "GROUP BY `rate`.`event_id`;";
         return getEventsBySql(sql);
+    }
+
+    public List<Event> getNotEndedEventsByCategoryId(int categoryId) throws DAOException {
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, " +
+                "`league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
+                "FROM `event` " +
+                "LEFT JOIN `league` " +
+                "ON `event`.`league_id` = `league`.`league_id` " +
+                "LEFT JOIN `rate` " +
+                "ON `rate`.`event_id` = `event`.`event_id` " +
+                "WHERE `event_status` = 'POSTED' " +
+                "AND `event_category_id` = ? " +
+                "GROUP BY `rate`.`event_id`;";
+        return getEventsBySql(sql, categoryId);
     }
 }

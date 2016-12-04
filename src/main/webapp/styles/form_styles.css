@@ -1,0 +1,94 @@
+label {
+	color: #eba11a;
+	line-height: 30px;
+	margin: 3px 0;
+}
+
+input {
+	height: 20px;
+	margin: 5px 0px;
+}
+
+.register-btn {
+	width: 100px;
+	color: white;
+	margin-top: 10px;
+	background: #eba11a;
+	border: 1px solid white;
+	border-radius: 2px;
+	transition: all 0.2s linear;
+}
+
+.register-btn:hover {
+	background: #eb701a;
+}
+
+.registration {
+	display: flex;
+	justify-content: center;
+}
+
+.label-div, .err-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.input-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.reg-form {
+	display: flex;
+	justify-content: space-between;
+}
+
+.form {
+	width: 650px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.btn-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.err-div p {
+	font-size: 0.6em;
+	color: white;
+	margin: 5px;
+}
+
+.email-div button {
+	vertical-align: top;
+	flex-direction: row;
+	margin: 4px 0px;
+	height: 27px;
+}
+
+.email-div {
+	justify-content: space-around;
+}
+
+.email-div input {
+	vertical-align: top;
+}
+
+.err-div p {
+	background: rgba(215, 44, 44, 0.6);
+	border-radius: 3px;
+	line-height: 23px;
+}
+
+.err-div {
+	margin: 5px;
+}
+
+.hidden {
+	opacity: 0;
+}

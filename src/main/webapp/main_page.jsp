@@ -5,44 +5,14 @@
 <head>
 	<meta charset="utf-8">
 	<link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<title>Totalizator</title>
 </head>
 <body>
-	<div class="container"> 
-		<header>
-			<div class="logo-panel">
-				<div class="bg-dark rounded">
-					<img class="logo" src="<c:url value="images/logo.png" />" alt="logo" />
-				</div>
-				<div class="bg-dark">
-					<form class="search">
-						<input type="text" name="what-search" />
-						<button class="search-btn" type="submit">Поиск</button>
-					</form>
-				</div>
-			</div>
-			<div class="menu">
-				<nav class="main-menu">
-					<div class="main-menu-item-container">
-						<a class="active" href="<c:url value="main" />"><span>Главная</span></a>
-						<a href="#"><span>Результаты</span></a>
-						<a href="#"><span>Личная страница</span></a>
-					</div>
-					<a class="login-menu-item" href="#">Выйти(maximka777)</a>
-				</nav>
-			</div>
-		</header>
+	<div class="container">
+		<%@ include file="header.jsp" %>
 		<div class="main">
-			<div class="left-menu">
-				<nav>
-					<a href="<c:url value="main?command=showNearestEventsPage" />">Ближайшие</a>
-					<a href="<c:url value="main?command=showMostInterestingEventsPage" />">Интересные</a>
-					<b>Категории</b>
-					<c:forEach var="category" items="${categories}">
-						<a href="<c:url value="main?command=showCategoryPage&categoryId=${category.id}" />" >${category.name}</a>
-					</c:forEach>
-				</nav>
-			</div>
+			<%@ include file="left_menu.jsp" %>
 			<div class="center-part">
 				<c:forEach var="event" items="${events}">
 					<div class="event">
@@ -52,12 +22,11 @@
 							<time class="event-date">${event.eventDate} ${event.eventTime}</time>
 						</div>
 						<div class="event-secondary">
-							<p>Ставок: ${event.rateCount}</p>
-							<a href="<c:url value="main?command=showEventPage&eventId=${event.eventId}" />"><button class="event-btn">Перейти</button></a>
+							<p><fmt:message bundle="${loc}" key="label.rateCount" /> : ${event.rateCount}</p>
+							<a href="<c:url value="main?command=showEventPage&eventId=${event.eventId}" />"><button class="event-btn"><fmt:message bundle="${loc}" key="btn.open" /></button></a>
 						</div>
 					</div>
 				</c:forEach>
-
 			</div>
 		</div>
 		<%@ include file="footer.jsp" %>

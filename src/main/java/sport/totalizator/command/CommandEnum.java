@@ -5,7 +5,8 @@ public enum CommandEnum {
     SHOW_ERROR_PAGE("showErrorPage"),
     SHOW_NEAREST_EVENTS_PAGE_COMMAND("showNearestEventsPage"),
     SHOW_MOST_INTERESTING_EVENTS_PAGE_COMMAND("showMostInterestingEventsPage"),
-    LOAD_CATEGORIES_IN_REQUEST_COMMAND("loadCategoriesInRequest");
+    SHOW_CATEGORY_PAGE("showCategoryPage"),
+    SHOW_REGISTRATION_PAGE("showRegistrationPage");
 
     private String value;
 

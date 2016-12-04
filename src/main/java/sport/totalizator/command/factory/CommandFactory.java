@@ -7,9 +7,7 @@ import sport.totalizator.command.impl.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static sport.totalizator.command.CommandEnum.SHOW_MAIN_PAGE;
-import static sport.totalizator.command.CommandEnum.SHOW_MOST_INTERESTING_EVENTS_PAGE_COMMAND;
-import static sport.totalizator.command.CommandEnum.SHOW_NEAREST_EVENTS_PAGE_COMMAND;
+import static sport.totalizator.command.CommandEnum.*;
 
 public class CommandFactory {
     private static final CommandFactory factory = new CommandFactory();
@@ -24,6 +22,8 @@ public class CommandFactory {
         commands.put(SHOW_MAIN_PAGE, new ShowMainPageCommand());
         commands.put(SHOW_NEAREST_EVENTS_PAGE_COMMAND, new ShowNearestEventsPageCommand());
         commands.put(SHOW_MOST_INTERESTING_EVENTS_PAGE_COMMAND, new ShowMostInterestingEventsPageCommand());
+        commands.put(SHOW_CATEGORY_PAGE, new ShowCategoryPageCommand());
+        commands.put(SHOW_REGISTRATION_PAGE, new ShowRegistrationPageCommand());
     }
 
     public ICommand createCommand(CommandEnum command){
