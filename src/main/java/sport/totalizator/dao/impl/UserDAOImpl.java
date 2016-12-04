@@ -6,10 +6,7 @@ import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.User;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,5 +62,86 @@ public class UserDAOImpl implements UserDAO {
             }
         }
         return result;
+    }
+
+    @Override
+    public User createUser(User user) throws DAOException {
+        String sql = "INSERT INTO `user`(`login`, `pass_hash`, `email`) VALUES (?, ?, ?);";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            try {
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, user.getLogin());
+                statement.setString(2, user.getPassHash());
+                statement.setString(3, user.getEmail());
+                int result = statement.executeUpdate();
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return user;
+    }
+
+    @Override
+    public User getUserByLogin(String login) throws DAOException {
+        String sql = "SELECT `login`, `pass_hash` , `role` " +
+                "FROM `user` " +
+                "WHERE `login` = ?";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        User user = null;
+        try{
+            connection = pool.getConnection();
+            try{
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, login);
+                resultSet = statement.executeQuery();
+                try{
+                    while (resultSet.next()){
+                        user = new User();
+                        user.setPassHash(resultSet.getString("pass_hash"));
+                        user.setLogin(resultSet.getString("login"));
+                        user.setRole(User.Role.valueOf(resultSet.getString("role")));
+                    }
+                } catch (SQLException exc){
+                    log.error(exc);
+                    throw new DAOException(exc);
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return user;
     }
 }

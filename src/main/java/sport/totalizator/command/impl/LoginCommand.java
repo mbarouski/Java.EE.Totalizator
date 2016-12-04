@@ -9,30 +9,33 @@ import sport.totalizator.entity.User;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
-import sport.totalizator.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class RegisterCommand implements ICommand {
-    private static final Logger log = Logger.getLogger(RegisterCommand.class);
+public class LoginCommand implements ICommand {
+    private static final Logger log = Logger.getLogger(LoginCommand.class);
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
         UserService userService = ServiceFactory.getInstance().getUserService();
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        String confirmPassword = req.getParameter("password-confirm");
-        String email = req.getParameter("email");
-        User user;
         try {
-            user = userService.registerUser(login, password, confirmPassword, email);
+            User user = userService.login(login, password);
+            if(user != null){
+                HttpSession session = req.getSession();
+                session.setAttribute("username", login);
+                session.setAttribute("role", user.getRole().name());
+            }
+
         } catch (ServiceException exc){
             log.error(exc);
-            throw new CommandException(exc);
         }
+
         CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAIN_PAGE).execute(req, resp);
     }
 }

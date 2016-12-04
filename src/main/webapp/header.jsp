@@ -22,8 +22,13 @@
                 <a href="<c:url value="main?command=showPersonalPage" />"><span><fmt:message bundle="${loc}" key="link.personalPage" /></span></a>
             </div>
             <div class="login-menu-item-container">
-                <a class="login-menu-item" href="<c:url value="main?command=showLoginPage" />"><fmt:message bundle="${loc}" key="link.login" /></a>
-                <a class="login-menu-item" href="<c:url value="main?command=showRegistrationPage" />"><fmt:message bundle="${loc}" key="link.registration" /></a>
+                <c:if test="${empty sessionScope.username}">
+                    <a class="login-menu-item" href="<c:url value="main?command=showLoginPage" />"><fmt:message bundle="${loc}" key="link.login" /></a>
+                    <a class="login-menu-item" href="<c:url value="main?command=showRegistrationPage" />"><fmt:message bundle="${loc}" key="link.registration" /></a>
+                </c:if>
+                <c:if test="${!empty sessionScope.username}">
+                    <a class="login-menu-item" href="<c:url value="main?command=logout" />"><fmt:message bundle="${loc}" key="link.logout" />(${sessionScope.username})</a>
+                </c:if>
             </div>
         </nav>
     </div>

@@ -24,6 +24,10 @@ public class CommandFactory {
         commands.put(SHOW_MOST_INTERESTING_EVENTS_PAGE_COMMAND, new ShowMostInterestingEventsPageCommand());
         commands.put(SHOW_CATEGORY_PAGE, new ShowCategoryPageCommand());
         commands.put(SHOW_REGISTRATION_PAGE, new ShowRegistrationPageCommand());
+        commands.put(REGISTER, new RegisterCommand());
+        commands.put(LOGIN, new LoginCommand());
+        commands.put(SHOW_LOGIN_PAGE, new ShowLoginPageCommand());
+        commands.put(ADD_CATEGORIES_TO_REQUEST, new AddCategoriesToRequestCommand());
     }
 
     public ICommand createCommand(CommandEnum command){
