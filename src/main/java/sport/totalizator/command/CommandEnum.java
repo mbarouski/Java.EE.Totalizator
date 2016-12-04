@@ -10,7 +10,8 @@ public enum CommandEnum {
     REGISTER("register"),
     LOGIN("login"),
     SHOW_LOGIN_PAGE("showLoginPage"),
-    ADD_CATEGORIES_TO_REQUEST("addCategoriesToRequest");
+    ADD_CATEGORIES_TO_REQUEST("addCategoriesToRequest"),
+    LOGOUT("logout");
 
     private String value;
 

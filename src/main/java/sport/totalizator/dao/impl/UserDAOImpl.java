@@ -116,7 +116,7 @@ public class UserDAOImpl implements UserDAO {
                         user = new User();
                         user.setPassHash(resultSet.getString("pass_hash"));
                         user.setLogin(resultSet.getString("login"));
-                        user.setRole(User.Role.valueOf(resultSet.getString("role")));
+                        user.setRole(User.Role.valueOf(resultSet.getString("role").toUpperCase()));
                     }
                 } catch (SQLException exc){
                     log.error(exc);

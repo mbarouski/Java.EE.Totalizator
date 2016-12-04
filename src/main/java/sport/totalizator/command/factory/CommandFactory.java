@@ -28,6 +28,7 @@ public class CommandFactory {
         commands.put(LOGIN, new LoginCommand());
         commands.put(SHOW_LOGIN_PAGE, new ShowLoginPageCommand());
         commands.put(ADD_CATEGORIES_TO_REQUEST, new AddCategoriesToRequestCommand());
+        commands.put(LOGOUT, new LogoutCommand());
     }
 
     public ICommand createCommand(CommandEnum command){
