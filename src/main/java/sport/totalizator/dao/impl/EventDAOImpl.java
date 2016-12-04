@@ -143,4 +143,20 @@ public class EventDAOImpl implements EventDAO{
                 "GROUP BY `rate`.`event_id`;";
         return getEventsBySql(sql, categoryId);
     }
+
+    @Override
+    public List<Event> getEndedEvents() throws DAOException {
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, " +
+                "`league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
+                "FROM `event` " +
+                "LEFT JOIN `league` " +
+                "ON `event`.`league_id` = `league`.`league_id` " +
+                "LEFT JOIN `rate` " +
+                "ON `rate`.`event_id` = `event`.`event_id` " +
+                "WHERE `event_status` = 'FINISHED' " +
+                "AND `event_category_id` = ? " +
+                "ORDER BY `date` " +
+                "GROUP BY `rate`.`event_id`;";
+        return getEventsBySql(sql);
+    }
 }

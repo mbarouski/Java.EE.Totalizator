@@ -30,6 +30,14 @@ footer {
 	background-color: #4a4949;
 	color: #ffd132;
 	border-radius: 0px 0px 3px 3px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.locale {
+	display: flex;
+	justify-content: space-between;
+	margin-right: 5px;
 }
 
 footer p {
@@ -210,8 +218,10 @@ header nav a {
 	border: none;
 	border-radius: 4px;
 	height: 30px;
+	width: 101px;
 	transition: all 0.6s linear;
 }
+
 .event-btn:hover {
 	background: linear-gradient(to bottom, #ffc70f 0%,#f7ff87 55%);
 }

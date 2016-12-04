@@ -11,7 +11,9 @@ public enum CommandEnum {
     LOGIN("login"),
     SHOW_LOGIN_PAGE("showLoginPage"),
     ADD_CATEGORIES_TO_REQUEST("addCategoriesToRequest"),
-    LOGOUT("logout");
+    LOGOUT("logout"),
+    CHANGE_LOCALE("changeLocale");
+
 
     private String value;
 

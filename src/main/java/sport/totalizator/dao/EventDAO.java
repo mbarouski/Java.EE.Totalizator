@@ -14,4 +14,6 @@ public interface EventDAO {
 
     List<Event> getNotEndedEventsByCategoryId(int categoryId) throws DAOException;
 
+    List<Event> getEndedEvents() throws DAOException;
+
 }
