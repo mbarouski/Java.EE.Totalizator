@@ -1,1 +1,1 @@
-web: play run --http.port=$PORT $PLAY_OPTS
+java -jar webapp-runner.jar sport.totalizator-1.0-SNAPSHOT.war
