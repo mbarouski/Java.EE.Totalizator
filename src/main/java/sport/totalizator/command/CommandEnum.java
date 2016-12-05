@@ -12,7 +12,9 @@ public enum CommandEnum {
     SHOW_LOGIN_PAGE("showLoginPage"),
     ADD_CATEGORIES_TO_REQUEST("addCategoriesToRequest"),
     LOGOUT("logout"),
-    CHANGE_LOCALE("changeLocale");
+    CHANGE_LOCALE("changeLocale"),
+    SHOW_RESULTS_PAGE("showResultsPage"),
+    SHOW_EVENT_PAGE("showEventPage");
 
 
     private String value;

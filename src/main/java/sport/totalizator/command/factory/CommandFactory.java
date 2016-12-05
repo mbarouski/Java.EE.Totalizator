@@ -30,6 +30,8 @@ public class CommandFactory {
         commands.put(ADD_CATEGORIES_TO_REQUEST, new AddCategoriesToRequestCommand());
         commands.put(LOGOUT, new LogoutCommand());
         commands.put(CHANGE_LOCALE, new ChangeLocaleCommand());
+        commands.put(SHOW_RESULTS_PAGE, new ShowResultsPageCommand());
+        commands.put(SHOW_EVENT_PAGE, new ShowEventPageCommand());
     }
 
     public ICommand createCommand(CommandEnum command){

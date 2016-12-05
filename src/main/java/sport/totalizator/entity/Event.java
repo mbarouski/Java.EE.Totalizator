@@ -11,6 +11,7 @@ public class Event {
     private String eventLeague;
     private int rateCount;
     private int eventId;
+    private String liveTranslationLink;
 
     public Event() {
     }
@@ -61,5 +62,13 @@ public class Event {
 
     public void setEventId(int eventId) {
         this.eventId = eventId;
+    }
+
+    public String getLiveTranslationLink() {
+        return liveTranslationLink;
+    }
+
+    public void setLiveTranslationLink(String liveTranslationLink) {
+        this.liveTranslationLink = liveTranslationLink;
     }
 }

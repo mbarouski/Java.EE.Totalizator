@@ -18,7 +18,7 @@
         <nav class="main-menu">
             <div class="main-menu-item-container">
                 <a class="active" href="<c:url value="main" />"><span><fmt:message bundle="${loc}" key="link.main" /></span></a>
-                <a href="<c:url value="main?command=showResultPage" />"><span><fmt:message bundle="${loc}" key="link.results" /></span></a>
+                <a href="<c:url value="main?command=showResultsPage" />"><span><fmt:message bundle="${loc}" key="link.results" /></span></a>
                 <a href="<c:url value="main?command=showPersonalPage" />"><span><fmt:message bundle="${loc}" key="link.personalPage" /></span></a>
             </div>
             <div class="login-menu-item-container">

@@ -146,17 +146,71 @@ public class EventDAOImpl implements EventDAO{
 
     @Override
     public List<Event> getEndedEvents() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, " +
-                "`league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, `league_name`, " +
+                "`event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
                 "FROM `event` " +
                 "LEFT JOIN `league` " +
                 "ON `event`.`league_id` = `league`.`league_id` " +
                 "LEFT JOIN `rate` " +
                 "ON `rate`.`event_id` = `event`.`event_id` " +
                 "WHERE `event_status` = 'FINISHED' " +
-                "AND `event_category_id` = ? " +
-                "ORDER BY `date` " +
-                "GROUP BY `rate`.`event_id`;";
+                "GROUP BY `id`;";
         return getEventsBySql(sql);
+    }
+
+    @Override
+    public Event getEventById(int eventId) throws DAOException{
+        String sql = "SELECT `event_id` AS `id`, `event_name`, `rate_types`, `event_status`, " +
+                "`live_translation_reference` AS `link`, `event_start_date` AS `date`, `league_name` " +
+                "FROM `event` " +
+                "LEFT JOIN `league` " +
+                "ON `event`.`league_id` = `league`.`league_id` " +
+                "WHERE `event_id` = ?;";
+        Event event = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try{
+            connection = pool.getConnection();
+            try{
+                statement = connection.prepareStatement(sql);
+                statement.setInt(1, eventId);
+                statement.execute();
+                try {
+                    resultSet = statement.getResultSet();
+                    if(resultSet.next()){
+                        event = new Event();
+                        event.setEventName(resultSet.getString("event_name"));
+                        event.setEventLeague(resultSet.getString("league_name"));
+                        event.setEventId(resultSet.getInt("id"));
+                        event.setEventDate(resultSet.getDate("date"));
+                        event.setEventTime(resultSet.getTime("date"));
+                        event.setLiveTranslationLink(resultSet.getString("link"));
+                    }
+                } catch (SQLException exc){
+                    log.error(exc);
+                    throw new DAOException(exc);
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return event;
     }
 }

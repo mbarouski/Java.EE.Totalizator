@@ -34,6 +34,10 @@ footer {
 	justify-content: space-between;
 }
 
+.login-menu-item-container a:hover {
+	background: rgba(255, 255, 255, 0.3);
+}
+
 .locale {
 	display: flex;
 	justify-content: space-between;

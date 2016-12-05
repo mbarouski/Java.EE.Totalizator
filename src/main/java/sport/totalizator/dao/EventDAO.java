@@ -16,4 +16,6 @@ public interface EventDAO {
 
     List<Event> getEndedEvents() throws DAOException;
 
+    Event getEventById(int eventId) throws DAOException;
+
 }

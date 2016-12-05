@@ -24,6 +24,6 @@ public class ShowResultsPageCommand implements ICommand {
         catch (DAOException exc){
             throw new CommandException(exc);
         }
-        req.getRequestDispatcher("results_page.jsp").forward(req, resp);
+        req.getRequestDispatcher("main_page.jsp").forward(req, resp);
     }
 }
