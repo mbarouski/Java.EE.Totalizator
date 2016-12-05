@@ -17,6 +17,7 @@ import java.io.IOException;
 public class ShowMainPageCommand implements ICommand {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
+        req.setAttribute("tab_classes", new String[] {"active", "", ""});
         EventDAO eventDAO = EventDAOImpl.getInstance();
         try {
             req.setAttribute("events", eventDAO.getAllEvents());
