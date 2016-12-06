@@ -32,6 +32,7 @@ public class CommandFactory {
         commands.put(CHANGE_LOCALE, new ChangeLocaleCommand());
         commands.put(SHOW_RESULTS_PAGE, new ShowResultsPageCommand());
         commands.put(SHOW_EVENT_PAGE, new ShowEventPageCommand());
+        commands.put(SHOW_ADD_EVENT_PAGE, new ShowAddEventPageCommand());
     }
 
     public ICommand createCommand(CommandEnum command){

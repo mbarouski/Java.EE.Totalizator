@@ -16,15 +16,12 @@
         <div class="center-part">
             <h5 class="event-name"><c:out value="${event.eventName}" /></h5>
             <p class="event-league">${event.eventLeague}</p>
-            <hr>
             <c:if test="${!empty event.liveTranslationLink}">
-                <iframe width="420" height="315" src="${event.liveTranslationLink}" frameborder="0" allowfullscreen>
-                </iframe>
+                <hr>
+                    <iframe width="420" height="315" src="${event.liveTranslationLink}" frameborder="0" allowfullscreen>
+                    </iframe>
+                <hr>
             </c:if>
-            <c:if test="${empty event.liveTranslationLink}">
-                <img src="images/no-translation.jpg"  width="420" height="315" />
-            </c:if>
-            <hr>
             <time class="event-date">${event.eventDate} ${event.eventTime}</time>
         </div>
     </div>

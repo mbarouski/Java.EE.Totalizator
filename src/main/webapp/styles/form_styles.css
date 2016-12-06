@@ -4,7 +4,7 @@ label {
 	margin: 3px 0;
 }
 
-input {
+input, select {
 	height: 20px;
 	margin: 5px 0px;
 }
@@ -17,6 +17,26 @@ input {
 	border: 1px solid white;
 	border-radius: 2px;
 	transition: all 0.2s linear;
+}
+
+.checkbox-div {
+	display: flex;
+	justify-content: space-between;
+}
+
+.checkbox {
+	 display: flex;
+	 flex-direction: column;
+	 justify-content: center;
+	 border: 1px solid #eba11a;
+	 border-radius: 3px;
+	 margin: 2px;
+	 padding: 3px;
+ }
+
+.checkbox div{
+	display: flex;
+	justify-content: center;
 }
 
 .register-btn:hover {
@@ -46,7 +66,7 @@ input {
 }
 
 .form {
-	width: 650px;
+	width: 700px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;

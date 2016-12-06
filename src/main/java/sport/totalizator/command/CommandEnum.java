@@ -14,7 +14,8 @@ public enum CommandEnum {
     LOGOUT("logout"),
     CHANGE_LOCALE("changeLocale"),
     SHOW_RESULTS_PAGE("showResultsPage"),
-    SHOW_EVENT_PAGE("showEventPage");
+    SHOW_EVENT_PAGE("showEventPage"),
+    SHOW_ADD_EVENT_PAGE("showAddEventPage");
 
 
     private String value;

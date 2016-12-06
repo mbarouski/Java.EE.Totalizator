@@ -189,7 +189,28 @@ header nav a {
 	margin-bottom: 10px;
 }
 
+.admin-panel {
+	border-radius: 5px 5px;
+	display: flex;
+	justify-content: flex-start;
+	margin-bottom: 10px;
+}
 
+.admin-panel a{
+	background: rgba(0, 0, 0, 0);
+	border: 1px solid #ffd132;
+	color: #ffd132;
+	text-decoration: none;
+	border-radius: 3px;
+	padding: 3px;
+	transition: 0.3s linear;
+}
+
+.admin-panel a:hover {
+	color: #4a4949;
+	background-color: #ffd132;
+	border: 1px solid rgba(0,0,0,0);
+}
 
 .event-main {
 	padding: 10px;

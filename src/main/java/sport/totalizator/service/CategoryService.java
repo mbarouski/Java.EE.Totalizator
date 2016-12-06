@@ -1,4 +1,4 @@
 package sport.totalizator.service;
 
-public class CategoryService {
+public interface CategoryService {
 }

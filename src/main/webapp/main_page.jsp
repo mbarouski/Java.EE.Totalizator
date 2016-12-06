@@ -14,6 +14,7 @@
 		<div class="main">
 			<%@ include file="left_menu.jsp" %>
 			<div class="center-part">
+				<%@ include file="admin_panel.jsp" %>
 				<c:forEach var="event" items="${events}">
 					<div class="event">
 						<div class="event-main">

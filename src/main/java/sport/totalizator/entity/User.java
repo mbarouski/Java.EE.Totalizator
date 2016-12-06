@@ -4,7 +4,17 @@ import java.math.BigDecimal;
 
 public class User {
     public static enum Role {
-        ADMINISTRATOR, USER, MODERATOR
+        ADMINISTRATOR("ADMINISTRATOR"), USER("USER"), MODERATOR("MODERATOR");
+
+        private String value;
+
+        private Role(String value){
+            this.value = value;
+        }
+
+        public String getValue(){
+            return value;
+        }
     }
 
     private int userId;

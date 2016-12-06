@@ -29,7 +29,7 @@ public class LoginCommand implements ICommand {
             if(user != null){
                 HttpSession session = req.getSession();
                 session.setAttribute("username", login);
-                session.setAttribute("role", user.getRole().name());
+                session.setAttribute("role", user.getRole().getValue());
             }
 
         } catch (ServiceException exc){
