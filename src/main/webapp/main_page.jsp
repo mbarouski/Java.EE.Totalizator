@@ -10,11 +10,11 @@
 </head>
 <body>
 	<div class="container">
-		<%@ include file="header.jsp" %>
+		<%@ include file="parts/header.jsp" %>
 		<div class="main">
-			<%@ include file="left_menu.jsp" %>
+			<%@ include file="parts/left_menu.jsp" %>
 			<div class="center-part">
-				<%@ include file="admin_panel.jsp" %>
+				<%@ include file="parts/admin_panel.jsp" %>
 				<c:forEach var="event" items="${events}">
 					<div class="event">
 						<div class="event-main">
@@ -30,7 +30,7 @@
 				</c:forEach>
 			</div>
 		</div>
-		<%@ include file="footer.jsp" %>
+		<%@ include file="parts/footer.jsp" %>
 	</div>
 </body>
 </html>

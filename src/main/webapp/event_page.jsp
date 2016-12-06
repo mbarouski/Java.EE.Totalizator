@@ -10,9 +10,9 @@
 </head>
 <body>
 <div class="container">
-    <%@ include file="header.jsp" %>
+    <%@ include file="parts/header.jsp" %>
     <div class="main">
-        <%@ include file="left_menu.jsp" %>
+        <%@ include file="parts/left_menu.jsp" %>
         <div class="center-part">
             <h5 class="event-name"><c:out value="${event.eventName}" /></h5>
             <p class="event-league">${event.eventLeague}</p>
@@ -25,7 +25,7 @@
             <time class="event-date">${event.eventDate} ${event.eventTime}</time>
         </div>
     </div>
-    <%@ include file="footer.jsp" %>
+    <%@ include file="parts/footer.jsp" %>
 </div>
 </body>
 </html>

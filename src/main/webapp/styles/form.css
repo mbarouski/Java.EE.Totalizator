@@ -1,0 +1,64 @@
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.center-part {
+    background: skyblue;
+}
+
+.input-div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+label {
+    color: #eba11a;
+    line-height: 30px;
+    margin: 3px 0;
+}
+
+.checkbox-div {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(0,0,0,0);
+}
+
+.checkbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid #eba11a;
+    border-radius: 3px;
+    margin: 2px;
+    padding: 3px;
+    background: rgba(0,0,0,0);
+}
+
+.checkbox div{
+    display: flex;
+    justify-content: center;
+}
+
+.submit-btn {
+    width: 100px;
+    color: white;
+    margin-top: 10px;
+    background: #eba11a;
+    border: 1px solid white;
+    border-radius: 2px;
+    transition: all 0.2s linear;
+}
+
+.submit-btn:hover {
+    background: #eb701a;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+

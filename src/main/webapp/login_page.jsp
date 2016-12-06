@@ -6,15 +6,15 @@
     <meta charset="utf-8">
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" href="<c:url value="styles/form_styles.css" />" />
+    <link rel="stylesheet" href="<c:url value="styles/log_reg_form.css" />" />
     <script src="<c:url value="js/validation.js" />"></script>
     <title>Totalizator</title>
 </head>
 <body>
 <div class="container">
-    <%@ include file="header.jsp" %>
+    <%@ include file="parts/header.jsp" %>
     <div class="main">
-        <%@ include file="left_menu.jsp" %>
+        <%@ include file="parts/left_menu.jsp" %>
         <div class="center-part">
             <div class="registration">
                 <form class="form" method="post" onsubmit="return validate();" action="main?command=login">
@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <%@ include file="footer.jsp" %>
+    <%@ include file="parts/footer.jsp" %>
 </div>
 </body>
 </html>

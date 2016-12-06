@@ -6,60 +6,88 @@
     <meta charset="utf-8">
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" href="<c:url value="styles/form_styles.css" />" />
+    <link rel="stylesheet" href="<c:url value="styles/form.css" />" />
     <script src="<c:url value="js/validation.js" />"></script>
     <title>Totalizator</title>
 </head>
 <body>
 <div class="container">
-    <%@ include file="header.jsp" %>
+    <%@ include file="parts/header.jsp" %>
     <div class="main">
-        <%@ include file="left_menu.jsp" %>
+        <%@ include file="parts/left_menu.jsp" %>
+
         <div class="center-part">
-            <div class="registration" style="width: 800px;">
-                <form class="form" method="post" onsubmit="return validate();" action="main?command=addEvent">
-                    <div class="reg-form">
-                        <div class="label-div">
-                            <label>Название</label>
-                            <label>Ссылка на трансляцию</label>
-                            <label>Категория</label>
-                            <label>Лига</label>
-                            <label>Дата</label>
+            <div class="form" style="width: 600px;">
+                <form class="form" method="post" onsubmit="" action="main?command=addEvent">
+                    <div class="input-div">
+                        <label>Название</label>
+                        <input type="text" name="name" required />
+                    </div>
+                    <div class="input-div">
+                        <label>Ссылка на трансляцию</label>
+                        <input type="text" name="liveTranslation" />
+                    </div>
+                    <div class="input-div">
+                        <label>Категория</label>
+                        <select name="category-id" required>
+                            <option value="0" selected>Выберите категорию</option>
+                            <c:forEach var="category" items="${categories}">
+                                <option value="${category.id}">${category.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="input-div">
+                        <label>Лига</label>
+                        <select name="league-id" required disabled>
+                            <option selected>Выберите лигу</option>
+                            <c:forEach var="league" items="${leagues}">
+                                <option value="${league.id}">${league.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="input-div">
+                        <label>Дата</label>
+                        <input type="datetime" min="2016-01-01 00:00:00" max="2020-12-31 00:00:00" id="myDate">
+                    </div>
+                    <div class="input-div">
+                        <label>Типы ставок</label>
+                        <div class="checkbox-div">
+                        <div class="checkbox">
+                            <label>Выигрыш</label>
+                            <div><input type="checkbox" name="winRate" value="WIN" /></div>
                         </div>
-                        <div class="input-div">
-                            <input type="text" name="name" required />
-                            <input type="text" name="liveTranslation" />
-                            <div class="checkbox-div">
-                                <div class="checkbox"><label>Выигрыш</label><div><input type="checkbox" name="winRate" value="WIN"></div></div>
-                                <div class="checkbox"><label>Проигрыш</label><div><input type="checkbox" name="drawRate" value="DRAW"></div></div>
-                                <div class="checkbox"><label>Первый гол</label><div><input type="checkbox" name="firstGoalRate" value="FIRST_GOAL"></div></div>
-                                <div class="checkbox"><label>Точный счёт</label><div><input type="checkbox" name="exactScoreRate" value="EXACT_SCORE"></div></div>
-                            </div>
-                            <select name="category-id" required>
-                                <option selected>Выберите категорию</option>
-                                <c:forEach var="category" items="${categories}">
-                                    <option value="${category.id}">${category.name}</option>
-                                </c:forEach>
-                            </select>
-
-                            <select name="league-id" required disabled>
-                                <option selected>Выберите лигу</option>
-                                <c:forEach var="league" items="${leagues}">
-                                    <option value="${league.id}">${league.name}</option>
-                                </c:forEach>
-                            </select>
-
-                            <input type="datetime" min="2016-01-01 00:00:00" max="2020-12-31 00:00:00" id="myDate">
+                        <div class="checkbox">
+                            <label>Проигрыш</label>
+                            <div><input type="checkbox" name="drawRate" value="DRAW"></div>
+                        </div>
+                        <div class="checkbox">
+                            <label>Первый гол</label>
+                            <div><input type="checkbox" name="firstGoalRate" value="FIRST_GOAL"></div>
+                        </div>
+                        <div class="checkbox">
+                            <label>Точный счёт</label>
+                            <div><input type="checkbox" name="exactScoreRate" value="EXACT_SCORE"></div>
                         </div>
                     </div>
+                    </div>
+                    <div class="input-div">
+                        <label>Участники</label>
+                        <select name="member-id-1" required disabled>
+                            <option selected>Выберите участника</option>
+                            <c:forEach var="member" items="${members}">
+                                <option value="${member.id}">${member.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
                     <div class="btn-container">
-                        <button class="register-btn" type="submit">Добавить</button>
+                        <button class="submit-btn" type="submit">Добавить событие</button>
                     </div>
                 </form>
             </div>
         </div>
+
     </div>
-    <%@ include file="footer.jsp" %>
+    <%@ include file="parts/footer.jsp" %>
 </div>
 </body>
 </html>
