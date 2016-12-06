@@ -11,7 +11,7 @@ import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.MD5Converter;
 
 public class UserServiceImpl implements UserService {
-    private static final Logger log = Logger.getLogger(UserDAOImpl.class);
+    private static final Logger log = Logger.getLogger(UserServiceImpl.class);
     private static final UserServiceImpl instance = new UserServiceImpl();
     private UserDAO userDAO;
 

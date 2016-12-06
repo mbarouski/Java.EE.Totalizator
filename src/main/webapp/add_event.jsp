@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="styles/form.css" />" />
     <script src="<c:url value="js/validation.js" />"></script>
+    <script src="<c:url value="js/load_data.js" />"></script>
     <title>Totalizator</title>
 </head>
 <body>
@@ -29,7 +30,7 @@
                     </div>
                     <div class="input-div">
                         <label>Категория</label>
-                        <select name="category-id" required>
+                        <select id="category-select" name="category-id" onchange="setLeaguesSelect()" required>
                             <option value="0" selected>Выберите категорию</option>
                             <c:forEach var="category" items="${categories}">
                                 <option value="${category.id}">${category.name}</option>
@@ -38,7 +39,7 @@
                     </div>
                     <div class="input-div">
                         <label>Лига</label>
-                        <select name="league-id" required disabled>
+                        <select id="league-select" name="league-id" required disabled>
                             <option selected>Выберите лигу</option>
                             <c:forEach var="league" items="${leagues}">
                                 <option value="${league.id}">${league.name}</option>

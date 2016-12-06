@@ -5,7 +5,8 @@ form {
 }
 
 .center-part {
-    background: skyblue;
+    display: flex;
+    justify-content: center;
 }
 
 .input-div {
@@ -15,7 +16,7 @@ form {
 }
 
 label {
-    color: #eba11a;
+    color: #4a4949;
     line-height: 30px;
     margin: 3px 0;
 }

@@ -2,9 +2,11 @@ package sport.totalizator.dao.factory;
 
 import sport.totalizator.dao.CategoryDAO;
 import sport.totalizator.dao.EventDAO;
+import sport.totalizator.dao.LeagueDAO;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.impl.CategoryDAOImpl;
 import sport.totalizator.dao.impl.EventDAOImpl;
+import sport.totalizator.dao.impl.LeagueDAOImpl;
 import sport.totalizator.dao.impl.UserDAOImpl;
 
 public class DAOFactory {
@@ -24,5 +26,9 @@ public class DAOFactory {
 
     public EventDAO getEventDAO(){
         return EventDAOImpl.getInstance();
+    }
+
+    public LeagueDAO getLeagueDAO() {
+        return LeagueDAOImpl.getInstance();
     }
 }

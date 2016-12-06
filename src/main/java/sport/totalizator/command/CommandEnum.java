@@ -15,7 +15,8 @@ public enum CommandEnum {
     CHANGE_LOCALE("changeLocale"),
     SHOW_RESULTS_PAGE("showResultsPage"),
     SHOW_EVENT_PAGE("showEventPage"),
-    SHOW_ADD_EVENT_PAGE("showAddEventPage");
+    SHOW_ADD_EVENT_PAGE("showAddEventPage"),
+    GET_LEAGUES_BY_CATEGORY_JSON("getLeaguesByCategoryJson");
 
 
     private String value;

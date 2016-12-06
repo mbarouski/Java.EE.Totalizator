@@ -1,8 +1,10 @@
 package sport.totalizator.service.factory;
 
 import sport.totalizator.service.EventService;
+import sport.totalizator.service.LeagueService;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.impl.EventServiceImpl;
+import sport.totalizator.service.impl.LeagueServiceImpl;
 import sport.totalizator.service.impl.UserServiceImpl;
 
 public class ServiceFactory {
@@ -20,5 +22,9 @@ public class ServiceFactory {
 
     public EventService getEventService(){
         return EventServiceImpl.getInstance();
+    }
+
+    public LeagueService getLeagueService(){
+        return LeagueServiceImpl.getInstance();
     }
 }
