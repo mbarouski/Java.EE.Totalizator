@@ -213,4 +213,40 @@ public class EventDAOImpl implements EventDAO{
         }
         return event;
     }
+
+    @Override
+    public Event addEvent(Event event) throws DAOException {
+        String sql = "INSERT INTO `event`(`event_name`, `league_id`, `rate_types`, `live_translation_reference`, `event_start_date`) " +
+                "VALUES (?, ?, ?, ?, ?);";
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            try {
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, event.getEventName());
+                statement.setInt(2, event.getLeagueId());
+                statement.setString(3, event.getRateTypes());
+                statement.setString(4, event.getLiveTranslationLink());
+                statement.setTimestamp(5, new Timestamp(event.getEventDate().getTime()));
+                int result = statement.executeUpdate();
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return event;
+    }
 }

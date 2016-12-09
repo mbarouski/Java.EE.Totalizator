@@ -22,6 +22,7 @@ public class LeagueServiceImpl implements LeagueService {
     LeagueServiceImpl(){
         leagueDAO = DAOFactory.getFactory().getLeagueDAO();
     }
+
     @Override
     public List<League> getLeaguesByCategory(int categoryId) throws ServiceException {
         try {

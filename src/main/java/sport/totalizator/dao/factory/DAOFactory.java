@@ -1,13 +1,7 @@
 package sport.totalizator.dao.factory;
 
-import sport.totalizator.dao.CategoryDAO;
-import sport.totalizator.dao.EventDAO;
-import sport.totalizator.dao.LeagueDAO;
-import sport.totalizator.dao.UserDAO;
-import sport.totalizator.dao.impl.CategoryDAOImpl;
-import sport.totalizator.dao.impl.EventDAOImpl;
-import sport.totalizator.dao.impl.LeagueDAOImpl;
-import sport.totalizator.dao.impl.UserDAOImpl;
+import sport.totalizator.dao.*;
+import sport.totalizator.dao.impl.*;
 
 public class DAOFactory {
     private static final DAOFactory factory = new DAOFactory();
@@ -30,5 +24,9 @@ public class DAOFactory {
 
     public LeagueDAO getLeagueDAO() {
         return LeagueDAOImpl.getInstance();
+    }
+
+    public MemberDAO getmemberDAO(){
+        return MemberDAOImpl.getInstance();
     }
 }

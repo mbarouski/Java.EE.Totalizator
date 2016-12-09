@@ -34,6 +34,9 @@ public class CommandFactory {
         commands.put(SHOW_EVENT_PAGE, new ShowEventPageCommand());
         commands.put(SHOW_ADD_EVENT_PAGE, new ShowAddEventPageCommand());
         commands.put(GET_LEAGUES_BY_CATEGORY_JSON, new GetLeaguesByCategoryJsonCommand());
+        commands.put(GET_MEMBERS_BY_LEAGUE_JSON, new GetMembersByLeagueJsonCommand());
+        commands.put(ADD_EVENT, new AddEventCommand()
+        );
     }
 
     public ICommand createCommand(CommandEnum command){

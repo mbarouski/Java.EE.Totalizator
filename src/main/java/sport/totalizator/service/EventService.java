@@ -4,6 +4,8 @@ import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.entity.Event;
 import sport.totalizator.service.exception.ServiceException;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 public interface EventService {
@@ -18,4 +20,7 @@ public interface EventService {
     List<Event> getEndedEvents() throws ServiceException;
 
     Event getEventById(int eventId) throws ServiceException;
+
+    Event addEvent(String name, String leagueName, String rateTypes,
+                   String liveTranslationLink, String datetime, List<Integer> memberIds) throws ServiceException;
 }

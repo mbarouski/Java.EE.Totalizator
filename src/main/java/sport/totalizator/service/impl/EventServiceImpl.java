@@ -7,7 +7,10 @@ import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.entity.Event;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
+import sport.totalizator.util.DateParser;
 
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
 
 public class EventServiceImpl implements EventService {
@@ -79,6 +82,23 @@ public class EventServiceImpl implements EventService {
         try{
             return eventDAO.getEventById(eventId);
         } catch (DAOException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
+        }
+    }
+
+    @Override
+    public Event addEvent(String name, String leagueid, String rateTypes, String liveTranslationLink,
+                          String date, List<Integer> memberIds) throws ServiceException{
+        try {
+            Event event = new Event();
+            event.setEventName(name);
+            event.setLeagueId(Integer.parseInt(leagueid));
+            event.setEventDate(DateParser.parse(date));
+            event.setLiveTranslationLink(liveTranslationLink);
+            event.setRateTypes(rateTypes);
+            return eventDAO.addEvent(event);
+        } catch (DAOException | ParseException exc){
             log.error(exc);
             throw new ServiceException(exc);
         }

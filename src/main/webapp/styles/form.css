@@ -62,4 +62,15 @@ label {
     justify-content: center;
 }
 
+.add-member-select-btn-div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.member-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 

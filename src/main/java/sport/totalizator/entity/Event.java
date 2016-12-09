@@ -3,15 +3,19 @@ package sport.totalizator.entity;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 public class Event {
+    private int leagueId;
     private String eventName;
     private Time eventTime;
     private Date eventDate;
     private String eventLeague;
     private int rateCount;
+    private String rateTypes;
     private int eventId;
     private String liveTranslationLink;
+    private List<Member> members;
 
     public Event() {
     }
@@ -70,5 +74,29 @@ public class Event {
 
     public void setLiveTranslationLink(String liveTranslationLink) {
         this.liveTranslationLink = liveTranslationLink;
+    }
+
+    public int getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(int leagueId) {
+        this.leagueId = leagueId;
+    }
+
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
+    }
+
+    public String getRateTypes() {
+        return rateTypes;
+    }
+
+    public void setRateTypes(String rateTypes) {
+        this.rateTypes = rateTypes;
     }
 }
