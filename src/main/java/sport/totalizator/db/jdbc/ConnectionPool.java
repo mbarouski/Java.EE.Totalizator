@@ -67,4 +67,11 @@ public class ConnectionPool {
         }
         lockForReturnConnection.unlock();
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        for(Connection c : connections){
+            c.close();
+        }
+    }
 }

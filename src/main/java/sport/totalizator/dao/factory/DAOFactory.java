@@ -26,7 +26,7 @@ public class DAOFactory {
         return LeagueDAOImpl.getInstance();
     }
 
-    public MemberDAO getmemberDAO(){
+    public MemberDAO getMemberDAO(){
         return MemberDAOImpl.getInstance();
     }
 }

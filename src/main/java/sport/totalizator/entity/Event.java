@@ -16,6 +16,8 @@ public class Event {
     private int eventId;
     private String liveTranslationLink;
     private List<Member> members;
+    private List<Integer> memberIds;
+    private String status;
 
     public Event() {
     }
@@ -98,5 +100,21 @@ public class Event {
 
     public void setRateTypes(String rateTypes) {
         this.rateTypes = rateTypes;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<Integer> getMemberIds() {
+        return memberIds;
+    }
+
+    public void setMemberIds(List<Integer> memberIds) {
+        this.memberIds = memberIds;
     }
 }

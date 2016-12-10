@@ -2,6 +2,7 @@ package sport.totalizator.service.impl;
 
 import org.apache.log4j.Logger;
 import sport.totalizator.dao.EventDAO;
+import sport.totalizator.dao.MemberDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.entity.Event;
@@ -18,6 +19,7 @@ public class EventServiceImpl implements EventService {
     private static final Logger log = Logger.getLogger(EventServiceImpl.class);
 
     private EventDAO eventDAO;
+    private MemberDAO memberDAO;
 
     public static EventServiceImpl getInstance(){
         return instance;
@@ -25,6 +27,7 @@ public class EventServiceImpl implements EventService {
 
     EventServiceImpl(){
         eventDAO = DAOFactory.getFactory().getEventDAO();
+        memberDAO = DAOFactory.getFactory().getMemberDAO();
     }
 
     @Override
@@ -97,7 +100,9 @@ public class EventServiceImpl implements EventService {
             event.setEventDate(DateParser.parse(date));
             event.setLiveTranslationLink(liveTranslationLink);
             event.setRateTypes(rateTypes);
-            return eventDAO.addEvent(event);
+            event =  eventDAO.addEvent(event);
+            memberDAO.attachMembersToEvent(memberIds, event.getEventId());
+            return event;
         } catch (DAOException | ParseException exc){
             log.error(exc);
             throw new ServiceException(exc);

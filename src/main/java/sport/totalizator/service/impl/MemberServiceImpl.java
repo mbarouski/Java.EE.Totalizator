@@ -22,7 +22,7 @@ public class MemberServiceImpl  implements MemberService{
     }
 
     MemberServiceImpl(){
-        memberDAO = DAOFactory.getFactory().getmemberDAO();
+        memberDAO = DAOFactory.getFactory().getMemberDAO();
     }
 
     @Override

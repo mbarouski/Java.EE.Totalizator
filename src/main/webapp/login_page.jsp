@@ -15,8 +15,8 @@
     <%@ include file="parts/header.jsp" %>
     <div class="main">
         <%@ include file="parts/left_menu.jsp" %>
-        <div class="center-part">
-            <div class="registration">
+        <div class="center-part" style="width: 400px;">
+            <div class="registration" >
                 <form class="form" method="post" onsubmit="return validate();" action="main?command=login">
                     <div class="reg-form">
                         <div class="label-div">

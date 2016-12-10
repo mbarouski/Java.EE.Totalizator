@@ -14,6 +14,6 @@ public class ShowAddEventPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
-        req.getRequestDispatcher("add_event.jsp").forward(req, resp);
+        req.getRequestDispatcher("add_event_page.jsp").forward(req, resp);
     }
 }

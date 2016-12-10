@@ -1,0 +1,39 @@
+.event-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.event-live {
+    display: flex;
+    justify-content: flex-start;
+}
+
+time {
+    font-size: 0.7em;
+}
+
+.register-warn-div {
+    margin-top: 5px;
+    background: rgba(255, 0, 0, 0.5);
+    border-radius: 3px;
+    padding: 0 5px;
+}
+
+.register-warn-div p{
+    font-size: 0.8em;
+}
+
+.make-rate-btn {
+    width: 100px;
+    color: white;
+    margin-top: 10px;
+    background: #eba11a;
+    border: 1px solid white;
+    transition: all 0.2s linear;
+    border-radius: 4px;
+}
+
+.make-rate-btn:hover {
+    background: #eb701a;
+}
