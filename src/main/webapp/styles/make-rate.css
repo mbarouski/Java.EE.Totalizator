@@ -15,6 +15,6 @@
     top: 0
 }
 
-.open:checked ~ header {
+.open:checked ~ .container {
     margin-top: 300px
 }

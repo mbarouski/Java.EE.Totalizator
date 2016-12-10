@@ -11,8 +11,8 @@
     <title>Totalizator</title>
 </head>
 <body>
+<%@ include file="parts/make_rate_form.jsp" %>
 <div class="container">
-    <%@ include file="parts/make_rate_form.jsp" %>
     <%@ include file="parts/header.jsp" %>
     <div class="main">
         <%@ include file="parts/left_menu.jsp" %>
@@ -43,8 +43,14 @@
                 </div>
                 <c:choose>
                     <c:when test="${!empty sessionScope.username}">
-                        <input type="checkbox" id="make-rate-block-enabler" class="open" hidden />
-                        <button for="make-rate-block-enabler">Сделать ставку</button>
+                        <input type="checkbox" id="enabler" class="open">
+                        <script>
+                            function togggle(){
+                                var cb = document.getElementById("enabler");
+                                cb.checked = !cb.checked;
+                            }
+                        </script>
+                        <button onclick="togggle(); return false;" class="make-rate-btn"><label for="enabler">Сделать ставку</label></button>
                     </c:when>
                     <c:when test="${empty sessionScope.username}">
                         <div class="register-warn-div">
