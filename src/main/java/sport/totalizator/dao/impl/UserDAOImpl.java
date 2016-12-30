@@ -5,6 +5,8 @@ import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.User;
+import sport.totalizator.exception.UserException;
+import sport.totalizator.util.MessageLocalizer;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -65,22 +67,30 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User createUser(User user) throws DAOException {
+    public User createUser(User user) throws DAOException, UserException {
         String sql = "INSERT INTO `user`(`login`, `pass_hash`, `email`) VALUES (?, ?, ?);";
         Connection connection = null;
         PreparedStatement statement = null;
         try{
             connection = pool.getConnection();
+            connection.setAutoCommit(false);
+            Savepoint savepoint = connection.setSavepoint();
             try {
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, user.getLogin());
                 statement.setString(2, user.getPassHash());
                 statement.setString(3, user.getEmail());
-                int result = statement.executeUpdate();
-            } catch (SQLException exc){
+                statement.executeUpdate();
+            } catch (SQLException exc) {
+                connection.rollback(savepoint);
                 log.error(exc);
-                throw new DAOException(exc);
+                if (exc.getErrorCode() == 1062) {
+                    throw new UserException("err.user-exists", user);
+                } else {
+                    throw new DAOException(exc);
+                }
             } finally {
+                connection.setAutoCommit(true);
                 if(statement != null){
                     statement.close();
                 }

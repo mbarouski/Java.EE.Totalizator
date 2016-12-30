@@ -6,9 +6,11 @@ import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.User;
+import sport.totalizator.exception.UserException;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
+import sport.totalizator.util.MessageLocalizer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,10 @@ public class LoginCommand implements ICommand {
 
         } catch (ServiceException exc){
             log.error(exc);
+        } catch (UserException exc){
+            req.setAttribute("user", exc.getUser());
+            req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getMessage(), req));
+            CommandFactory.getFactory().createCommand(CommandEnum.SHOW_LOGIN_PAGE).execute(req, resp);
         }
 
         CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAIN_PAGE).execute(req, resp);

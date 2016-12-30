@@ -6,12 +6,14 @@ import sport.totalizator.dao.MemberDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.entity.Event;
+import sport.totalizator.exception.EventException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.DateParser;
 
 import java.sql.Date;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class EventServiceImpl implements EventService {
@@ -91,17 +93,37 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event addEvent(String name, String leagueid, String rateTypes, String liveTranslationLink,
-                          String date, List<Integer> memberIds) throws ServiceException{
+    public Event addEvent(String name, String leagueId, String rateTypes, String liveTranslationLink,
+                          String date, List<Integer> memberIds)
+            throws ServiceException, EventException{
         try {
             Event event = new Event();
+            EventException eventException = new EventException(event);
+            if(name.isEmpty() || (name == null)){
+                eventException.addErrorMessage("err.event-empty-name");
+            }
             event.setEventName(name);
-            event.setLeagueId(Integer.parseInt(leagueid));
-            event.setEventDate(DateParser.parse(date));
+            int intLeagueId;
+            try {
+                intLeagueId = Integer.parseInt(leagueId);
+            }
+            catch (NumberFormatException exc){
+                log.error(exc);
+                intLeagueId = 0;
+            }
+            event.setLeagueId(intLeagueId);
+            Date sqlDate = DateParser.parse(date);
+            if(sqlDate.before(Date.valueOf(LocalDate.now()))){
+                eventException.addErrorMessage("err.event-old-date");
+            }
+            event.setEventDate(sqlDate);
             event.setLiveTranslationLink(liveTranslationLink);
             event.setRateTypes(rateTypes);
+            if(!eventException.getErrorMessageList().isEmpty()){
+                throw eventException;
+            }
             event =  eventDAO.addEvent(event);
-            memberDAO.attachMembersToEvent(memberIds, event.getEventId());
+            //memberDAO.attachMembersToEvent(memberIds, event.getEventId());
             return event;
         } catch (DAOException | ParseException exc){
             log.error(exc);

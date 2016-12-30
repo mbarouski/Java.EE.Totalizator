@@ -20,6 +20,11 @@
         <div class="center-part">
             <div class="form" style="width: 600px;">
                 <form class="form" method="post" onsubmit="" action="main?command=addEvent" charset="UTF-8">
+                    <c:if test="${!empty error}">
+                        <div class="error-div">
+                            ${error}
+                        </div>
+                    </c:if>
                     <div class="input-div">
                         <label>Название</label>
                         <input type="text" name="name" required />

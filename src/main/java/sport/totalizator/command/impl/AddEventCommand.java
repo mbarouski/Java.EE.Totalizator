@@ -5,9 +5,12 @@ import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
+import sport.totalizator.entity.Event;
+import sport.totalizator.exception.EventException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
+import sport.totalizator.util.MessageLocalizer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +38,12 @@ public class AddEventCommand implements ICommand {
             log.error(exc);
             throw new CommandException(exc);
         }
+        catch (EventException exc){
+            log.error(exc);
+            req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getErrorMessageList(), req));
+            req.setAttribute("event", exc.getEvent());
+            CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_EVENT_PAGE).execute(req, resp);
+        }
         CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAIN_PAGE).execute(req, resp);
     }
 
@@ -53,10 +62,12 @@ public class AddEventCommand implements ICommand {
         if(req.getParameter("exactScoreRate") != null){
             rateTypes.add("EXACT_SCORE");
         }
-        sb.append(rateTypes.get(0));
-        for(int i = 1; i < rateTypes.size(); i++){
-            sb.append(',');
-            sb.append(rateTypes.get(i));
+        if(!rateTypes.isEmpty()) {
+            sb.append(rateTypes.get(0));
+            for (int i = 1; i < rateTypes.size(); i++) {
+                sb.append(',');
+                sb.append(rateTypes.get(i));
+            }
         }
         return sb.toString();
     }
@@ -66,9 +77,13 @@ public class AddEventCommand implements ICommand {
         String memberSelectName = "member-select-";
         int i = 1;
         String memberId;
-        while((memberId = req.getParameter(memberSelectName + i)) != null){
-            memberIds.add(Integer.parseInt(memberId));
-            i++;
+        try {
+            while ((memberId = req.getParameter(memberSelectName + i)) != null) {
+                memberIds.add(Integer.parseInt(memberId));
+                i++;
+            }
+        } catch (NumberFormatException exc){
+            log.error(exc);
         }
         return memberIds;
     }

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" href="<c:url value="styles/log_reg_form.css" />" />
+    <link rel="stylesheet" href="<c:url value="styles/form.css" />" />
     <script src="<c:url value="js/validation.js" />"></script>
     <title>Totalizator</title>
 </head>
@@ -15,21 +15,27 @@
     <%@ include file="parts/header.jsp" %>
     <div class="main">
         <%@ include file="parts/left_menu.jsp" %>
-        <div class="center-part" style="width: 400px;">
-            <div class="registration" >
+        <div class="center-part">
+            <div class="form" style="width: 600px;">
                 <form class="form" method="post" onsubmit="return validate();" action="main?command=login">
                     <div class="reg-form">
-                        <div class="label-div">
+                        <c:if test="${!empty error}">
+                            <div class="error-div">
+                                    ${error}
+                            </div>
+                        </c:if>
+                        <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.name"/> </label>
-                            <label><fmt:message bundle="${loc}" key="label.password"/></label>
+                            <input id="name-input" type="text" name="login" pattern="[a-zA-Z]{1}[a-zA-Z_0-9]{4,}" required 
+                                value="<c:out value="${user.login}"/>"/>
                         </div>
                         <div class="input-div">
-                            <input id="name-input" type="text" name="login" pattern="[a-zA-Z]{1}[a-zA-Z_0-9]{4,}" required />
+                            <label><fmt:message bundle="${loc}" key="label.password"/></label>
                             <input id="pass-input" type="password" name="password" required />
                         </div>
-                    </div>
-                    <div class="btn-container">
-                        <button class="register-btn" type="submit"><fmt:message bundle="${loc}" key="link.login" /></button>
+                        <div class="btn-container">
+                            <button class="register-btn" type="submit"><fmt:message bundle="${loc}" key="link.login" /></button>
+                        </div>
                     </div>
                 </form>
             </div>

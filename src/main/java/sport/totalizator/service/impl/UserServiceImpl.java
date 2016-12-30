@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
-import sport.totalizator.dao.impl.UserDAOImpl;
 import sport.totalizator.entity.User;
+import sport.totalizator.exception.UserException;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.MD5Converter;
@@ -24,10 +24,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User registerUser(String login, String password, String confirmPassword, String email) throws ServiceException {
+    public User registerUser(String login, String password, String confirmPassword, String email)
+            throws ServiceException, UserException {
         User user = new User();
+        if((email == null) || (email.isEmpty()))
+            throw new ServiceException("email is empty or null");
         user.setEmail(email);
+        if((login == null) || (login.isEmpty())){
+            throw new ServiceException("login is empty or null");
+        }
         user.setLogin(login);
+        if((password == null) || (password.isEmpty()) || (confirmPassword == null)
+                || (confirmPassword.isEmpty()) || (!password.equals(confirmPassword))){
+            throw new ServiceException("password or passowrd confirmation is invalid");
+        }
         user.setPassHash(MD5Converter.getHash(password));
         try {
             user = userDAO.createUser(user);
@@ -40,16 +50,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String login, String password) throws ServiceException {
+    public User login(String login, String password) throws ServiceException, UserException {
         try {
             User user = userDAO.getUserByLogin(login);
             if((user != null) && (user.getPassHash().equals(MD5Converter.getHash(password)))) {
                 return user;
             }
+            else {
+                User errorUser = new User();
+                errorUser.setLogin(login);
+                throw new UserException("err.password-or-login-incorrect", errorUser);
+            }
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);
         }
-        return null;
     }
 }

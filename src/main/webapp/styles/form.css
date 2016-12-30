@@ -73,4 +73,12 @@ label {
     justify-content: space-between;
 }
 
+.error-div {
+    border-radius: 3px;
+    background: rgba(255, 0, 0, 0.5);
+    margin-bottom: 5px;
+    padding: 10px;
+    font-size: 0.8em;
+}
+
 
