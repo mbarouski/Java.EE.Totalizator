@@ -6,7 +6,10 @@
 
 .event-live {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+    padding: 5px;
+    border-bottom: 1px solid #4a4949;
+    border-top: 1px solid #4a4949;
 }
 
 time {
@@ -24,21 +27,29 @@ time {
     font-size: 0.8em;
 }
 
-.make-rate-btn {
-    width: 100px;
+.make-rate-link {
     color: white;
     margin-top: 10px;
     background: #eba11a;
     border: 1px solid white;
     transition: all 0.2s linear;
     border-radius: 4px;
+    text-decoration: none;
+    padding: 3px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
 }
 
-.make-rate-btn:hover {
+.make-rate-link:hover {
     background: #eb701a;
 }
 
 .event-secondary {
     display: flex;
     justify-content: flex-end;
+}
+
+.members-div ul {
+    list-style-type: square;
 }

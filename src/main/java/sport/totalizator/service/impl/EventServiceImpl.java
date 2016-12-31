@@ -76,7 +76,9 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event getEventById(int eventId) throws ServiceException{
         try{
-            return eventDAO.getEventById(eventId);
+            Event event = eventDAO.getEventById(eventId);
+            event.setMembers(memberDAO.getMembersByEventId(event.getEventId()));
+            return event;
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);
@@ -114,7 +116,7 @@ public class EventServiceImpl implements EventService {
                 throw eventException;
             }
             event =  eventDAO.addEvent(event);
-            //memberDAO.attachMembersToEvent(memberIds, event.getEventId());
+            memberDAO.attachMembersToEvent(memberIds, event.getEventId());
             return event;
         } catch (DAOException | ParseException exc){
             log.error(exc);

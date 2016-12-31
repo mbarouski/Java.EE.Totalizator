@@ -80,6 +80,7 @@ public class EventDAOImpl implements EventDAO{
                 "LEFT JOIN `league` " +
                 "ON `event`.`league_id` = `league`.`league_id` " +
                 "WHERE `event_status` = 'POSTED' " +
+                "AND `event_start_date` > now()" +
                 "AND `event_category_id` = ?;";
         return getEventsBySql(sql, categoryId);
     }
@@ -161,6 +162,7 @@ public class EventDAOImpl implements EventDAO{
                         event.setEventDate(resultSet.getDate("date"));
                         event.setEventTime(resultSet.getTime("date"));
                         event.setLiveTranslationLink(resultSet.getString("link"));
+                        event.setStatus(resultSet.getString("event_status"));
                     }
                 } catch (SQLException exc){
                     log.error(exc);

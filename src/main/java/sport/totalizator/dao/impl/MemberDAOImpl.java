@@ -25,13 +25,6 @@ public class MemberDAOImpl implements MemberDAO {
 
     MemberDAOImpl(){}
 
-    public Member createMember(ResultSet resultSet) throws SQLException{
-        Member member = new Member();
-        member.setName(resultSet.getString("name"));
-        member.setId(resultSet.getInt("id"));
-        return member;
-    }
-
     @Override
     public List<Member> getMembersByLeague(int leagueId) throws DAOException {
         String sql = "SELECT `member_id` AS `id`, `member_name` AS `name` " +
@@ -50,8 +43,12 @@ public class MemberDAOImpl implements MemberDAO {
                 statement.execute();
                 try{
                     resultSet = statement.getResultSet();
+                    Member member;
                     while(resultSet.next()){
-                        result.add(createMember(resultSet));
+                        member = new Member();
+                        member.setName(resultSet.getString("name"));
+                        member.setId(resultSet.getInt("id"));
+                        result.add(member);
                     }
                 } catch (SQLException exc){
                     log.error(exc);
@@ -100,7 +97,7 @@ public class MemberDAOImpl implements MemberDAO {
                 statement = connection.prepareStatement(sql);
                 statement.setInt(1, eventId);
                 statement.setInt(2, memberId);
-                int result = statement.executeUpdate();
+                statement.executeUpdate();
             } catch (SQLException exc){
                 log.error(exc);
                 throw new DAOException(exc);
@@ -119,5 +116,56 @@ public class MemberDAOImpl implements MemberDAO {
         }
     }
 
+    @Override
+    public List<Member> getMembersByEventId(int eventId) throws DAOException {
+        String sql = "SELECT `member_name` AS `name` " +
+                "FROM `eventmember` " +
+                "JOIN `event_m2m_eventmember` " +
+                "ON `eventmember`.`member_id` = `event_m2m_eventmember`.`member_id` " +
+                "WHERE `event_m2m_eventmember`.`event_id` = ?;";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        List<Member> result = new ArrayList<>();
+        try{
+            connection = pool.getConnection();
+            try{
+                statement = connection.prepareStatement(sql);
+                statement.setInt(1, eventId);
+                statement.execute();
+                try{
+                    resultSet = statement.getResultSet();
+                    Member member;
+                    while(resultSet.next()){
+                        member = new Member();
+                        member.setName(resultSet.getString("name"));
+                        result.add(member);
+                    }
+                } catch (SQLException exc){
+                    log.error(exc);
+                    throw new DAOException(exc);
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
 
+        return result;
+    }
 }

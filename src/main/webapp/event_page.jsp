@@ -7,11 +7,9 @@
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
     <link href="<c:url value="styles/event.css" />" rel="stylesheet" />
     <link href="<c:url value="styles/make-rate.css" />" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <title>Totalizator</title>
 </head>
 <body>
-<%@ include file="parts/make_rate_form.jsp" %>
 <div class="container">
     <%@ include file="parts/header.jsp" %>
     <div class="main">
@@ -30,27 +28,23 @@
                         </div>
                     </c:if>
                 </div>
-                <div class="event-live">
-                    <c:if test="${!empty event.liveTranslationLink}">
+                <c:if test="${!empty event.liveTranslationLink}">
+                    <div class="event-live">
                         <iframe width="640" height="480" src="${event.liveTranslationLink}" frameborder="0" allowfullscreen>
                         </iframe>
-                    </c:if>
-                </div>
-                <div class="event-members">
+                    </div>
+                </c:if>
+                <div class="members-div">
+                    <h4><fmt:message bundle="${loc}" key="label.members"/>:</h4>
                     <c:forEach var="member" items="${event.members}">
-                        <h6>${member}</h6>
+                        <ul class="member">
+                            <li>${member.name}</li>
+                        </ul>
                     </c:forEach>
                 </div>
                 <c:choose>
                     <c:when test="${!empty sessionScope.username}">
-                        <input type="checkbox" id="enabler" class="open">
-                        <script>
-                            function togggle(){
-                                var cb = document.getElementById("enabler");
-                                cb.checked = !cb.checked;
-                            }
-                        </script>
-                        <button onclick="togggle(); return false;" class="make-rate-btn"><label for="enabler">Сделать ставку</label></button>
+                        <a class="make-rate-link" href="<c:url value="main?command=showMakeRatePage&eventId=${event.eventId}"/>"><fmt:message bundle="${loc}" key="link.make-rate"/></a>
                     </c:when>
                     <c:when test="${empty sessionScope.username}">
                         <div class="register-warn-div">
