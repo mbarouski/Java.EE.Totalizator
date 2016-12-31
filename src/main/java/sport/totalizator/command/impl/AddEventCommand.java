@@ -6,7 +6,9 @@ import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.Event;
+import sport.totalizator.entity.User;
 import sport.totalizator.exception.EventException;
+import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
@@ -23,7 +25,8 @@ public class AddEventCommand implements ICommand {
     private static final Logger log = Logger.getLogger(AddEventCommand.class);
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
+        checkRoots(req, resp, User.Role.MODERATOR);
         EventService eventService = ServiceFactory.getInstance().getEventService();
         String name = req.getParameter("name");
         String leagueId = req.getParameter("league-id");

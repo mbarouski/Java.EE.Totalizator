@@ -18,7 +18,9 @@ public enum CommandEnum {
     SHOW_ADD_EVENT_PAGE("showAddEventPage"),
     GET_LEAGUES_BY_CATEGORY_JSON("getLeaguesByCategoryJson"),
     GET_MEMBERS_BY_LEAGUE_JSON("getMembersByLeagueJson"),
-    ADD_EVENT("addEvent");
+    ADD_EVENT("addEvent"),
+    SHOW_MAKE_RATE_PAGE("showMakeRatePage"),
+    CHECK_ROOTS("checkRoots");
 
 
     private String value;

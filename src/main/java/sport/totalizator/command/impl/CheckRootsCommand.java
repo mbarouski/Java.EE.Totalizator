@@ -1,9 +1,7 @@
 package sport.totalizator.command.impl;
 
-import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
-import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.UnauthorizedException;
 
@@ -12,11 +10,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ShowAddEventPageCommand implements ICommand {
+public class CheckRootsCommand implements ICommand {
+
+    private User.Role needLevel;
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, resp, User.Role.MODERATOR);
-        CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
-        req.getRequestDispatcher("add_event_page.jsp").forward(req, resp);
+        if(needLevel == null){
+            return;
+        }
+        String needLevelInString = needLevel.getValue();
+        String roleFromSession = (String)req.getSession().getAttribute("role");
+        if(!needLevelInString.equals(roleFromSession)){
+            throw new UnauthorizedException("Not enough roots for this operation");
+        }
     }
+
+    public void setNeedLevel(User.Role needLevel){
+        this.needLevel = needLevel;
+    }
+
 }

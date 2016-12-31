@@ -7,6 +7,7 @@ import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.dao.EventDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.impl.EventDAOImpl;
+import sport.totalizator.exception.UnauthorizedException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 public class ShowResultsPageCommand implements ICommand {
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         req.setAttribute("tab_classes", new String[] {"", "active", ""});
         EventDAO eventDAO = EventDAOImpl.getInstance();

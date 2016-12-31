@@ -8,6 +8,7 @@ import sport.totalizator.dao.EventDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.impl.CategoryDAOImpl;
 import sport.totalizator.dao.impl.EventDAOImpl;
+import sport.totalizator.exception.UnauthorizedException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ShowNearestEventsPageCommand implements ICommand {
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         EventDAO eventDAO = EventDAOImpl.getInstance();
         try {

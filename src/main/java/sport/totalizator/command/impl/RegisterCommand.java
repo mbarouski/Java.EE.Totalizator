@@ -6,6 +6,7 @@ import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.User;
+import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.exception.UserException;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
@@ -22,7 +23,7 @@ public class RegisterCommand implements ICommand {
     private static final Logger log = Logger.getLogger(RegisterCommand.class);
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         UserService userService = ServiceFactory.getInstance().getUserService();
         String login = req.getParameter("login");
         String password = req.getParameter("password");

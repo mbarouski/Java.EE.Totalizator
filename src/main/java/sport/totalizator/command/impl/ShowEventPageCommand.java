@@ -7,6 +7,7 @@ import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.dao.EventDAO;
 import sport.totalizator.entity.Event;
+import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
@@ -21,7 +22,7 @@ public class ShowEventPageCommand implements ICommand{
     private static final Logger log = Logger.getLogger(ShowEventPageCommand.class);
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         EventService eventService = ServiceFactory.getInstance().getEventService();
         int eventId = Integer.parseInt(req.getParameter("eventId"));
