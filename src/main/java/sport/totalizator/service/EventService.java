@@ -10,15 +10,13 @@ import java.sql.Time;
 import java.util.List;
 
 public interface EventService {
-    List<Event> getAllEvents() throws ServiceException;
+    List<Event> getAllNotEndedEvents() throws ServiceException;
 
-    List<Event> getAllEventsSortedByRateCount() throws ServiceException;
+    List<Event> getAllNotEndedEventsSortedByDate() throws ServiceException;
 
-    List<Event> getAllEventsSortedByDate() throws ServiceException;
+    List<Event> getAllNotEndedEventsByCategoryId(String categoryId) throws ServiceException;
 
-    List<Event> getNotEndedEventsByCategoryId(int categoryId) throws ServiceException;
-
-    List<Event> getEndedEvents() throws ServiceException;
+    List<Event> getAllEndedEvents() throws ServiceException;
 
     Event getEventById(int eventId) throws ServiceException;
 

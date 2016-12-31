@@ -33,9 +33,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getAllEvents() throws ServiceException {
+    public List<Event> getAllNotEndedEvents() throws ServiceException {
         try {
-            return eventDAO.getAllEvents();
+            return eventDAO.getAllNotEndedEvents();
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);
@@ -43,9 +43,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getAllEventsSortedByRateCount() throws ServiceException {
+    public List<Event> getAllNotEndedEventsSortedByDate() throws ServiceException {
         try {
-            return eventDAO.getAllEventsSortedByRateCount();
+            return eventDAO.getAllNotEndedEventsSortedByDate();
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);
@@ -53,29 +53,20 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getAllEventsSortedByDate() throws ServiceException {
+    public List<Event> getAllNotEndedEventsByCategoryId(String categoryId) throws ServiceException {
         try {
-            return eventDAO.getAllEventsSortedByDate();
-        } catch (DAOException exc){
+            int intLeagueId = Integer.parseInt(categoryId);
+            return eventDAO.getAllNotEndedEventsByCategoryId(intLeagueId);
+        } catch (DAOException | NumberFormatException exc){
             log.error(exc);
             throw new ServiceException(exc);
         }
     }
 
     @Override
-    public List<Event> getNotEndedEventsByCategoryId(int categoryId) throws ServiceException {
+    public List<Event> getAllEndedEvents() throws ServiceException {
         try {
-            return eventDAO.getNotEndedEventsByCategoryId(categoryId);
-        } catch (DAOException exc){
-            log.error(exc);
-            throw new ServiceException(exc);
-        }
-    }
-
-    @Override
-    public List<Event> getEndedEvents() throws ServiceException {
-        try {
-            return eventDAO.getEndedEvents();
+            return eventDAO.getAllEndedEvents();
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);

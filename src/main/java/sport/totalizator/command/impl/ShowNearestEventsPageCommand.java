@@ -19,7 +19,7 @@ public class ShowNearestEventsPageCommand implements ICommand {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         EventDAO eventDAO = EventDAOImpl.getInstance();
         try {
-            req.setAttribute("events", eventDAO.getAllEventsSortedByDate());
+            req.setAttribute("events", eventDAO.getAllNotEndedEventsSortedByDate());
         }
         catch (DAOException exc){
             throw new CommandException(exc);

@@ -20,7 +20,7 @@ public class ShowMainPageCommand implements ICommand {
         req.setAttribute("tab_classes", new String[] {"active", "", ""});
         EventDAO eventDAO = EventDAOImpl.getInstance();
         try {
-            req.setAttribute("events", eventDAO.getAllEvents());
+            req.setAttribute("events", eventDAO.getAllNotEndedEvents());
         }
         catch (DAOException exc){
             throw new CommandException(exc);

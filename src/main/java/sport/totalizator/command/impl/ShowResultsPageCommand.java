@@ -20,7 +20,7 @@ public class ShowResultsPageCommand implements ICommand {
         req.setAttribute("tab_classes", new String[] {"", "active", ""});
         EventDAO eventDAO = EventDAOImpl.getInstance();
         try {
-            req.setAttribute("events", eventDAO.getEndedEvents());
+            req.setAttribute("events", eventDAO.getAllEndedEvents());
         }
         catch (DAOException exc){
             throw new CommandException(exc);

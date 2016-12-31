@@ -37,3 +37,8 @@ time {
 .make-rate-btn:hover {
     background: #eb701a;
 }
+
+.event-secondary {
+    display: flex;
+    justify-content: flex-end;
+}

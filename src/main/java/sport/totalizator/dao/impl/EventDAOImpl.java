@@ -24,17 +24,6 @@ public class EventDAOImpl implements EventDAO{
 
     EventDAOImpl(){}
 
-    private Event createEvent(ResultSet resultSet) throws SQLException{
-        Event event = new Event();
-        event.setEventName(resultSet.getString("event_name"));
-        event.setEventDate(resultSet.getDate("date"));
-        event.setEventTime(resultSet.getTime("date"));
-        event.setEventId(resultSet.getInt("id"));
-        event.setRateCount(resultSet.getInt("rate_count"));
-        event.setEventLeague(resultSet.getString("league_name"));
-        return event;
-    }
-
     private List<Event> getEventsBySql(String sql, Object... params) throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -49,8 +38,15 @@ public class EventDAOImpl implements EventDAO{
                 statement.execute();
                 try {
                     resultSet = statement.getResultSet();
+                    Event event;
                     while (resultSet.next()) {
-                        result.add(createEvent(resultSet));
+                        event = new Event();
+                        event.setEventName(resultSet.getString("event_name"));
+                        event.setEventDate(resultSet.getDate("date"));
+                        event.setEventTime(resultSet.getTime("date"));
+                        event.setEventId(resultSet.getInt("id"));
+                        event.setEventLeague(resultSet.getString("league_name"));
+                        result.add(event);
                     }
                 } catch (SQLException exc){
                     log.error(exc);
@@ -77,6 +73,28 @@ public class EventDAOImpl implements EventDAO{
         return result;
     }
 
+    public List<Event> getAllNotEndedEventsByCategoryId(int categoryId) throws DAOException {
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, `league_name`, `event_status`, " +
+                "`event_start_date` AS `date` " +
+                "FROM `event` " +
+                "LEFT JOIN `league` " +
+                "ON `event`.`league_id` = `league`.`league_id` " +
+                "WHERE `event_status` = 'POSTED' " +
+                "AND `event_category_id` = ?;";
+        return getEventsBySql(sql, categoryId);
+    }
+
+    public List<Event> getAllEndedEvents() throws DAOException {
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, `league_name`, " +
+                "`event_status`, `event_start_date` AS `date` " +
+                "FROM `event` " +
+                "LEFT JOIN `league` " +
+                "ON `event`.`league_id` = `league`.`league_id` " +
+                "WHERE `event_status` = 'FINISHED' " +
+                "OR `event_start_date` < now();";
+        return getEventsBySql(sql);
+    }
+
     private void insertParamsIntoPreparedStatement(PreparedStatement statement, Object[] params) throws SQLException{
         Object param;
         for(int i = 0; i < params.length; i++){
@@ -90,71 +108,28 @@ public class EventDAOImpl implements EventDAO{
         }
     }
 
-
-    public List<Event> getAllEventsSortedByDate() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
+    @Override
+    public List<Event> getAllNotEndedEvents() throws DAOException {
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, " +
+                "`event_status`, `event_start_date` AS `date` " +
                 "FROM `event` " +
                 "LEFT JOIN `league` " +
                 "ON `event`.`league_id` = `league`.`league_id` " +
-                "LEFT JOIN `rate` " +
-                "ON `rate`.`event_id` = `event`.`event_id` " +
                 "WHERE `event_status` = 'POSTED' " +
-                "GROUP BY `rate`.`event_id` " +
-                "ORDER BY `date`;";
+                "AND `event_start_date` > now();";
         return getEventsBySql(sql);
-    }
-
-    public List<Event> getAllEventsSortedByRateCount() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
-                "FROM `event` " +
-                "LEFT JOIN `league` " +
-                "ON `event`.`league_id` = `league`.`league_id` " +
-                "LEFT JOIN `rate` " +
-                "ON `rate`.`event_id` = `event`.`event_id` " +
-                "WHERE `event_status` = 'POSTED' " +
-                "GROUP BY `rate`.`event_id` " +
-                "ORDER BY `rate_count` " +
-                "DESC; ";
-        return getEventsBySql(sql);
-    }
-
-    public List<Event> getAllEvents() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
-                "FROM `event` " +
-                "LEFT JOIN `league` " +
-                "ON `event`.`league_id` = `league`.`league_id` " +
-                "LEFT JOIN `rate` " +
-                "ON `rate`.`event_id` = `event`.`event_id` " +
-                "WHERE `event_status` = 'POSTED' " +
-                "GROUP BY `rate`.`event_id`;";
-        return getEventsBySql(sql);
-    }
-
-    public List<Event> getNotEndedEventsByCategoryId(int categoryId) throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, " +
-                "`league_name`, `event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
-                "FROM `event` " +
-                "LEFT JOIN `league` " +
-                "ON `event`.`league_id` = `league`.`league_id` " +
-                "LEFT JOIN `rate` " +
-                "ON `rate`.`event_id` = `event`.`event_id` " +
-                "WHERE `event_status` = 'POSTED' " +
-                "AND `event_category_id` = ? " +
-                "GROUP BY `rate`.`event_id`;";
-        return getEventsBySql(sql, categoryId);
     }
 
     @Override
-    public List<Event> getEndedEvents() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, `league_name`, " +
-                "`event_status`, `event_start_date` AS `date`, count(`rate`.`rate_id`) AS `rate_count` " +
+    public List<Event> getAllNotEndedEventsSortedByDate() throws DAOException {
+        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`,  `event_status`, " +
+                "`event_start_date` AS `date` " +
                 "FROM `event` " +
                 "LEFT JOIN `league` " +
                 "ON `event`.`league_id` = `league`.`league_id` " +
-                "LEFT JOIN `rate` " +
-                "ON `rate`.`event_id` = `event`.`event_id` " +
-                "WHERE `event_status` = 'FINISHED' " +
-                "GROUP BY `id`;";
+                "WHERE `event_status` = 'POSTED' " +
+                "AND `event_start_date` > now() " +
+                "ORDER BY `date`;";
         return getEventsBySql(sql);
     }
 

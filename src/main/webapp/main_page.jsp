@@ -23,7 +23,6 @@
 							<time class="event-date">${event.eventDate} ${event.eventTime}</time>
 						</div>
 						<div class="event-secondary">
-							<p><fmt:message bundle="${loc}" key="label.rateCount" /> : ${event.rateCount}</p>
 							<a href="<c:url value="main?command=showEventPage&eventId=${event.eventId}" />"><button class="event-btn"><fmt:message bundle="${loc}" key="btn.open" /></button></a>
 						</div>
 					</div>

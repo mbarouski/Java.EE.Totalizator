@@ -6,15 +6,13 @@ import sport.totalizator.entity.Event;
 import java.util.List;
 
 public interface EventDAO {
-    List<Event> getAllEvents() throws DAOException;
+    List<Event> getAllNotEndedEvents() throws DAOException;
 
-    List<Event> getAllEventsSortedByRateCount() throws DAOException;
+    List<Event> getAllNotEndedEventsSortedByDate() throws DAOException;
 
-    List<Event> getAllEventsSortedByDate() throws DAOException;
+    List<Event> getAllNotEndedEventsByCategoryId(int categoryId) throws DAOException;
 
-    List<Event> getNotEndedEventsByCategoryId(int categoryId) throws DAOException;
-
-    List<Event> getEndedEvents() throws DAOException;
+    List<Event> getAllEndedEvents() throws DAOException;
 
     Event getEventById(int eventId) throws DAOException;
 
