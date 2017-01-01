@@ -21,12 +21,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static sport.totalizator.entity.User.Role.MODERATOR;
+
 public class AddEventCommand implements ICommand {
     private static final Logger log = Logger.getLogger(AddEventCommand.class);
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, resp, User.Role.MODERATOR);
+        checkRoots(req, new User.Role[]{MODERATOR});
         EventService eventService = ServiceFactory.getInstance().getEventService();
         String name = req.getParameter("name");
         String leagueId = req.getParameter("league-id");

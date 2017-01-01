@@ -12,4 +12,6 @@ public interface UserDAO {
     User createUser(User user) throws DAOException, UserException;
 
     User getUserByLogin(String login) throws DAOException;
+
+    User getFullUserInformationByLogin(String login) throws DAOException;
 }

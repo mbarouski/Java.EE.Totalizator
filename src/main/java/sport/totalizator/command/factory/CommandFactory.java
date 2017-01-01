@@ -36,7 +36,9 @@ public class CommandFactory {
         commands.put(GET_MEMBERS_BY_LEAGUE_JSON, new GetMembersByLeagueJsonCommand());
         commands.put(ADD_EVENT, new AddEventCommand());
         commands.put(SHOW_MAKE_RATE_PAGE, new ShowMakeRatePageCommand());
-        commands.put(CHECK_ROOTS, new CheckRootsCommand());
+        commands.put(SHOW_PERSONAL_PAGE, new ShowPersonalPageCommand());
+        commands.put(SHOW_FILL_UP_BALANCE_PAGE, new ShowFillUpPageCommand());
+        commands.put(SHOW_WITHDRAW_MONEY_PAGE, new ShowWithdrawMoneyPage());
     }
 
     public ICommand createCommand(CommandEnum command){

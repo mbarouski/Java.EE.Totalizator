@@ -1,6 +1,7 @@
 package sport.totalizator.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class User {
     public static enum Role {
@@ -24,6 +25,8 @@ public class User {
     private BigDecimal balance;
     private Role role;
     private boolean banned;
+    private List<Rate> activeRates;
+    private List<Rate> finishedRates;
 
     public User() {
     }
@@ -94,44 +97,19 @@ public class User {
         this.banned = banned;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (userId != user.userId) return false;
-        if (banned != user.banned) return false;
-        if (!login.equals(user.login)) return false;
-        if (!passHash.equals(user.passHash)) return false;
-        if (!email.equals(user.email)) return false;
-        if (!balance.equals(user.balance)) return false;
-        return role == user.role;
+    public List<Rate> getActiveRates() {
+        return activeRates;
     }
 
-    @Override
-    public int hashCode() {
-        int result = userId;
-        result = 31 * result + login.hashCode();
-        result = 31 * result + passHash.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + balance.hashCode();
-        result = 31 * result + role.hashCode();
-        result = 31 * result + (banned ? 1 : 0);
-        return result;
+    public void setActiveRates(List<Rate> activeRates) {
+        this.activeRates = activeRates;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", login='" + login + '\'' +
-                ", passHash='" + passHash + '\'' +
-                ", email='" + email + '\'' +
-                ", balance=" + balance +
-                ", role=" + role +
-                ", banned=" + banned +
-                '}';
+    public List<Rate> getFinishedRates() {
+        return finishedRates;
+    }
+
+    public void setFinishedRates(List<Rate> finishedRates) {
+        this.finishedRates = finishedRates;
     }
 }

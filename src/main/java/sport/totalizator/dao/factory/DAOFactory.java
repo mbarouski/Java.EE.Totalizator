@@ -29,4 +29,8 @@ public class DAOFactory {
     public MemberDAO getMemberDAO(){
         return MemberDAOImpl.getInstance();
     }
+
+    public RateDAO getRateDAO() {
+        return RateDAOImpl.getInstance();
+    }
 }

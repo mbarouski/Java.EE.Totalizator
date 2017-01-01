@@ -1,0 +1,87 @@
+.personal-page-div {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    background-color: #efeeee;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.personal-page-header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.balance-div {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.id-info-div {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.balance-btn {
+    color: white;
+    margin-top: 10px;
+    background: #eba11a;
+    border: 1px solid white;
+    transition: all 0.2s linear;
+    border-radius: 4px;
+    text-decoration: none;
+    padding: 3px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.balance-btn:hover {
+    background: #eb701a;
+}
+
+.balance-h4-div {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    border: 1px solid #4a4949;
+    border-collapse: collapse;
+    margin-top: 3px;
+}
+
+.table-header {
+    background: #4a4949;
+    color: #ffd132;
+}
+
+.table-header td, .table-header th {
+    padding: 3px;
+}
+
+table td {
+    padding: 3px;
+}
+
+h3, p {
+    margin-bottom : 0px;
+    margin-top : 0px;
+}
+
+h4 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+p {
+    font-size: 0.6em;
+}
+
+active-rates-div, finished-rates-div {
+    margin-left: 10px;
+}

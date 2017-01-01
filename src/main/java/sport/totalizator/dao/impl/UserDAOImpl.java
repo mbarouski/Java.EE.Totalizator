@@ -154,4 +154,56 @@ public class UserDAOImpl implements UserDAO {
         }
         return user;
     }
+
+    @Override
+    public User getFullUserInformationByLogin(String login) throws DAOException {
+        String sql = "SELECT `login` , `role`, `balance`, `user_id`, `banned`, `email` " +
+                "FROM `user` " +
+                "WHERE `login` = ?;";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        User user = null;
+        try{
+            connection = pool.getConnection();
+            try{
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, login);
+                resultSet = statement.executeQuery();
+                try{
+                    while (resultSet.next()){
+                        user = new User();
+                        user.setLogin(resultSet.getString("login"));
+                        user.setBalance(resultSet.getBigDecimal("balance"));
+                        user.setUserId(resultSet.getInt("user_id"));
+                        user.setEmail(resultSet.getString("email"));
+                        user.setBanned(resultSet.getBoolean("banned"));
+                        user.setRole(User.Role.valueOf(resultSet.getString("role").toUpperCase()));
+                    }
+                } catch (SQLException exc){
+                    log.error(exc);
+                    throw new DAOException(exc);
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return user;
+    }
 }

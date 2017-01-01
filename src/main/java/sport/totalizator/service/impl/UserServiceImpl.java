@@ -1,6 +1,7 @@
 package sport.totalizator.service.impl;
 
 import org.apache.log4j.Logger;
+import sport.totalizator.dao.RateDAO;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
@@ -14,6 +15,7 @@ public class UserServiceImpl implements UserService {
     private static final Logger log = Logger.getLogger(UserServiceImpl.class);
     private static final UserServiceImpl instance = new UserServiceImpl();
     private UserDAO userDAO;
+    private RateDAO rateDAO;
 
     public static UserServiceImpl getInstance(){
         return instance;
@@ -21,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     UserServiceImpl(){
         userDAO = DAOFactory.getFactory().getUserDAO();
+        rateDAO = DAOFactory.getFactory().getRateDAO();
     }
 
     @Override
@@ -61,6 +64,19 @@ public class UserServiceImpl implements UserService {
                 errorUser.setLogin(login);
                 throw new UserException("err.password-or-login-incorrect", errorUser);
             }
+        } catch (DAOException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
+        }
+    }
+
+    @Override
+    public User getFullUserInformationByLogin(String login) throws ServiceException {
+        try {
+            User user = userDAO.getFullUserInformationByLogin(login);
+            user.setActiveRates(rateDAO.getActiveRatesForUser(user.getUserId()));
+            user.setFinishedRates(rateDAO.getFinishedRatesForUser(user.getUserId()));
+            return user;
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);

@@ -44,7 +44,9 @@
                 </div>
                 <c:choose>
                     <c:when test="${!empty sessionScope.username}">
-                        <a class="make-rate-link" href="<c:url value="main?command=showMakeRatePage&eventId=${event.eventId}"/>"><fmt:message bundle="${loc}" key="link.make-rate"/></a>
+                        <c:if test="${sessionScope.role eq 'USER'}">
+                            <a class="make-rate-link" href="<c:url value="main?command=showMakeRatePage&eventId=${event.eventId}"/>"><fmt:message bundle="${loc}" key="link.make-rate"/></a>
+                        </c:if>
                     </c:when>
                     <c:when test="${empty sessionScope.username}">
                         <div class="register-warn-div">

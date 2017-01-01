@@ -20,7 +20,9 @@ public enum CommandEnum {
     GET_MEMBERS_BY_LEAGUE_JSON("getMembersByLeagueJson"),
     ADD_EVENT("addEvent"),
     SHOW_MAKE_RATE_PAGE("showMakeRatePage"),
-    CHECK_ROOTS("checkRoots");
+    SHOW_PERSONAL_PAGE("showPersonalPage"),
+    SHOW_FILL_UP_BALANCE_PAGE("showFillUpBalancePage"),
+    SHOW_WITHDRAW_MONEY_PAGE("showWithdrawMoneyPage");
 
 
     private String value;
