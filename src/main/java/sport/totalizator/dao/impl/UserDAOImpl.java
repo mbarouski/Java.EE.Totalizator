@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.entity.Operation;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.UserException;
 import sport.totalizator.util.MessageLocalizer;
@@ -205,5 +206,93 @@ public class UserDAOImpl implements UserDAO {
             }
         }
         return user;
+    }
+
+    @Override
+    public int getUserIdByLogin(String login) throws DAOException {
+        String sql = "SELECT `user_id` " +
+                "FROM `user` " +
+                "WHERE `login` = ?;";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        int userId = 0;
+        try{
+            connection = pool.getConnection();
+            try{
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, login);
+                resultSet = statement.executeQuery();
+                try{
+                    while (resultSet.next()){
+                        userId = resultSet.getInt("user_id");
+                    }
+                } catch (SQLException exc){
+                    log.error(exc);
+                    throw new DAOException(exc);
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return userId;
+    }
+
+    @Override
+    public Operation fillUpBalanceForUser(Operation operation) throws DAOException {
+        String sql = "UPDATE `user` " +
+                "SET `balance` = `balance` + ? " +
+                "WHERE `user_id` = ?;";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            connection.setAutoCommit(false);
+            Savepoint savepoint = connection.setSavepoint();
+            try {
+                statement = connection.prepareStatement(sql);
+                statement.setBigDecimal(1, operation.getAmount());
+                statement.setInt(2, operation.getUserId());
+                statement.executeUpdate();
+            } catch (SQLException exc) {
+                connection.rollback(savepoint);
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                connection.setAutoCommit(true);
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return operation;
+    }
+
+    @Override
+    public Operation withdrawMoneyFromUser(Operation operation) throws DAOException {
+        return null;
     }
 }

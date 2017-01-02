@@ -1,13 +1,7 @@
 package sport.totalizator.service.factory;
 
-import sport.totalizator.service.EventService;
-import sport.totalizator.service.LeagueService;
-import sport.totalizator.service.MemberService;
-import sport.totalizator.service.UserService;
-import sport.totalizator.service.impl.EventServiceImpl;
-import sport.totalizator.service.impl.LeagueServiceImpl;
-import sport.totalizator.service.impl.MemberServiceImpl;
-import sport.totalizator.service.impl.UserServiceImpl;
+import sport.totalizator.service.*;
+import sport.totalizator.service.impl.*;
 
 public class ServiceFactory {
     private static final ServiceFactory instance = new ServiceFactory();
@@ -32,5 +26,9 @@ public class ServiceFactory {
 
     public MemberService getMemberService(){
         return MemberServiceImpl.getInstance();
+    }
+
+    public PaySystemService getPaySystemService() {
+        return PaySystemServiceImpl.getInstance();
     }
 }

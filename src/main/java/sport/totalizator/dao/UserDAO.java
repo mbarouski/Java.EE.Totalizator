@@ -1,6 +1,7 @@
 package sport.totalizator.dao;
 
 import sport.totalizator.dao.exception.DAOException;
+import sport.totalizator.entity.Operation;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.UserException;
 
@@ -14,4 +15,10 @@ public interface UserDAO {
     User getUserByLogin(String login) throws DAOException;
 
     User getFullUserInformationByLogin(String login) throws DAOException;
+
+    int getUserIdByLogin(String login) throws DAOException;
+
+    Operation fillUpBalanceForUser(Operation operation) throws DAOException;
+
+    Operation withdrawMoneyFromUser(Operation operation) throws DAOException;
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CategoryDAOImpl implements CategoryDAO{
     private static final CategoryDAOImpl instance = new CategoryDAOImpl();
-    private static final Logger log = Logger.getLogger(UserDAOImpl.class);
+    private static final Logger log = Logger.getLogger(CategoryDAOImpl.class);
     private final ConnectionPool pool = ConnectionPool.getConnectionPool();
 
     public static CategoryDAOImpl getInstance(){

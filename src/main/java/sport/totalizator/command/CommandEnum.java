@@ -22,7 +22,9 @@ public enum CommandEnum {
     SHOW_MAKE_RATE_PAGE("showMakeRatePage"),
     SHOW_PERSONAL_PAGE("showPersonalPage"),
     SHOW_FILL_UP_BALANCE_PAGE("showFillUpBalancePage"),
-    SHOW_WITHDRAW_MONEY_PAGE("showWithdrawMoneyPage");
+    SHOW_WITHDRAW_MONEY_PAGE("showWithdrawMoneyPage"),
+    FILL_UP_BALANCE("fillUpBalance"),
+    WITHDRAW_MONEY("withdrawMoney");
 
 
     private String value;

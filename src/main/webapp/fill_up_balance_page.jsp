@@ -29,8 +29,8 @@
                         </div>
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.validity-period"/></label>
-                            <input type="text" name="validity-period" pattern="[0-9]{2}/[0-9]{2}" required
-                                   value="<c:out value="${operation.validityPeriod}"/>"/>
+                            <input type="text" name="validity-date" pattern="[0-9]{2}/[0-9]{2}" required
+                                   value="<c:out value="${operation.validityDate}"/>"/>
                         </div>
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.card-code"/></label>

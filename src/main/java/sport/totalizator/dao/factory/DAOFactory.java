@@ -33,4 +33,8 @@ public class DAOFactory {
     public RateDAO getRateDAO() {
         return RateDAOImpl.getInstance();
     }
+
+    public OperationDAO getOperationDAO(){
+        return OperationDAOImpl.getInstance();
+    }
 }
