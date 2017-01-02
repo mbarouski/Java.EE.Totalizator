@@ -40,6 +40,7 @@ public class CommandFactory {
         commands.put(SHOW_FILL_UP_BALANCE_PAGE, new ShowFillUpPageCommand());
         commands.put(SHOW_WITHDRAW_MONEY_PAGE, new ShowWithdrawMoneyPage());
         commands.put(FILL_UP_BALANCE, new FillUpBalanceCommand());
+        commands.put(WITHDRAW_MONEY, new WithdrawMoneyCommand());
     }
 
     public ICommand createCommand(CommandEnum command){

@@ -21,4 +21,6 @@ public interface UserDAO {
     Operation fillUpBalanceForUser(Operation operation) throws DAOException;
 
     Operation withdrawMoneyFromUser(Operation operation) throws DAOException;
+
+    boolean canWithdrawMoney(Operation operation) throws DAOException;
 }

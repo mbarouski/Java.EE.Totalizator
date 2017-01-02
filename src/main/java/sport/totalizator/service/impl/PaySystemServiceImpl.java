@@ -73,6 +73,39 @@ public class PaySystemServiceImpl implements PaySystemService {
 
     @Override
     public Operation withdrawMoney(String username, String cardNumber, String validityDate, String amount) throws ServiceException, OperationException {
-        return null;
+        Operation operation = new Operation();
+        OperationException operationException = new OperationException(operation);
+        if((cardNumber == null) || (cardNumber.isEmpty()) || (cardNumber.length() != 16)){
+            operationException.addErrorMessage("err.card-number-is-invalid");
+        }
+        operation.setCardNumber(cardNumber);
+        if((validityDate == null) || (validityDate.isEmpty()) || (validityDate.length() != 5)){
+            operationException.addErrorMessage("err.validity-date-is-invalid");
+        }
+        operation.setValidityDate(validityDate);
+        BigDecimal bigDecimalAmount;
+        try{
+            bigDecimalAmount = BigDecimal.valueOf(Double.parseDouble(amount));
+            operation.setAmount(bigDecimalAmount);
+        } catch (NumberFormatException exc){
+            operationException.addErrorMessage("err.amount-is-invalid");
+        }
+        if(operationException.getErrorMessageList().size() != 0){
+            throw operationException;
+        }
+        operation.setOperationType(OperationDAOImpl.OUTPUT);
+        try{
+            operation.setUserId(userDAO.getUserIdByLogin(username));
+            if(!userDAO.canWithdrawMoney(operation)){
+                operationException.addErrorMessage("err.can-not-withdraw-money-because-not-enough");
+                throw operationException;
+            }
+            userDAO.withdrawMoneyFromUser(operation);
+            operationDAO.addOperation(operation);
+        } catch (DAOException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
+        }
+        return operation;
     }
 }

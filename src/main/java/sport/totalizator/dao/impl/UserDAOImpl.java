@@ -293,6 +293,86 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Operation withdrawMoneyFromUser(Operation operation) throws DAOException {
-        return null;
+        String sql = "UPDATE `user` " +
+                "SET `balance` = `balance` - ? " +
+                "WHERE `user_id` = ?;";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            connection.setAutoCommit(false);
+            Savepoint savepoint = connection.setSavepoint();
+            try {
+                statement = connection.prepareStatement(sql);
+                statement.setBigDecimal(1, operation.getAmount());
+                statement.setInt(2, operation.getUserId());
+                statement.executeUpdate();
+            } catch (SQLException exc) {
+                connection.rollback(savepoint);
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                connection.setAutoCommit(true);
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return operation;
+    }
+
+    @Override
+    public boolean canWithdrawMoney(Operation operation) throws DAOException {
+        String sql = "SELECT `balance` >= ? AS `flag` " +
+                "FROM `user` " +
+                "WHERE `user_id` = ?;";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        boolean result = false;
+        try{
+            connection = pool.getConnection();
+            try{
+                statement = connection.prepareStatement(sql);
+                statement.setBigDecimal(1, operation.getAmount());
+                statement.setInt(2, operation.getUserId());
+                statement.execute();
+                try {
+                    resultSet = statement.getResultSet();
+                    while(resultSet.next()){
+                        result = resultSet.getBoolean("flag");
+                    }
+                } catch (SQLException exc){
+                    log.error(exc);
+                    throw new DAOException(exc);
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return result;
     }
 }

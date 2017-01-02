@@ -113,8 +113,4 @@ public class OperationDAOImpl implements OperationDAO {
         return result;
     }
 
-    @Override
-    public boolean canWithdrawMoney(Operation operation) throws DAOException {
-        return false;
-    }
 }
