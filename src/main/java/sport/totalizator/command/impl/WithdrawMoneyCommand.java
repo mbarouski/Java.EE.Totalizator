@@ -45,6 +45,7 @@ public class WithdrawMoneyCommand implements ICommand {
             req.setAttribute("operation", exc.getOperation());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_WITHDRAW_MONEY_PAGE).execute(req, resp);
         }
-        CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAIN_PAGE).execute(req, resp);
+        req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.withdraw", req));
+        CommandFactory.getFactory().createCommand(CommandEnum.SHOW_WITHDRAW_MONEY_PAGE).execute(req, resp);
     }
 }

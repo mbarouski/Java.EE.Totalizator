@@ -20,6 +20,14 @@
         <div class="center-part">
             <div class="form" style="width: 600px;">
                 <form class="form" method="post" onsubmit="" action="main?command=addEvent" charset="UTF-8">
+                    <div class="header-div">
+                        <p class="form-header"><fmt:message bundle="${loc}" key="link.addEvent"/></p>
+                    </div>
+                    <c:if test="${!empty success}">
+                        <div class="success-div">
+                                ${success}
+                        </div>
+                    </c:if>
                     <c:if test="${!empty error}">
                         <div class="error-div">
                             ${error}

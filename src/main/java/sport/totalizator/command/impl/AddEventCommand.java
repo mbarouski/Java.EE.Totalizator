@@ -49,7 +49,8 @@ public class AddEventCommand implements ICommand {
             req.setAttribute("event", exc.getEvent());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_EVENT_PAGE).execute(req, resp);
         }
-        CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAIN_PAGE).execute(req, resp);
+        req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.add-event", req));
+        CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_EVENT_PAGE).execute(req, resp);
     }
 
     private String getRateTypes(HttpServletRequest req){

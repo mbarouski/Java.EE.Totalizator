@@ -16,7 +16,14 @@
         <div class="center-part">
             <div class="form" style="width: 600px;">
                 <form class="form" method="post" action="main?command=fillUpBalance">
-                    <div class="reg-form">
+                        <div class="header-div">
+                            <p class="form-header"><fmt:message bundle="${loc}" key="link.fill-up"/></p>
+                        </div>
+                        <c:if test="${!empty success}">
+                            <div class="success-div">
+                                    ${success}
+                            </div>
+                        </c:if>
                         <c:if test="${!empty error}">
                             <div class="error-div">
                                     ${error}
@@ -45,7 +52,6 @@
                         <div class="btn-container">
                             <button class="register-btn" type="submit"><fmt:message bundle="${loc}" key="link.fill-up" /></button>
                         </div>
-                    </div>
                 </form>
             </div>
         </div>

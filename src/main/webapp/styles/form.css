@@ -81,4 +81,25 @@ label {
     font-size: 0.8em;
 }
 
+.success-div {
+    border-radius: 3px;
+    background: rgba(0, 255, 0, 0.5);
+    margin-bottom: 5px;
+    padding: 10px;
+    font-size: 0.8em;
+}
+
+.header-div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 2em;
+    color: #eba11a;
+}
+
+.header-div p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 

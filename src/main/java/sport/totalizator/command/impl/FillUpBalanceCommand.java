@@ -47,6 +47,7 @@ public class FillUpBalanceCommand implements ICommand {
             req.setAttribute("operation", exc.getOperation());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_FILL_UP_BALANCE_PAGE).execute(req, resp);
         }
-        CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAIN_PAGE).execute(req, resp);
+        req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.fill-up", req));
+        CommandFactory.getFactory().createCommand(CommandEnum.SHOW_FILL_UP_BALANCE_PAGE).execute(req, resp);
     }
 }
