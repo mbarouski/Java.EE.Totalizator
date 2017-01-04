@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
-    <link href="<c:url value="styles/event.css" />" rel="stylesheet" />
+
     <link href="<c:url value="styles/personal-page.css" />" rel="stylesheet" />
     <title>Totalizator</title>
 </head>
