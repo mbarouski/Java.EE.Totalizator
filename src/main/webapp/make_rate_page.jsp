@@ -7,7 +7,6 @@
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="styles/form.css" />" />
-    <link rel="stylesheet" href="<c:url value="styles/make-rate.css" />" />
     <script src="<c:url value="js/script_for_make_rate.js" />"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="styles/jquery/jquery.datetimepicker.css" />"/>
     <title>Totalizator</title>

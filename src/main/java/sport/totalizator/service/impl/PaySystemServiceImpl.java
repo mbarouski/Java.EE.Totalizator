@@ -96,11 +96,11 @@ public class PaySystemServiceImpl implements PaySystemService {
         operation.setOperationType(OperationDAOImpl.OUTPUT);
         try{
             operation.setUserId(userDAO.getUserIdByLogin(username));
-            if(!userDAO.canWithdrawMoney(operation)){
+            if(!userDAO.haveMoney(operation.getUserId(), operation.getAmount())){
                 operationException.addErrorMessage("err.can-not-withdraw-money-because-not-enough");
                 throw operationException;
             }
-            userDAO.withdrawMoneyFromUser(operation);
+            userDAO.withdrawMoneyFromUser(operation.getUserId(), operation.getAmount());
             operationDAO.addOperation(operation);
         } catch (DAOException exc){
             log.error(exc);

@@ -25,7 +25,8 @@ public enum CommandEnum {
     SHOW_WITHDRAW_MONEY_PAGE("showWithdrawMoneyPage"),
     FILL_UP_BALANCE("fillUpBalance"),
     WITHDRAW_MONEY("withdrawMoney"),
-    GET_MEMBERS_BY_EVENT_JSON("getMembersByEventJson");
+    GET_MEMBERS_BY_EVENT_JSON("getMembersByEventJson"),
+    MAKE_RATE("makeRate");
 
 
     private String value;

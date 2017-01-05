@@ -28,6 +28,10 @@ public class ServiceFactory {
         return MemberServiceImpl.getInstance();
     }
 
+    public RateService getRateService(){
+        return RateServiceImpl.getInstance();
+    }
+
     public PaySystemService getPaySystemService() {
         return PaySystemServiceImpl.getInstance();
     }

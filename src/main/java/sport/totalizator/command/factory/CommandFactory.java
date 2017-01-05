@@ -42,6 +42,7 @@ public class CommandFactory {
         commands.put(FILL_UP_BALANCE, new FillUpBalanceCommand());
         commands.put(WITHDRAW_MONEY, new WithdrawMoneyCommand());
         commands.put(GET_MEMBERS_BY_EVENT_JSON, new GetMembersByEventJsonCommand());
+        commands.put(MAKE_RATE, new MakeRateCommand());
     }
 
     public ICommand createCommand(CommandEnum command){

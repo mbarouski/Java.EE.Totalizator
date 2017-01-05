@@ -9,6 +9,7 @@ import sport.totalizator.entity.User;
 import sport.totalizator.exception.UserException;
 import sport.totalizator.util.MessageLocalizer;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -292,7 +293,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Operation withdrawMoneyFromUser(Operation operation) throws DAOException {
+    public void withdrawMoneyFromUser(int userId, BigDecimal money) throws DAOException {
         String sql = "UPDATE `user` " +
                 "SET `balance` = `balance` - ? " +
                 "WHERE `user_id` = ?;";
@@ -304,8 +305,8 @@ public class UserDAOImpl implements UserDAO {
             Savepoint savepoint = connection.setSavepoint();
             try {
                 statement = connection.prepareStatement(sql);
-                statement.setBigDecimal(1, operation.getAmount());
-                statement.setInt(2, operation.getUserId());
+                statement.setBigDecimal(1, money);
+                statement.setInt(2, userId);
                 statement.executeUpdate();
             } catch (SQLException exc) {
                 connection.rollback(savepoint);
@@ -325,11 +326,10 @@ public class UserDAOImpl implements UserDAO {
                 pool.returnConnectionToPool(connection);
             }
         }
-        return operation;
     }
 
     @Override
-    public boolean canWithdrawMoney(Operation operation) throws DAOException {
+    public boolean haveMoney(int userId, BigDecimal money) throws DAOException {
         String sql = "SELECT `balance` >= ? AS `flag` " +
                 "FROM `user` " +
                 "WHERE `user_id` = ?;";
@@ -341,8 +341,8 @@ public class UserDAOImpl implements UserDAO {
             connection = pool.getConnection();
             try{
                 statement = connection.prepareStatement(sql);
-                statement.setBigDecimal(1, operation.getAmount());
-                statement.setInt(2, operation.getUserId());
+                statement.setBigDecimal(1, money);
+                statement.setInt(2, userId);
                 statement.execute();
                 try {
                     resultSet = statement.getResultSet();

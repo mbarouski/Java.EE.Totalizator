@@ -50,7 +50,7 @@ function createSelectHtmlWithMembers(id, name, members){
     for(var i = 0; i < members.length; i++){
         options += "<option value=\"" + members[i].id + "\">" + members[i].name +"</option>";
     }
-    return "<select id=\"" + id + "\" name=\"" + name + "\">" + options + "</select>";
+    return "<select id=\"" + id + "\" name=\"" + name + "\" required>" + options + "</select>";
 }
 
 function createInputForMemberScore(name){

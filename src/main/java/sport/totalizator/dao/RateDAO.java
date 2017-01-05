@@ -9,4 +9,6 @@ public interface RateDAO {
     List<Rate> getActiveRatesForUser(int userId) throws DAOException;
 
     List<Rate> getFinishedRatesForUser(int userId) throws DAOException;
+
+    Rate addRate(Rate rate) throws DAOException;
 }

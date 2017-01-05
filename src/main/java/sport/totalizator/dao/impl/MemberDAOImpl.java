@@ -118,7 +118,7 @@ public class MemberDAOImpl implements MemberDAO {
 
     @Override
     public List<Member> getMembersByEvent(int eventId) throws DAOException {
-        String sql = "SELECT `member_name` AS `name` " +
+        String sql = "SELECT `eventmember`.`member_id`, `member_name` AS `name` " +
                 "FROM `eventmember` " +
                 "JOIN `event_m2m_eventmember` " +
                 "ON `eventmember`.`member_id` = `event_m2m_eventmember`.`member_id` " +
@@ -139,6 +139,7 @@ public class MemberDAOImpl implements MemberDAO {
                     while(resultSet.next()){
                         member = new Member();
                         member.setName(resultSet.getString("name"));
+                        member.setId(resultSet.getInt("member_id"));
                         result.add(member);
                     }
                 } catch (SQLException exc){
