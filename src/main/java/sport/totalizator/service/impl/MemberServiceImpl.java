@@ -34,4 +34,14 @@ public class MemberServiceImpl  implements MemberService{
             throw new ServiceException(exc);
         }
     }
+
+    @Override
+    public List<Member> getMembersByEvent(int eventId) throws ServiceException {
+        try{
+            return memberDAO.getMembersByEvent(eventId);
+        } catch (DAOException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
+        }
+    }
 }

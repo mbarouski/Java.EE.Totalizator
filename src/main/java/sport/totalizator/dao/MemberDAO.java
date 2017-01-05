@@ -8,7 +8,7 @@ import java.util.List;
 public interface MemberDAO {
     List<Member> getMembersByLeague(int leagueId) throws DAOException;
 
-    List<Member> getMembersByEventId(int eventId) throws DAOException;
+    List<Member> getMembersByEvent(int eventId) throws DAOException;
 
     void attachMembersToEvent(List<Integer> memberIds, int eventId) throws DAOException;
 }

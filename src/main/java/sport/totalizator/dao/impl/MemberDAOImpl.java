@@ -117,7 +117,7 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
-    public List<Member> getMembersByEventId(int eventId) throws DAOException {
+    public List<Member> getMembersByEvent(int eventId) throws DAOException {
         String sql = "SELECT `member_name` AS `name` " +
                 "FROM `eventmember` " +
                 "JOIN `event_m2m_eventmember` " +

@@ -77,7 +77,7 @@ public class EventServiceImpl implements EventService {
     public Event getEventById(int eventId) throws ServiceException{
         try{
             Event event = eventDAO.getEventById(eventId);
-            event.setMembers(memberDAO.getMembersByEventId(event.getEventId()));
+            event.setMembers(memberDAO.getMembersByEvent(event.getEventId()));
             return event;
         } catch (DAOException exc){
             log.error(exc);

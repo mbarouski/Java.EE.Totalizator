@@ -7,6 +7,7 @@
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="styles/form.css" />" />
+    <link rel="stylesheet" href="<c:url value="styles/make-rate.css" />" />
     <script src="<c:url value="js/script_for_make_rate.js" />"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="styles/jquery/jquery.datetimepicker.css" />"/>
     <title>Totalizator</title>
@@ -34,7 +35,7 @@
                         </div>
                     </c:if>
                     <div class="input-div">
-                        <input type="text" name="event-id" required value="<c:out value="${eventId}"/>" hidden/>
+                        <input id="event-id-input" type="text" name="event-id" required value="<c:out value="${eventId}"/>" hidden/>
                     </div>
                     <div class="input-div">
                         <label>Rate type</label>
@@ -46,7 +47,7 @@
                             <option value="EXACT_SCORE">Exact score</option>
                         </select>
                     </div>
-                    <div id="changable-part" class="input-div">
+                    <div id="changable-part" class="changable-part">
 
                     </div>
                     <div class="input-div">

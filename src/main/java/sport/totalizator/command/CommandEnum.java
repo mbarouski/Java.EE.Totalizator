@@ -24,7 +24,8 @@ public enum CommandEnum {
     SHOW_FILL_UP_BALANCE_PAGE("showFillUpBalancePage"),
     SHOW_WITHDRAW_MONEY_PAGE("showWithdrawMoneyPage"),
     FILL_UP_BALANCE("fillUpBalance"),
-    WITHDRAW_MONEY("withdrawMoney");
+    WITHDRAW_MONEY("withdrawMoney"),
+    GET_MEMBERS_BY_EVENT_JSON("getMembersByEventJson");
 
 
     private String value;

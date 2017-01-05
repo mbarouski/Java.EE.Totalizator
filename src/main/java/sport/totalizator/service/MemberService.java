@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface MemberService {
     List<Member> getMembersByLeague(int leagueId) throws ServiceException;
+
+    List<Member> getMembersByEvent(int eventId) throws ServiceException;
 }
