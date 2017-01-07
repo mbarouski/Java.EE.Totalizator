@@ -165,6 +165,7 @@ public class RateDAOImpl implements RateDAO{
                     statement.setInt(5, rate.getMember1Id());
                 }
                 if(rate.getType().equals(EXACT_SCORE)){
+                    statement.setInt(5, rate.getMember1Id());
                     statement.setInt(6, rate.getMember1Score());
                     statement.setInt(7, rate.getMember2Id());
                     statement.setInt(8, rate.getMember2Score());

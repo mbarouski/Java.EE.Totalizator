@@ -52,10 +52,10 @@ public class RateServiceImpl implements RateService {
         }
         rate.setType(type);
         rate.setEventId(checkInt(eventId, rateException, "err.event-id-is-invalid"));
-        if((type == FIRST_GOAL) || (type == WIN)){
+        if(type.equals(FIRST_GOAL) || type.equals(WIN)){
             rate.setMember1Id(checkInt(member1Id, rateException, "err.member-id-is-invalid"));
         }
-        if(type == EXACT_SCORE){
+        if(type.equals(EXACT_SCORE)){
             rate.setMember2Id(checkInt(member2Id, rateException, "err.member-id-is-invalid"));
             rate.setMember1Score(checkInt(member1Score, rateException, "err.member-score-is-invalid"));
             rate.setMember2Score(checkInt(member2Score, rateException, "err.member-score-is-invalid"));
