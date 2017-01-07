@@ -37,4 +37,8 @@ public class DAOFactory {
     public OperationDAO getOperationDAO(){
         return OperationDAOImpl.getInstance();
     }
+
+    public EventResultDAO getEventResultDAO(){
+        return EventResultDAOImpl.getInstance();
+    }
 }

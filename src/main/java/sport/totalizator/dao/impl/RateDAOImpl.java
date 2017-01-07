@@ -34,7 +34,8 @@ public class RateDAOImpl implements RateDAO{
                 "ON `rate`.`event_id` = `event`.`event_id` " +
                 "WHERE `user_id` = ? " +
                 "AND `win_money` IS NULL " +
-                "ORDER BY `date`;";
+                "ORDER BY `date` " +
+                "DESC;";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;

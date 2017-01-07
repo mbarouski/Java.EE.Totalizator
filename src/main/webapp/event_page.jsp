@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
     <link href="<c:url value="styles/event.css" />" rel="stylesheet" />
-    <link href="<c:url value="styles/make-rate.css" />" rel="stylesheet" />
     <title>Totalizator</title>
 </head>
 <body>
@@ -25,6 +24,11 @@
                     <c:if test="${event.status eq 'FINISHED'}">
                         <div class="event-result">
                             <h6>Results</h6>
+                        </div>
+                    </c:if>
+                    <c:if test="${sessionScope.role eq 'MODERATOR'}">
+                        <div class="event-result">
+                            <a class="add-result-link" href="<c:url value="main?command=showAddEventResultPage&eventId=${event.eventId}"/>"><fmt:message bundle="${loc}" key="link.addEventResult"/></a>
                         </div>
                     </c:if>
                 </div>

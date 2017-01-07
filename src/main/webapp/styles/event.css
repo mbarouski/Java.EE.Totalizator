@@ -4,6 +4,12 @@
     justify-content: space-between;
 }
 
+.event-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .event-live {
     display: flex;
     justify-content: center;
@@ -36,7 +42,20 @@ time {
     border-radius: 4px;
     text-decoration: none;
     padding: 3px;
-    width: 200px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+}
+
+.add-result-link {
+    color: white;
+    background: #eba11a;
+    border: 1px solid white;
+    transition: all 0.2s linear;
+    border-radius: 4px;
+    text-decoration: none;
+    padding: 3px;
+    width: 250px;
     display: flex;
     justify-content: center;
 }

@@ -35,4 +35,8 @@ public class ServiceFactory {
     public PaySystemService getPaySystemService() {
         return PaySystemServiceImpl.getInstance();
     }
+
+    public EventResultService getEventResultService() {
+        return EventResultServiceImpl.getInstance();
+    }
 }
