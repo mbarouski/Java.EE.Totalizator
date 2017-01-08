@@ -18,6 +18,7 @@ public class Event {
     private List<Member> members;
     private List<Integer> memberIds;
     private String status;
+    private EventResult result;
 
     public Event() {
     }
@@ -116,5 +117,13 @@ public class Event {
 
     public void setMemberIds(List<Integer> memberIds) {
         this.memberIds = memberIds;
+    }
+
+    public EventResult getResult() {
+        return result;
+    }
+
+    public void setResult(EventResult result) {
+        this.result = result;
     }
 }

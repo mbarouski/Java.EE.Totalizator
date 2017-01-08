@@ -72,3 +72,11 @@ time {
 .members-div ul {
     list-style-type: square;
 }
+
+.event-result {
+    margin: 0px;
+}
+
+.event-result p {
+    margin: 0px;
+}

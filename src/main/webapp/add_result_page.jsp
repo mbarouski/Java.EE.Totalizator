@@ -54,7 +54,7 @@
                         <input name="loser-score" type="text" pattern="[0-9]+"/>
                     </div>
                     <div class="btn-container">
-                        <button class="submit-btn" type="submit"><fmt:message bundle="${loc}" key="link.addEventResult"/></button>
+                        <button style="width: 300px;" class="submit-btn" type="submit"><fmt:message bundle="${loc}" key="link.addEventResult"/></button>
                     </div>
                 </form>
             </div>

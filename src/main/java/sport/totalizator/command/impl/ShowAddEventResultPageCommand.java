@@ -1,8 +1,10 @@
 package sport.totalizator.command.impl;
 
 import org.apache.log4j.Logger;
+import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
+import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.MemberService;
@@ -23,6 +25,7 @@ public class ShowAddEventResultPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         checkRoots(req, new User.Role[]{MODERATOR});
+        CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         String eventId = req.getParameter("eventId");
         try{
             int intEventId = Integer.parseInt(eventId);

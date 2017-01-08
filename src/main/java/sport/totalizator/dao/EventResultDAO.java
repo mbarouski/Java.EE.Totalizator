@@ -4,5 +4,7 @@ import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.entity.EventResult;
 
 public interface EventResultDAO {
-    EventResult addEventReslt(EventResult eventResult) throws DAOException;
+    EventResult addEventResult(EventResult eventResult) throws DAOException;
+
+    EventResult getEventResultByEvent(int eventId) throws DAOException;
 }

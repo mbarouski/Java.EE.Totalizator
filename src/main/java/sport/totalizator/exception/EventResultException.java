@@ -37,4 +37,8 @@ public class EventResultException extends Exception {
     public List<String> getErrorMessageList() {
         return errorMessageList;
     }
+
+    public void addErrorMessage(String message){
+        errorMessageList.add(message);
+    }
 }

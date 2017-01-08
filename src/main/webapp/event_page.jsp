@@ -21,16 +21,18 @@
                         <p class="event-league">${event.eventLeague}</p>
                         <time>Дата начала: ${event.eventDate} ${event.eventTime}</time>
                     </div>
-                    <c:if test="${event.status eq 'FINISHED'}">
-                        <div class="event-result">
-                            <h6>Results</h6>
-                        </div>
-                    </c:if>
-                    <c:if test="${sessionScope.role eq 'MODERATOR'}">
-                        <div class="event-result">
-                            <a class="add-result-link" href="<c:url value="main?command=showAddEventResultPage&eventId=${event.eventId}"/>"><fmt:message bundle="${loc}" key="link.addEventResult"/></a>
-                        </div>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${event.status eq 'FINISHED'}">
+                            <div class="event-result">
+                                <p>${event.result.winnerScore} : ${event.result.loserScore}</p>
+                            </div>
+                        </c:when>
+                        <c:when test="${sessionScope.role eq 'MODERATOR'}">
+                            <div class="event-result">
+                                <a class="add-result-link" href="<c:url value="main?command=showAddEventResultPage&eventId=${event.eventId}"/>"><fmt:message bundle="${loc}" key="link.addEventResult"/></a>
+                            </div>
+                        </c:when>
+                    </c:choose>
                 </div>
                 <c:if test="${!empty event.liveTranslationLink}">
                     <div class="event-live">

@@ -18,4 +18,6 @@ public interface EventDAO {
 
     Event addEvent(Event event) throws DAOException;
 
+    void finishEvent(int eventId) throws DAOException;
+
 }
