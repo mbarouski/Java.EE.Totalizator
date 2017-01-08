@@ -7,10 +7,15 @@ import sport.totalizator.dao.RateDAO;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
+import sport.totalizator.entity.Event;
 import sport.totalizator.entity.EventResult;
+import sport.totalizator.entity.Rate;
 import sport.totalizator.exception.EventResultException;
 import sport.totalizator.service.EventResultService;
 import sport.totalizator.service.exception.ServiceException;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public class EventResultServiceImpl implements EventResultService {
     private static final EventResultServiceImpl instance = new EventResultServiceImpl();
@@ -57,11 +62,25 @@ public class EventResultServiceImpl implements EventResultService {
         try{
             eventResultDAO.addEventResult(eventResult);
             eventDAO.finishEvent(eventResult.getEventId());
-
+            //distributePrize(eventResult);
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);
         }
         return eventResult;
+    }
+
+    private void distributePrize(EventResult eventResult){
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    BigDecimal fullMoneyAmount = rateDAO.getFullMoneyAmountForEvent(eventResult.getEventId());
+                    List<Rate> rateList = rateDAO.getRatesForEvent(eventResult.getEventId());
+                } catch (Exception exc){
+                    log.error(exc);
+                }
+            }
+        })).run();
     }
 }

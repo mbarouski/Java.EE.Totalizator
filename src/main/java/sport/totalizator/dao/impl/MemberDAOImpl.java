@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemberDAOImpl implements MemberDAO {
+    private static final String SQL_FOR_GET_MEMBER_NAME_BY_ID = "SELECT `member_name` " +
+            "FROM `eventmember` " +
+            "WHERE `member_id` = ?;";
 
     private static final Logger log = Logger.getLogger(MemberDAOImpl.class);
     private static final MemberDAOImpl instance = new MemberDAOImpl();
@@ -141,6 +144,51 @@ public class MemberDAOImpl implements MemberDAO {
                         member.setName(resultSet.getString("name"));
                         member.setId(resultSet.getInt("member_id"));
                         result.add(member);
+                    }
+                } catch (SQLException exc){
+                    log.error(exc);
+                    throw new DAOException(exc);
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public String getMemberNameById(int memberId) throws DAOException {
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        String result = null;
+        try{
+            connection = pool.getConnection();
+            try{
+                statement = connection.prepareStatement(SQL_FOR_GET_MEMBER_NAME_BY_ID);
+                statement.setInt(1, memberId);
+                statement.execute();
+                try{
+                    resultSet = statement.getResultSet();
+                    if(resultSet.next()){
+                        result = resultSet.getString("member_name");
                     }
                 } catch (SQLException exc){
                     log.error(exc);

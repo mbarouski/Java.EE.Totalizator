@@ -24,7 +24,7 @@
                     <c:choose>
                         <c:when test="${event.status eq 'FINISHED'}">
                             <div class="event-result">
-                                <p>${event.result.winnerScore} : ${event.result.loserScore}</p>
+                                <p>${event.result.winnerName} (${event.result.winnerScore}) : (${event.result.loserScore}) ${event.result.loserName}</p>
                             </div>
                         </c:when>
                         <c:when test="${sessionScope.role eq 'MODERATOR'}">

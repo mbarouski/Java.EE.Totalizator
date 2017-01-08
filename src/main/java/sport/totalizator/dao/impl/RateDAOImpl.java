@@ -6,6 +6,7 @@ import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Rate;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,14 @@ import java.util.Map;
 import static sport.totalizator.entity.Rate.*;
 
 public class RateDAOImpl implements RateDAO{
+    private static final String SQL_FOR_GET_FULL_MONEY_AMOUNT_FOR_EVENT = "SELECT sum(`money`) AS `money` " +
+            "FROM `rate` " +
+            "WHERE `event_id` = ?;";
+    private static final String SQL_FOR_GET_RATES_FOR_EVENT = "SELECT `rate_id`, `user_id`, `money`, `rate_type`, " +
+            "`event_member1_id`, `event_member1_score`, `event_member2_id`, `event_member2_score` " +
+            "FROM `rate` " +
+            "WHERE `event_id` = ?;";
+
     private static final Logger log = Logger.getLogger(RateDAOImpl.class);
     private static final RateDAOImpl instance = new RateDAOImpl();
     private static final ConnectionPool pool = ConnectionPool.getConnectionPool();
@@ -192,5 +201,103 @@ public class RateDAOImpl implements RateDAO{
             }
         }
         return rate;
+    }
+
+    @Override
+    public BigDecimal getFullMoneyAmountForEvent(int eventId) throws DAOException {
+        BigDecimal result = BigDecimal.valueOf(0.0);
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try{
+            connection = pool.getConnection();
+            try{
+                statement = connection.prepareStatement(SQL_FOR_GET_FULL_MONEY_AMOUNT_FOR_EVENT);
+                statement.setInt(1, eventId);
+                statement.execute();
+                try {
+                    resultSet = statement.getResultSet();
+                    if(resultSet.next()){
+                        result = resultSet.getBigDecimal("money");
+                    }
+                } catch (SQLException exc){
+                    log.error(exc);
+                    throw new DAOException(exc);
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<Rate> getRatesForEvent(int eventId) throws DAOException {
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        List<Rate> result = new ArrayList<>();
+        try{
+            connection = pool.getConnection();
+            try{
+                statement = connection.prepareStatement(SQL_FOR_GET_RATES_FOR_EVENT);
+                statement.setInt(1, eventId);
+                statement.execute();
+                try{
+                    resultSet = statement.getResultSet();
+                    Rate rate;
+                    while(resultSet.next()){
+                        rate = new Rate();
+                        rate.setRateId(resultSet.getInt("rate_id"));
+                        rate.setUserId(resultSet.getInt("user_id"));
+                        rate.setType(resultSet.getString("rate_type"));
+                        rate.setSum(resultSet.getBigDecimal("money"));
+                        rate.setMember1Id(resultSet.getInt("event_member1_id"));
+                        rate.setMember2Id(resultSet.getInt("event_member2_id"));
+                        rate.setMember1Score(resultSet.getInt("event_member1_score"));
+                        rate.setMember2Score(resultSet.getInt("event_member2_score"));
+                        result.add(rate);
+                    }
+                } catch (SQLException exc){
+                    log.error(exc);
+                    throw new DAOException(exc);
+                } finally {
+                    if(resultSet != null){
+                        resultSet.close();
+                    }
+                }
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return result;
     }
 }

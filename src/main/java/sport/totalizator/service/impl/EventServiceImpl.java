@@ -7,6 +7,7 @@ import sport.totalizator.dao.MemberDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.entity.Event;
+import sport.totalizator.entity.EventResult;
 import sport.totalizator.exception.EventException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
@@ -81,7 +82,12 @@ public class EventServiceImpl implements EventService {
         try{
             Event event = eventDAO.getEventById(eventId);
             event.setMembers(memberDAO.getMembersByEvent(event.getEventId()));
-            event.setResult(eventResultDAO.getEventResultByEvent(eventId));
+            EventResult eventResult = eventResultDAO.getEventResultByEvent(eventId);
+            if(eventResult != null) {
+                eventResult.setWinnerName(memberDAO.getMemberNameById(eventResult.getWinnerId()));
+                eventResult.setLoserName(memberDAO.getMemberNameById(eventResult.getLoserId()));
+            }
+            event.setResult(eventResult);
             return event;
         } catch (DAOException exc){
             log.error(exc);

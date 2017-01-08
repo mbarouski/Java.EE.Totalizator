@@ -15,7 +15,7 @@ import java.util.List;
 
 public class EventDAOImpl implements EventDAO{
     private static final String SQL_FOR_FINISH_EVENT = "UPDATE `event` " +
-            "SET `event_status` = 'FINISH' " +
+            "SET `event_status` = 'FINISHED' " +
             "WHERE `event_id` = ?;";
 
     private static final Logger log = Logger.getLogger(EventDAOImpl.class);
@@ -248,12 +248,12 @@ public class EventDAOImpl implements EventDAO{
     public void finishEvent(int eventId) throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
         try{
             connection = pool.getConnection();
             try {
                 statement = connection.prepareStatement(SQL_FOR_FINISH_EVENT);
                 statement.setInt(1, eventId);
+                statement.executeUpdate();
             } catch (SQLException exc){
                 log.error(exc);
                 throw new DAOException(exc);

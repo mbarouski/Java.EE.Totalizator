@@ -6,6 +6,8 @@ public class EventResult {
     private int loserId;
     private int winnerScore;
     private int loserScore;
+    private String winnerName;
+    private String loserName;
 
     public int getEventId() {
         return eventId;
@@ -45,5 +47,21 @@ public class EventResult {
 
     public void setLoserScore(int loserScore) {
         this.loserScore = loserScore;
+    }
+
+    public String getWinnerName() {
+        return winnerName;
+    }
+
+    public void setWinnerName(String winnerName) {
+        this.winnerName = winnerName;
+    }
+
+    public String getLoserName() {
+        return loserName;
+    }
+
+    public void setLoserName(String loserName) {
+        this.loserName = loserName;
     }
 }

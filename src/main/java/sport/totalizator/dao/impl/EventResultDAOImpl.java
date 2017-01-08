@@ -106,4 +106,5 @@ public class EventResultDAOImpl implements EventResultDAO {
         }
         return eventResult;
     }
+
 }

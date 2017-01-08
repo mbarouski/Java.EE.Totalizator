@@ -25,9 +25,13 @@ public class ShowEventPageCommand implements ICommand{
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         EventService eventService = ServiceFactory.getInstance().getEventService();
-        int eventId = Integer.parseInt(req.getParameter("eventId"));
+        String eventId = req.getParameter("eventId");
+        if(eventId == null){
+            eventId = (String)req.getAttribute("eventId");
+        }
+        int intEventId = Integer.parseInt(eventId);
         try {
-            Event event = eventService.getEventById(eventId);
+            Event event = eventService.getEventById(intEventId);
             req.setAttribute("event", event);
         } catch (ServiceException exc){
             log.error(exc);

@@ -27,6 +27,9 @@ public class ShowAddEventResultPageCommand implements ICommand {
         checkRoots(req, new User.Role[]{MODERATOR});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         String eventId = req.getParameter("eventId");
+        if(eventId == null){
+            eventId = (String)req.getAttribute("eventId");
+        }
         try{
             int intEventId = Integer.parseInt(eventId);
             req.setAttribute("members", memberService.getMembersByEvent(intEventId));

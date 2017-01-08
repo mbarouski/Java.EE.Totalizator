@@ -19,6 +19,7 @@ public class Rate {
     private int member2Id;
     private int member1Score;
     private int member2Score;
+    private int rateId;
 
 
     public Rate(){
@@ -111,5 +112,13 @@ public class Rate {
 
     public void setMember2Score(int member2Score) {
         this.member2Score = member2Score;
+    }
+
+    public int getRateId() {
+        return rateId;
+    }
+
+    public void setRateId(int rateId) {
+        this.rateId = rateId;
     }
 }

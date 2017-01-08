@@ -11,4 +11,6 @@ public interface MemberDAO {
     List<Member> getMembersByEvent(int eventId) throws DAOException;
 
     void attachMembersToEvent(List<Integer> memberIds, int eventId) throws DAOException;
+
+    String getMemberNameById(int memberId) throws DAOException;
 }
