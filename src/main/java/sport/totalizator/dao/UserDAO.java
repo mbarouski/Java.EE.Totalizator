@@ -19,7 +19,7 @@ public interface UserDAO {
 
     int getUserIdByLogin(String login) throws DAOException;
 
-    Operation fillUpBalanceForUser(Operation operation) throws DAOException;
+    void fillUpBalanceForUser(int userId, BigDecimal money) throws DAOException;
 
     void withdrawMoneyFromUser(int userId, BigDecimal money) throws DAOException;
 

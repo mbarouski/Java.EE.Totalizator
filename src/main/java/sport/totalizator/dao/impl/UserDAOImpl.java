@@ -256,7 +256,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Operation fillUpBalanceForUser(Operation operation) throws DAOException {
+    public void fillUpBalanceForUser(int userId, BigDecimal money) throws DAOException {
         String sql = "UPDATE `user` " +
                 "SET `balance` = `balance` + ? " +
                 "WHERE `user_id` = ?;";
@@ -268,8 +268,8 @@ public class UserDAOImpl implements UserDAO {
             Savepoint savepoint = connection.setSavepoint();
             try {
                 statement = connection.prepareStatement(sql);
-                statement.setBigDecimal(1, operation.getAmount());
-                statement.setInt(2, operation.getUserId());
+                statement.setBigDecimal(1, money);
+                statement.setInt(2, userId);
                 statement.executeUpdate();
             } catch (SQLException exc) {
                 connection.rollback(savepoint);
@@ -289,7 +289,6 @@ public class UserDAOImpl implements UserDAO {
                 pool.returnConnectionToPool(connection);
             }
         }
-        return operation;
     }
 
     @Override

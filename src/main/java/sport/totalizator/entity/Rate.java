@@ -3,10 +3,10 @@ package sport.totalizator.entity;
 import java.math.BigDecimal;
 
 public class Rate {
-    public static String WIN = "WIN";
-    public static String DRAW = "DRAW";
-    public static String FIRST_GOAL = "FIRST_GOAL";
-    public static String EXACT_SCORE = "EXACT_SCORE";
+    public static final String WIN = "WIN";
+    public static final String DRAW = "DRAW";
+    public static final String FIRST_GOAL = "FIRST_GOAL";
+    public static final String EXACT_SCORE = "EXACT_SCORE";
 
     private String eventName;
     private int eventId;

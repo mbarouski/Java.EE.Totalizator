@@ -23,6 +23,9 @@ public class RateDAOImpl implements RateDAO{
             "`event_member1_id`, `event_member1_score`, `event_member2_id`, `event_member2_score` " +
             "FROM `rate` " +
             "WHERE `event_id` = ?;";
+    private static final String SQL_FOR_SET_WIN_FOR_RATE = "UPDATE `rate` " +
+            "SET `win_money` = ? " +
+            "WHERE `rate_id` = ?;";
 
     private static final Logger log = Logger.getLogger(RateDAOImpl.class);
     private static final RateDAOImpl instance = new RateDAOImpl();
@@ -153,7 +156,6 @@ public class RateDAOImpl implements RateDAO{
         Map<String, String> sqlMap = new HashMap<>();
         sqlMap.put(WIN, "INSERT INTO `rate`(`user_id`, `event_id`, `money`, `rate_type`, `event_member1_id`) " +
                 "VALUES(?, ?, ?, ?, ?);");
-        sqlMap.put(FIRST_GOAL, sqlMap.get(WIN));
         sqlMap.put(DRAW, "INSERT INTO `rate`(`user_id`, `event_id`, `money`, `rate_type`) " +
                 "VALUES(?, ?, ?, ?);");
         sqlMap.put(EXACT_SCORE, "INSERT INTO `rate`(`user_id`, `event_id`, `money`, `rate_type`, " +
@@ -299,5 +301,38 @@ public class RateDAOImpl implements RateDAO{
             }
         }
         return result;
+    }
+
+    @Override
+    public void setWinForRate(Rate rate) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            connection.setAutoCommit(false);
+            Savepoint savepoint = connection.setSavepoint();
+            try {
+                statement = connection.prepareStatement(SQL_FOR_SET_WIN_FOR_RATE);
+                statement.setBigDecimal(1, rate.getWin());
+                statement.setInt(2, rate.getRateId());
+                statement.executeUpdate();
+            } catch (SQLException exc) {
+                connection.rollback(savepoint);
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                connection.setAutoCommit(true);
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
     }
 }

@@ -16,4 +16,6 @@ public interface RateDAO {
     BigDecimal getFullMoneyAmountForEvent(int eventId) throws DAOException;
 
     List<Rate> getRatesForEvent(int eventId) throws DAOException;
+
+    void setWinForRate(Rate rate) throws DAOException;
 }
