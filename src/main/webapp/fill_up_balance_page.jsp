@@ -31,22 +31,22 @@
                         </c:if>
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.card-number"/></label>
-                            <input type="text" name="card-number" pattern="[0-9]{16}" required
+                            <input placeholder="XXXXXXXXXXXXXXXX" type="text" name="card-number" pattern="[0-9]{16}" required
                                    value="<c:out value="${operation.cardNumber}"/>"/>
                         </div>
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.validity-period"/></label>
-                            <input type="text" name="validity-date" pattern="[0-9]{2}/[0-9]{2}" required
+                            <input placeholder="XX/XX" type="text" name="validity-date" pattern="[0-9]{2}/[0-9]{2}" required
                                    value="<c:out value="${operation.validityDate}"/>"/>
                         </div>
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.card-code"/></label>
-                            <input type="text" name="card-code" pattern="[0-9]{3}" required
+                            <input placeholder="XXX" type="text" name="card-code" pattern="[0-9]{3}" required
                                    value="<c:out value="${operation.cardCode}"/>"/>
                         </div>
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.amount"/></label>
-                            <input type="text" name="amount" pattern="[0-9]{1,3}\.[0-9]{1,2}" required
+                            <input placeholder="XXX.XX" type="text" name="amount" pattern="[0-9]{1,3}\.[0-9]{1,2}" required
                                    value="<c:out value="${operation.amount}"/>"/>
                         </div>
                         <div class="btn-container">

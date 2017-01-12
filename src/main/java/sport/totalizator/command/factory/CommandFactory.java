@@ -45,6 +45,12 @@ public class CommandFactory {
         commands.put(MAKE_RATE, new MakeRateCommand());
         commands.put(SHOW_ADD_EVENT_RESULT_PAGE, new ShowAddEventResultPageCommand());
         commands.put(ADD_EVENT_RESULT, new AddEventResultCommand());
+        commands.put(SHOW_ADD_CATEGORY_PAGE, new ShowAddCategoryPageCommand());
+        commands.put(ADD_CATEGORY, new AddCategoryCommand());
+        commands.put(ADD_LEAGUE, new AddLeagueCommand());
+        commands.put(ADD_MEMBER, new AddMemberCommand());
+        commands.put(SHOW_ADD_MEMBER_PAGE, new ShowAddMemberPageCommand());
+        commands.put(SHOW_ADD_LEAGUE_PAGE, new ShowAddLeaguePageCommand());
     }
 
     public ICommand createCommand(CommandEnum command){

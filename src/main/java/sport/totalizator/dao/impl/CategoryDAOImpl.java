@@ -6,14 +6,13 @@ import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Category;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDAOImpl implements CategoryDAO{
+    private static final String SQL_FOR_ADD_CATEGORY = "INSERT INTO `eventcategory` (`category_name`) VALUES (?);";
+
     private static final CategoryDAOImpl instance = new CategoryDAOImpl();
     private static final Logger log = Logger.getLogger(CategoryDAOImpl.class);
     private final ConnectionPool pool = ConnectionPool.getConnectionPool();
@@ -67,6 +66,35 @@ public class CategoryDAOImpl implements CategoryDAO{
         Category category = new Category();
         category.setId(resultSet.getInt("category_id"));
         category.setName(resultSet.getString("category_name"));
+        return category;
+    }
+
+    @Override
+    public Category addCategory(Category category) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            try {
+                statement = connection.prepareStatement(SQL_FOR_ADD_CATEGORY);
+                statement.setString(1, category.getName());
+                statement.executeUpdate();
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
         return category;
     }
 }

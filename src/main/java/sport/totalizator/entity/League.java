@@ -9,6 +9,8 @@ public class League {
     @JsonProperty("name")
     private String name;
 
+    private int categoryId;
+
     public int getId() {
         return id;
     }
@@ -23,5 +25,13 @@ public class League {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

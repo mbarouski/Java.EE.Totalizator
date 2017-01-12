@@ -13,7 +13,6 @@ import sport.totalizator.service.exception.ServiceException;
 import java.math.BigDecimal;
 
 import static sport.totalizator.entity.Rate.EXACT_SCORE;
-import static sport.totalizator.entity.Rate.FIRST_GOAL;
 import static sport.totalizator.entity.Rate.WIN;
 
 public class RateServiceImpl implements RateService {
@@ -52,7 +51,7 @@ public class RateServiceImpl implements RateService {
         }
         rate.setType(type);
         rate.setEventId(checkInt(eventId, rateException, "err.event-id-is-invalid"));
-        if(type.equals(FIRST_GOAL) || type.equals(WIN)){
+        if(type.equals(WIN)){
             rate.setMember1Id(checkInt(member1Id, rateException, "err.member-id-is-invalid"));
         }
         if(type.equals(EXACT_SCORE)){

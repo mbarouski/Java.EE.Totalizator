@@ -37,11 +37,13 @@
                         <tr class="table-header">
                             <th>Событие</th>
                             <th>Сумма ставки</th>
+                            <th>Тип ставки</th>
                         </tr>
                         <c:forEach var="rate" items="${user.activeRates}">
                             <tr>
                                 <td><a href="<c:url value="main?command=showEventPage&eventId=${rate.eventId}"/>">${rate.eventName}</a></td>
                                 <td>${rate.sum}</td>
+                                <td><fmt:message bundle="${loc}" key="${rate.type}"/></td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -54,12 +56,14 @@
                         <tr class="table-header">
                             <th>Событие</th>
                             <th>Сумма ставки</th>
+                            <th>Тип ставки</th>
                             <th>Выигрыш</th>
                         </tr>
                         <c:forEach var="rate" items="${user.finishedRates}">
                             <tr>
                                 <td><a href="<c:url value="main?command=showEventPage&eventId=${rate.eventId}"/>">${rate.eventName}</a></td>
                                 <td>${rate.sum}</td>
+                                <td><fmt:message bundle="${loc}" key="${rate.type}"/></td>
                                 <td>${rate.win}</td>
                             </tr>
                         </c:forEach>

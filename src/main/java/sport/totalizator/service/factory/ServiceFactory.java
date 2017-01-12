@@ -39,4 +39,8 @@ public class ServiceFactory {
     public EventResultService getEventResultService() {
         return EventResultServiceImpl.getInstance();
     }
+
+    public CategoryService getCategoryService() {
+        return CategoryServiceImpl.getInstance();
+    }
 }

@@ -204,6 +204,7 @@ header nav a {
 	border-radius: 3px;
 	padding: 3px;
 	transition: 0.3s linear;
+	margin-right: 10px;
 }
 
 .admin-panel a:hover {

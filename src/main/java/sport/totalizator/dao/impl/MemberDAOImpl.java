@@ -17,6 +17,8 @@ public class MemberDAOImpl implements MemberDAO {
     private static final String SQL_FOR_GET_MEMBER_NAME_BY_ID = "SELECT `member_name` " +
             "FROM `eventmember` " +
             "WHERE `member_id` = ?;";
+    private static final String SQL_FOR_ADD_MEMBER = "INSERT INTO `eventmember`(`league_id`, `member_name`) " +
+            "VALUES(?, ?);";
 
     private static final Logger log = Logger.getLogger(MemberDAOImpl.class);
     private static final MemberDAOImpl instance = new MemberDAOImpl();
@@ -216,5 +218,35 @@ public class MemberDAOImpl implements MemberDAO {
         }
 
         return result;
+    }
+
+    @Override
+    public Member addMember(Member member) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            try {
+                statement = connection.prepareStatement(SQL_FOR_ADD_MEMBER);
+                statement.setInt(1, member.getLeagueId());
+                statement.setString(2, member.getName());
+                statement.executeUpdate();
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return member;
     }
 }

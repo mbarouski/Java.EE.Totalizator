@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeagueDAOImpl implements LeagueDAO {
+    private final static String SQL_FOR_ADD_LEAGUE = "INSERT INTO `league`(`event_category_id`, `league_name`) " +
+            "VALUES(?, ?);";
+
 
     private static final Logger log = Logger.getLogger(LeagueDAOImpl.class);
     private static final LeagueDAOImpl instance = new LeagueDAOImpl();
@@ -77,5 +80,35 @@ public class LeagueDAOImpl implements LeagueDAO {
             }
         }
         return result;
+    }
+
+    @Override
+    public League addLeague(League league) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            try {
+                statement = connection.prepareStatement(SQL_FOR_ADD_LEAGUE);
+                statement.setInt(1, league.getCategoryId());
+                statement.setString(2, league.getName());
+                statement.executeUpdate();
+            } catch (SQLException exc){
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+        return league;
     }
 }

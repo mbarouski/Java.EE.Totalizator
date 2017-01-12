@@ -5,8 +5,10 @@
 <head>
     <meta charset="utf-8">
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="styles/form.css" />" />
-    <script src="<c:url value="js/script_for_make_rate.js" />"></script>
+    <script src="<c:url value="js/load_data.js" />"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value="styles/jquery/jquery.datetimepicker.css" />"/>
     <title>Totalizator</title>
 </head>
 <body>
@@ -17,9 +19,9 @@
 
         <div class="center-part">
             <div class="form" style="width: 600px;">
-                <form class="form" method="post" onsubmit="" action="main?command=makeRate" charset="UTF-8">
+                <form class="form" method="post" onsubmit="" action="main?command=addLeague" charset="UTF-8">
                     <div class="header-div">
-                        <p class="form-header"><fmt:message bundle="${loc}" key="link.make-rate"/></p>
+                        <p class="form-header"><fmt:message bundle="${loc}" key="link.addLeague"/></p>
                     </div>
                     <c:if test="${!empty success}">
                         <div class="success-div">
@@ -31,28 +33,22 @@
                                 ${error}
                         </div>
                     </c:if>
+
                     <div class="input-div">
-                        <input id="event-id-input" type="text" name="event-id" required value="<c:out value="${eventId}"/>" hidden/>
-                    </div>
-                    <div class="input-div">
-                        <label>Rate type</label>
-                        <select id="rate-type-select" name="rate-type" size="1" onchange="onRateTypeSelectChange()">
-                            <option selected value="">Choose rate type</option>
-                            <option value="WIN">Win</option>
-                            <option value="DRAW">Draw</option>
-                            <option value="EXACT_SCORE">Exact score</option>
+                        <label>Категория</label>
+                        <select name="category-id" required>
+                            <option selected>Выберите категорию</option>
+                            <c:forEach var="category" items="${categories}">
+                                <option value="${category.id}">${category.name}</option>
+                            </c:forEach>
                         </select>
                     </div>
-                    <div id="changable-part" class="changable-part">
-
-                    </div>
                     <div class="input-div">
-                        <label>Money</label>
-                        <input placeholder="XXX.XX" type="text" name="money" pattern="[0-9]{1,3}\.[0-9]{1,2}" required
-                               value="<c:out value="${rate.sum}"/>"/>
+                        <label>Название</label>
+                        <input type="text" name="name" required />
                     </div>
                     <div class="btn-container">
-                        <button class="submit-btn" type="submit"><fmt:message bundle="${loc}" key="link.make-rate"/></button>
+                        <button class="submit-btn" type="submit"><fmt:message bundle="${loc}" key="link.addLeague"/></button>
                     </div>
                 </form>
             </div>

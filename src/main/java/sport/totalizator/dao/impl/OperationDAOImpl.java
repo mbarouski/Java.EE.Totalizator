@@ -9,8 +9,11 @@ import sport.totalizator.exception.OperationException;
 import sport.totalizator.exception.UserException;
 
 import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 public class OperationDAOImpl implements OperationDAO {
+    private static final long ONE_DAY = 86_400_000;
     public static final String INPUT = "INPUT";
     public static final String OUTPUT = "OUTPUT";
 
@@ -65,7 +68,7 @@ public class OperationDAOImpl implements OperationDAO {
 
     @Override
     public boolean canFillUpBalanceForUser(int userId) throws DAOException {
-        String sql = "SELECT (TO_DAYS(now()) - TO_DAYS(`date`)) > 1 AS `flag` " +
+        String sql = "SELECT `date` " +
                 "FROM `moneyoperation` " +
                 "WHERE `user_id` = ? " +
                 "ORDER BY `date` " +
@@ -83,8 +86,12 @@ public class OperationDAOImpl implements OperationDAO {
                 statement.execute();
                 try {
                     resultSet = statement.getResultSet();
-                    while(resultSet.next()){
-                        result = resultSet.getBoolean("flag");
+                    if(resultSet.next()){
+                        long time = resultSet.getDate("date").getTime() + resultSet.getTime("date").getTime();
+                        long nowTime = new java.util.Date().getTime();
+                        result = nowTime - time > ONE_DAY;
+                    } else{
+                        result = true;
                     }
                 } catch (SQLException exc){
                     log.error(exc);

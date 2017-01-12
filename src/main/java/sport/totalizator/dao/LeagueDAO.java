@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface LeagueDAO {
     List<League> getLeaguesByCategory(int categoryId) throws DAOException;
+
+    League addLeague(League league) throws DAOException;
 }

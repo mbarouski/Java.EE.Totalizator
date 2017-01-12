@@ -8,4 +8,6 @@ import java.util.List;
 public interface CategoryDAO {
 
     List<Category> getAllCategories() throws DAOException;
+
+    Category addCategory(Category category) throws DAOException;
 }

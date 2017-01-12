@@ -9,7 +9,6 @@ import sport.totalizator.entity.User;
 import sport.totalizator.exception.RateException;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.RateService;
-import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
 import sport.totalizator.util.MessageLocalizer;
@@ -19,9 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static sport.totalizator.entity.Rate.EXACT_SCORE;
-import static sport.totalizator.entity.Rate.FIRST_GOAL;
-import static sport.totalizator.entity.Rate.WIN;
 import static sport.totalizator.entity.User.Role.ADMINISTRATOR;
 import static sport.totalizator.entity.User.Role.MODERATOR;
 import static sport.totalizator.entity.User.Role.USER;
@@ -36,20 +32,13 @@ public class MakeRateCommand implements ICommand{
         String type = req.getParameter("rate-type");
         String money = req.getParameter("money");
         String eventId = req.getParameter("event-id");
-        String member1Id = null;
-        String member2Id = null;
-        String member1Score = null;
-        String member2Score = null;
-        if(type.equals(WIN) || type.equals(FIRST_GOAL)){
-            member1Id = req.getParameter("member-1");
-        }
-        if(type.equals(EXACT_SCORE)){
-            member2Id = req.getParameter("member-2");
-            member1Score = req.getParameter("member-1-score");
-            member2Score = req.getParameter("member-2-score");
-        }
+        String member1Id = req.getParameter("member-1");
+        String member2Id = req.getParameter("member-2");
+        String member1Score = req.getParameter("member-1-score");
+        String member2Score = req.getParameter("member-2-score");
+        String username = (String)req.getSession().getAttribute("username");
         try {
-            rateService.makeRate(type, eventId, (String)req.getSession().getAttribute("username"), money, member1Id, member1Score, member2Id, member2Score);
+            rateService.makeRate(type, eventId, username, money, member1Id, member1Score, member2Id, member2Score);
         }
         catch(ServiceException exc){
             log.error(exc);

@@ -88,6 +88,14 @@ public class EventServiceImpl implements EventService {
                 eventResult.setLoserName(memberDAO.getMemberNameById(eventResult.getLoserId()));
             }
             event.setResult(eventResult);
+            long eventTime = event.getEventTime().getTime() + event.getEventDate().getTime();
+            long nowTime = new java.util.Date().getTime();
+            if(!(event.getStatus().equals("FINISHED")) && (eventTime < nowTime)){
+                event.setCanAddResult(true);
+            }
+            if((eventTime > nowTime) && !(event.getStatus().equals("FINISHED"))){
+                event.setCanMakeRate(true);
+            }
             return event;
         } catch (DAOException exc){
             log.error(exc);

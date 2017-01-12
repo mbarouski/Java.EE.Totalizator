@@ -74,10 +74,10 @@
                             <label>Ничья</label>
                             <div><input type="checkbox" name="drawRate" value="DRAW"></div>
                         </div>
-                        <div class="checkbox">
-                            <label>Первый гол</label>
-                            <div><input type="checkbox" name="firstGoalRate" value="FIRST_GOAL"></div>
-                        </div>
+                        <%--<div class="checkbox">--%>
+                            <%--<label>Первый гол</label>--%>
+                            <%--<div><input type="checkbox" name="firstGoalRate" value="FIRST_GOAL"></div>--%>
+                        <%--</div>--%>
                         <div class="checkbox">
                             <label>Точный счёт</label>
                             <div><input type="checkbox" name="exactScoreRate" value="EXACT_SCORE"></div>

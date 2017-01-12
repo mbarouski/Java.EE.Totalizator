@@ -40,7 +40,7 @@ public class RateDAOImpl implements RateDAO{
     @Override
     public List<Rate> getActiveRatesForUser(int userId) throws DAOException {
         List<Rate> result = new ArrayList<>();
-        String sql = "SELECT `rate`.`event_id`, `money`, `event_name`, `win_money`, `date` " +
+        String sql = "SELECT `rate`.`event_id`, `money`, `event_name`, `win_money`, `date`, `rate_type` " +
                 "FROM `rate` " +
                 "JOIN `event` " +
                 "ON `rate`.`event_id` = `event`.`event_id` " +
@@ -65,6 +65,7 @@ public class RateDAOImpl implements RateDAO{
                         rate.setEventId(resultSet.getInt("event_id"));
                         rate.setSum(resultSet.getBigDecimal("money"));
                         rate.setEventName(resultSet.getString("event_name"));
+                        rate.setType(resultSet.getString("rate_type"));
                         result.add(rate);
                     }
                 } catch (SQLException exc){
@@ -97,7 +98,7 @@ public class RateDAOImpl implements RateDAO{
     @Override
     public List<Rate> getFinishedRatesForUser(int userId) throws DAOException {
         List<Rate> result = new ArrayList<>();
-        String sql = "SELECT `rate`.`event_id`, `money`, `event_name`, `win_money`, `date` " +
+        String sql = "SELECT `rate`.`event_id`, `money`, `event_name`, `win_money`, `date`, `rate_type` " +
                 "FROM `rate` " +
                 "JOIN `event` " +
                 "ON `rate`.`event_id` = `event`.`event_id` " +
@@ -122,6 +123,7 @@ public class RateDAOImpl implements RateDAO{
                         rate.setSum(resultSet.getBigDecimal("money"));
                         rate.setEventName(resultSet.getString("event_name"));
                         rate.setWin(resultSet.getBigDecimal("win_money"));
+                        rate.setType(resultSet.getString("rate_type"));
                         result.add(rate);
                     }
                 } catch (SQLException exc){
@@ -173,7 +175,7 @@ public class RateDAOImpl implements RateDAO{
                 statement.setInt(2, rate.getEventId());
                 statement.setBigDecimal(3, rate.getSum());
                 statement.setString(4, rate.getType());
-                if((rate.getType().equals(WIN)) || (rate.getType().equals(FIRST_GOAL))){
+                if(rate.getType().equals(WIN)){
                     statement.setInt(5, rate.getMember1Id());
                 }
                 if(rate.getType().equals(EXACT_SCORE)){
@@ -181,7 +183,6 @@ public class RateDAOImpl implements RateDAO{
                     statement.setInt(6, rate.getMember1Score());
                     statement.setInt(7, rate.getMember2Id());
                     statement.setInt(8, rate.getMember2Score());
-
                 }
                 statement.executeUpdate();
             } catch (SQLException exc) {

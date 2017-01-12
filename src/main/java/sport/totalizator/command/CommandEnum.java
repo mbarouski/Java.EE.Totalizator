@@ -28,7 +28,13 @@ public enum CommandEnum {
     GET_MEMBERS_BY_EVENT_JSON("getMembersByEventJson"),
     MAKE_RATE("makeRate"),
     SHOW_ADD_EVENT_RESULT_PAGE("showAddEventResultPage"),
-    ADD_EVENT_RESULT("addEventResult");
+    ADD_EVENT_RESULT("addEventResult"),
+    SHOW_ADD_CATEGORY_PAGE("showAddCategoryPage"),
+    ADD_LEAGUE("addLeague"),
+    ADD_MEMBER("addMember"),
+    ADD_CATEGORY("addCategory"),
+    SHOW_ADD_LEAGUE_PAGE("showAddLeaguePage"),
+    SHOW_ADD_MEMBER_PAGE("showAddMemberPage");
 
 
     private String value;

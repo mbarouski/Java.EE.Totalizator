@@ -21,18 +21,18 @@
                         <p class="event-league">${event.eventLeague}</p>
                         <time>Дата начала: ${event.eventDate} ${event.eventTime}</time>
                     </div>
-                    <c:choose>
-                        <c:when test="${event.status eq 'FINISHED'}">
-                            <div class="event-result">
-                                <p>${event.result.winnerName} (${event.result.winnerScore}) : (${event.result.loserScore}) ${event.result.loserName}</p>
-                            </div>
-                        </c:when>
-                        <c:when test="${sessionScope.role eq 'MODERATOR'}">
+                    <c:if test="${event.status eq 'FINISHED'}">
+                        <div class="event-result">
+                            <p>${event.result.winnerName} (${event.result.winnerScore}) : (${event.result.loserScore}) ${event.result.loserName}</p>
+                        </div>
+                    </c:if>
+                    <c:if test="${sessionScope.role eq 'MODERATOR'}">
+                        <c:if test="${event.canAddResult}">
                             <div class="event-result">
                                 <a class="add-result-link" href="<c:url value="main?command=showAddEventResultPage&eventId=${event.eventId}"/>"><fmt:message bundle="${loc}" key="link.addEventResult"/></a>
                             </div>
-                        </c:when>
-                    </c:choose>
+                        </c:if>
+                    </c:if>
                 </div>
                 <c:if test="${!empty event.liveTranslationLink}">
                     <div class="event-live">
@@ -50,7 +50,7 @@
                 </div>
                 <c:choose>
                     <c:when test="${!empty sessionScope.username}">
-                        <c:if test="${sessionScope.role eq 'USER'}">
+                        <c:if test="${event.canMakeRate}">
                             <a class="make-rate-link" href="<c:url value="main?command=showMakeRatePage&eventId=${event.eventId}"/>"><fmt:message bundle="${loc}" key="link.make-rate"/></a>
                         </c:if>
                     </c:when>

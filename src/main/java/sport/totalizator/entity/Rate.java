@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 public class Rate {
     public static final String WIN = "WIN";
     public static final String DRAW = "DRAW";
-    public static final String FIRST_GOAL = "FIRST_GOAL";
     public static final String EXACT_SCORE = "EXACT_SCORE";
 
     private String eventName;
@@ -19,6 +18,8 @@ public class Rate {
     private int member2Id;
     private int member1Score;
     private int member2Score;
+    private String member1Name;
+    private String member2Name;
     private int rateId;
 
 
@@ -120,5 +121,21 @@ public class Rate {
 
     public void setRateId(int rateId) {
         this.rateId = rateId;
+    }
+
+    public String getMember1Name() {
+        return member1Name;
+    }
+
+    public void setMember1Name(String member1Name) {
+        this.member1Name = member1Name;
+    }
+
+    public String getMember2Name() {
+        return member2Name;
+    }
+
+    public void setMember2Name(String member2Name) {
+        this.member2Name = member2Name;
     }
 }

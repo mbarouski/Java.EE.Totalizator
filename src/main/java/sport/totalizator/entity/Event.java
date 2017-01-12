@@ -19,6 +19,8 @@ public class Event {
     private List<Integer> memberIds;
     private String status;
     private EventResult result;
+    private boolean canMakeRate;
+    private boolean canAddResult;
 
     public Event() {
     }
@@ -125,5 +127,21 @@ public class Event {
 
     public void setResult(EventResult result) {
         this.result = result;
+    }
+
+    public void setCanMakeRate(boolean canMakeRate) {
+        this.canMakeRate = canMakeRate;
+    }
+
+    public void setCanAddResult(boolean canAddResult) {
+        this.canAddResult = canAddResult;
+    }
+
+    public boolean isCanMakeRate() {
+        return canMakeRate;
+    }
+
+    public boolean isCanAddResult() {
+        return canAddResult;
     }
 }

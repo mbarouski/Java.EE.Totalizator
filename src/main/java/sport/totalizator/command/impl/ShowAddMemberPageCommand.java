@@ -1,6 +1,5 @@
 package sport.totalizator.command.impl;
 
-import org.apache.log4j.Logger;
 import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
@@ -13,18 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static sport.totalizator.entity.User.Role.ADMINISTRATOR;
 import static sport.totalizator.entity.User.Role.MODERATOR;
-import static sport.totalizator.entity.User.Role.USER;
 
-public class ShowMakeRatePageCommand implements ICommand{
-    private final static Logger log = Logger.getLogger(ShowMakeRatePageCommand.class);
-
+public class ShowAddMemberPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, new User.Role[]{USER, MODERATOR, ADMINISTRATOR});
+        checkRoots(req, new User.Role[]{MODERATOR});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
-        req.setAttribute("eventId", req.getParameter("eventId"));
-        req.getRequestDispatcher("make_rate_page.jsp").forward(req, resp);
+        req.getRequestDispatcher("add_member_page.jsp").forward(req, resp);
     }
 }
