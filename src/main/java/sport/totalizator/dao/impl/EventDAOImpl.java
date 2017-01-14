@@ -17,6 +17,48 @@ public class EventDAOImpl implements EventDAO{
     private static final String SQL_FOR_FINISH_EVENT = "UPDATE `event` " +
             "SET `event_status` = 'FINISHED' " +
             "WHERE `event_id` = ?;";
+    private static final String SQL_FOR_GET_ALL_NOT_ENDED_EVENTS_SORTED_BY_DATE = "SELECT `event`.`event_id` " +
+            "AS `id`, `event_name`, `league_name`,  `event_status`, " +
+            "`event_start_date` AS `date` " +
+            "FROM `event` " +
+            "LEFT JOIN `league` " +
+            "ON `event`.`league_id` = `league`.`league_id` " +
+            "WHERE `event_status` = 'POSTED' " +
+            "AND `event_start_date` > now() " +
+            "ORDER BY `date`;";
+    private static final String SQL_FOR_GET_ALL_NOT_ENDED_EVENTS_BY_CATEGORY_ID = "SELECT `event`.`event_id` AS `id`, " +
+            "`event_name`, `event_category_id`, `league_name`, `event_status`, " +
+            "`event_start_date` AS `date` " +
+            "FROM `event` " +
+            "LEFT JOIN `league` " +
+            "ON `event`.`league_id` = `league`.`league_id` " +
+            "WHERE `event_status` = 'POSTED' " +
+            "AND `event_start_date` > now()" +
+            "AND `event_category_id` = ?;";
+    private static final String SQL_FOR_GET_ALL_ENDED_EVENTS = "SELECT `event`.`event_id` " +
+            "AS `id`, `event_name`, `event_category_id`, `league_name`, " +
+            "`event_status`, `event_start_date` AS `date` " +
+            "FROM `event` " +
+            "LEFT JOIN `league` " +
+            "ON `event`.`league_id` = `league`.`league_id` " +
+            "WHERE `event_status` = 'FINISHED' " +
+            "OR `event_start_date` < now();";
+    private static final String SQL_GOR_GET_ALL_NOT_ENDED_EVENTS = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, " +
+            "`event_status`, `event_start_date` AS `date` " +
+            "FROM `event` " +
+            "LEFT JOIN `league` " +
+            "ON `event`.`league_id` = `league`.`league_id` " +
+            "WHERE `event_status` = 'POSTED' " +
+            "AND `event_start_date` > now();";
+    private static final String SQL_FOR_GET_EVENT_BY_ID = "SELECT `event_id` AS `id`, `event_name`, `rate_types`, `event_status`, " +
+            "`live_translation_reference` AS `link`, `event_start_date` AS `date`, `league_name` " +
+            "FROM `event` " +
+            "LEFT JOIN `league` " +
+            "ON `event`.`league_id` = `league`.`league_id` " +
+            "WHERE `event_id` = ?;";
+    private static final String SQL_FOR_ADD_EVENT = "INSERT INTO `event`(`event_name`, `league_id`, `rate_types`, " +
+            "`live_translation_reference`, `event_start_date`) " +
+            "VALUES (?, ?, ?, ?, ?);";
 
     private static final Logger log = Logger.getLogger(EventDAOImpl.class);
     private static final EventDAOImpl instance = new EventDAOImpl();
@@ -78,26 +120,11 @@ public class EventDAOImpl implements EventDAO{
     }
 
     public List<Event> getAllNotEndedEventsByCategoryId(int categoryId) throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, `league_name`, `event_status`, " +
-                "`event_start_date` AS `date` " +
-                "FROM `event` " +
-                "LEFT JOIN `league` " +
-                "ON `event`.`league_id` = `league`.`league_id` " +
-                "WHERE `event_status` = 'POSTED' " +
-                "AND `event_start_date` > now()" +
-                "AND `event_category_id` = ?;";
-        return getEventsBySql(sql, categoryId);
+        return getEventsBySql(SQL_FOR_GET_ALL_NOT_ENDED_EVENTS_BY_CATEGORY_ID, categoryId);
     }
 
     public List<Event> getAllEndedEvents() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `event_category_id`, `league_name`, " +
-                "`event_status`, `event_start_date` AS `date` " +
-                "FROM `event` " +
-                "LEFT JOIN `league` " +
-                "ON `event`.`league_id` = `league`.`league_id` " +
-                "WHERE `event_status` = 'FINISHED' " +
-                "OR `event_start_date` < now();";
-        return getEventsBySql(sql);
+        return getEventsBySql(SQL_FOR_GET_ALL_ENDED_EVENTS);
     }
 
     private void insertParamsIntoPreparedStatement(PreparedStatement statement, Object[] params) throws SQLException{
@@ -115,37 +142,16 @@ public class EventDAOImpl implements EventDAO{
 
     @Override
     public List<Event> getAllNotEndedEvents() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, " +
-                "`event_status`, `event_start_date` AS `date` " +
-                "FROM `event` " +
-                "LEFT JOIN `league` " +
-                "ON `event`.`league_id` = `league`.`league_id` " +
-                "WHERE `event_status` = 'POSTED' " +
-                "AND `event_start_date` > now();";
-        return getEventsBySql(sql);
+        return getEventsBySql(SQL_GOR_GET_ALL_NOT_ENDED_EVENTS);
     }
 
     @Override
     public List<Event> getAllNotEndedEventsSortedByDate() throws DAOException {
-        String sql = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`,  `event_status`, " +
-                "`event_start_date` AS `date` " +
-                "FROM `event` " +
-                "LEFT JOIN `league` " +
-                "ON `event`.`league_id` = `league`.`league_id` " +
-                "WHERE `event_status` = 'POSTED' " +
-                "AND `event_start_date` > now() " +
-                "ORDER BY `date`;";
-        return getEventsBySql(sql);
+        return getEventsBySql(SQL_FOR_GET_ALL_NOT_ENDED_EVENTS_SORTED_BY_DATE);
     }
 
     @Override
     public Event getEventById(int eventId) throws DAOException{
-        String sql = "SELECT `event_id` AS `id`, `event_name`, `rate_types`, `event_status`, " +
-                "`live_translation_reference` AS `link`, `event_start_date` AS `date`, `league_name` " +
-                "FROM `event` " +
-                "LEFT JOIN `league` " +
-                "ON `event`.`league_id` = `league`.`league_id` " +
-                "WHERE `event_id` = ?;";
         Event event = null;
         Connection connection = null;
         PreparedStatement statement = null;
@@ -153,7 +159,7 @@ public class EventDAOImpl implements EventDAO{
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_GET_EVENT_BY_ID);
                 statement.setInt(1, eventId);
                 statement.execute();
                 try {
@@ -197,16 +203,13 @@ public class EventDAOImpl implements EventDAO{
 
     @Override
     public Event addEvent(Event event) throws DAOException {
-        String sql = "INSERT INTO `event`(`event_name`, `league_id`, `rate_types`, `live_translation_reference`, `event_start_date`) " +
-                "VALUES (?, ?, ?, ?, ?);";
-
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try{
             connection = pool.getConnection();
             try {
-                statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                statement = connection.prepareStatement(SQL_FOR_ADD_EVENT, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, event.getEventName());
                 statement.setInt(2, event.getLeagueId());
                 statement.setString(3, event.getRateTypes());

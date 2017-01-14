@@ -12,6 +12,7 @@ import java.util.List;
 
 public class CategoryDAOImpl implements CategoryDAO{
     private static final String SQL_FOR_ADD_CATEGORY = "INSERT INTO `eventcategory` (`category_name`) VALUES (?);";
+    private static final String SQL_FOR_GET_ALL_CATEGORIES = "SELECT * FROM `eventcategory`";
 
     private static final CategoryDAOImpl instance = new CategoryDAOImpl();
     private static final Logger log = Logger.getLogger(CategoryDAOImpl.class);
@@ -25,13 +26,12 @@ public class CategoryDAOImpl implements CategoryDAO{
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM `eventcategory`";
         List<Category> result = new ArrayList<Category>();
         try {
             connection = pool.getConnection();
             try {
                 statement = connection.createStatement();
-                statement.execute(sql);
+                statement.execute(SQL_FOR_GET_ALL_CATEGORIES);
                 try {
                     resultSet = statement.getResultSet();
                     while (resultSet.next()) {

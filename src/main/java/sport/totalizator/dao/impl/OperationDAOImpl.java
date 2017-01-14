@@ -16,6 +16,14 @@ public class OperationDAOImpl implements OperationDAO {
     private static final long ONE_DAY = 86_400_000;
     public static final String INPUT = "INPUT";
     public static final String OUTPUT = "OUTPUT";
+    private static final  String SQL_FOR_ADD_OPERATION = "INSERT INTO `moneyoperation`(`user_id`, `operation_type`, `amount`, `card_number`, `validity_date`) " +
+            "VALUES(?, ?, ?, ?, ?);";
+    private static final String SQL_FOR_CAN_FILL_UP_BALANCE_FOR_USER = "SELECT `date` " +
+            "FROM `moneyoperation` " +
+            "WHERE `user_id` = ? " +
+            "ORDER BY `date` " +
+            "DESC " +
+            "LIMIT 1;";
 
     private static final Logger log = Logger.getLogger(OperationDAOImpl.class);
     private static final OperationDAOImpl instance = new OperationDAOImpl();
@@ -29,8 +37,6 @@ public class OperationDAOImpl implements OperationDAO {
 
     @Override
     public Operation addOperation(Operation operation) throws DAOException, OperationException {
-        String sql = "INSERT INTO `moneyoperation`(`user_id`, `operation_type`, `amount`, `card_number`, `validity_date`) " +
-                "VALUES(?, ?, ?, ?, ?);";
         Connection connection = null;
         PreparedStatement statement = null;
         try{
@@ -38,7 +44,7 @@ public class OperationDAOImpl implements OperationDAO {
             connection.setAutoCommit(false);
             Savepoint savepoint = connection.setSavepoint();
             try {
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_ADD_OPERATION);
                 statement.setInt(1, operation.getUserId());
                 statement.setString(2, operation.getOperationType());
                 statement.setBigDecimal(3, operation.getAmount());
@@ -68,12 +74,6 @@ public class OperationDAOImpl implements OperationDAO {
 
     @Override
     public boolean canFillUpBalanceForUser(int userId) throws DAOException {
-        String sql = "SELECT `date` " +
-                "FROM `moneyoperation` " +
-                "WHERE `user_id` = ? " +
-                "ORDER BY `date` " +
-                "DESC " +
-                "LIMIT 1;";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -81,7 +81,7 @@ public class OperationDAOImpl implements OperationDAO {
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_CAN_FILL_UP_BALANCE_FOR_USER);
                 statement.setInt(1, userId);
                 statement.execute();
                 try {

@@ -18,6 +18,27 @@ public class UserDAOImpl implements UserDAO {
     private static final UserDAOImpl instance = new UserDAOImpl();
     private static final Logger log = Logger.getLogger(UserDAOImpl.class);
     private final ConnectionPool pool = ConnectionPool.getConnectionPool();
+    private static final String SQL_FOR_GET_ALL_USERS = "SELECT * FROM `user`";
+    private static final String SQL_FOR_CREATE_USER = "INSERT INTO `user`(`login`, `pass_hash`, `email`) VALUES (?, ?, ?);";
+    private static final String SQL_FOR_GET_USER_BY_LOGIN = "SELECT `login`, `pass_hash` , `role` " +
+            "FROM `user` " +
+            "WHERE `login` = ?";
+    private static final String SQL_FOR_GET_FULL_USER_INFORMATION_BY_LOGIN = "SELECT `login` , `role`, `balance`, " +
+            "`user_id`, `banned`, `email` " +
+            "FROM `user` " +
+            "WHERE `login` = ?;";
+    private static final String SQL_FOR_GET_USER_ID_BY_LOGIN = "SELECT `user_id` " +
+            "FROM `user` " +
+            "WHERE `login` = ?;";
+    private static final String SQL_FOR_FILL_UP_BALANCE_FOR_USER = "UPDATE `user` " +
+            "SET `balance` = `balance` + ? " +
+            "WHERE `user_id` = ?;";
+    private static final String SQL_FOR_WITHDRAW_MONEY_FROM_USER = "UPDATE `user` " +
+            "SET `balance` = `balance` - ? " +
+            "WHERE `user_id` = ?;";
+    private static final String SQL_FOR_HAVE_MONEY = "SELECT `balance` >= ? AS `flag` " +
+            "FROM `user` " +
+            "WHERE `user_id` = ?;";
 
     public static UserDAOImpl getInstance(){
         return instance;
@@ -27,12 +48,11 @@ public class UserDAOImpl implements UserDAO {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM `user`";
         List<User> result = new ArrayList<User>();
         try {
             connection = pool.getConnection();
             statement = connection.createStatement();
-            statement.execute(sql);
+            statement.execute(SQL_FOR_GET_ALL_USERS);
             resultSet = statement.getResultSet();
             User user;
             while(resultSet.next()){
@@ -70,7 +90,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User createUser(User user) throws DAOException, UserException {
-        String sql = "INSERT INTO `user`(`login`, `pass_hash`, `email`) VALUES (?, ?, ?);";
         Connection connection = null;
         PreparedStatement statement = null;
         try{
@@ -78,7 +97,7 @@ public class UserDAOImpl implements UserDAO {
             connection.setAutoCommit(false);
             Savepoint savepoint = connection.setSavepoint();
             try {
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_CREATE_USER);
                 statement.setString(1, user.getLogin());
                 statement.setString(2, user.getPassHash());
                 statement.setString(3, user.getEmail());
@@ -110,9 +129,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserByLogin(String login) throws DAOException {
-        String sql = "SELECT `login`, `pass_hash` , `role` " +
-                "FROM `user` " +
-                "WHERE `login` = ?";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -120,7 +136,7 @@ public class UserDAOImpl implements UserDAO {
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_GET_USER_BY_LOGIN);
                 statement.setString(1, login);
                 resultSet = statement.executeQuery();
                 try{
@@ -159,9 +175,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getFullUserInformationByLogin(String login) throws DAOException {
-        String sql = "SELECT `login` , `role`, `balance`, `user_id`, `banned`, `email` " +
-                "FROM `user` " +
-                "WHERE `login` = ?;";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -169,7 +182,7 @@ public class UserDAOImpl implements UserDAO {
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_GET_FULL_USER_INFORMATION_BY_LOGIN);
                 statement.setString(1, login);
                 resultSet = statement.executeQuery();
                 try{
@@ -211,9 +224,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public int getUserIdByLogin(String login) throws DAOException {
-        String sql = "SELECT `user_id` " +
-                "FROM `user` " +
-                "WHERE `login` = ?;";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -221,7 +231,7 @@ public class UserDAOImpl implements UserDAO {
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_GET_USER_ID_BY_LOGIN);
                 statement.setString(1, login);
                 resultSet = statement.executeQuery();
                 try{
@@ -257,9 +267,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void fillUpBalanceForUser(int userId, BigDecimal money) throws DAOException {
-        String sql = "UPDATE `user` " +
-                "SET `balance` = `balance` + ? " +
-                "WHERE `user_id` = ?;";
         Connection connection = null;
         PreparedStatement statement = null;
         try{
@@ -267,7 +274,7 @@ public class UserDAOImpl implements UserDAO {
             connection.setAutoCommit(false);
             Savepoint savepoint = connection.setSavepoint();
             try {
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_FILL_UP_BALANCE_FOR_USER);
                 statement.setBigDecimal(1, money);
                 statement.setInt(2, userId);
                 statement.executeUpdate();
@@ -293,9 +300,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void withdrawMoneyFromUser(int userId, BigDecimal money) throws DAOException {
-        String sql = "UPDATE `user` " +
-                "SET `balance` = `balance` - ? " +
-                "WHERE `user_id` = ?;";
         Connection connection = null;
         PreparedStatement statement = null;
         try{
@@ -303,7 +307,7 @@ public class UserDAOImpl implements UserDAO {
             connection.setAutoCommit(false);
             Savepoint savepoint = connection.setSavepoint();
             try {
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_WITHDRAW_MONEY_FROM_USER);
                 statement.setBigDecimal(1, money);
                 statement.setInt(2, userId);
                 statement.executeUpdate();
@@ -329,9 +333,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean haveMoney(int userId, BigDecimal money) throws DAOException {
-        String sql = "SELECT `balance` >= ? AS `flag` " +
-                "FROM `user` " +
-                "WHERE `user_id` = ?;";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -339,7 +340,7 @@ public class UserDAOImpl implements UserDAO {
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_HAVE_MONEY);
                 statement.setBigDecimal(1, money);
                 statement.setInt(2, userId);
                 statement.execute();

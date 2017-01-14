@@ -19,6 +19,16 @@ public class MemberDAOImpl implements MemberDAO {
             "WHERE `member_id` = ?;";
     private static final String SQL_FOR_ADD_MEMBER = "INSERT INTO `eventmember`(`league_id`, `member_name`) " +
             "VALUES(?, ?);";
+    private static final String SQL_FOR_GET_MEMBERS_BY_LEAGUE = "SELECT `member_id` AS `id`, `member_name` AS `name` " +
+            "FROM `eventmember` " +
+            "WHERE `league_id` = ?;";
+    private static final String SQL_FOR_ATTACH_MEMBER_TO_EVENT = "INSERT INTO `event_m2m_eventmember`(`event_id`, `member_id`) " +
+            "VALUES (?, ?);";
+    private static final String SQL_FOR_GET_MEMBERS_BY_EVENT = "SELECT `eventmember`.`member_id`, `member_name` AS `name` " +
+            "FROM `eventmember` " +
+            "JOIN `event_m2m_eventmember` " +
+            "ON `eventmember`.`member_id` = `event_m2m_eventmember`.`member_id` " +
+            "WHERE `event_m2m_eventmember`.`event_id` = ?;";
 
     private static final Logger log = Logger.getLogger(MemberDAOImpl.class);
     private static final MemberDAOImpl instance = new MemberDAOImpl();
@@ -32,9 +42,6 @@ public class MemberDAOImpl implements MemberDAO {
 
     @Override
     public List<Member> getMembersByLeague(int leagueId) throws DAOException {
-        String sql = "SELECT `member_id` AS `id`, `member_name` AS `name` " +
-                "FROM `eventmember` " +
-                "WHERE `league_id` = ?;";
         PreparedStatement statement = null;
         Connection connection = null;
         ResultSet resultSet = null;
@@ -43,7 +50,7 @@ public class MemberDAOImpl implements MemberDAO {
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_GET_MEMBERS_BY_LEAGUE);
                 statement.setInt(1, leagueId);
                 statement.execute();
                 try{
@@ -92,14 +99,12 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     private void attachMemberToEvent(int memberId, int eventId) throws DAOException{
-        String sql = "INSERT INTO `event_m2m_eventmember`(`event_id`, `member_id`) " +
-                "VALUES (?, ?);";
         Connection connection = null;
         PreparedStatement statement = null;
         try{
             connection = pool.getConnection();
             try {
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_ATTACH_MEMBER_TO_EVENT);
                 statement.setInt(1, eventId);
                 statement.setInt(2, memberId);
                 statement.executeUpdate();
@@ -123,11 +128,6 @@ public class MemberDAOImpl implements MemberDAO {
 
     @Override
     public List<Member> getMembersByEvent(int eventId) throws DAOException {
-        String sql = "SELECT `eventmember`.`member_id`, `member_name` AS `name` " +
-                "FROM `eventmember` " +
-                "JOIN `event_m2m_eventmember` " +
-                "ON `eventmember`.`member_id` = `event_m2m_eventmember`.`member_id` " +
-                "WHERE `event_m2m_eventmember`.`event_id` = ?;";
         PreparedStatement statement = null;
         Connection connection = null;
         ResultSet resultSet = null;
@@ -135,7 +135,7 @@ public class MemberDAOImpl implements MemberDAO {
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_GET_MEMBERS_BY_EVENT);
                 statement.setInt(1, eventId);
                 statement.execute();
                 try{

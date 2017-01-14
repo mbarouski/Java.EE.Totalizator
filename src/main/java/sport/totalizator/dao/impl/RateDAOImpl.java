@@ -26,6 +26,31 @@ public class RateDAOImpl implements RateDAO{
     private static final String SQL_FOR_SET_WIN_FOR_RATE = "UPDATE `rate` " +
             "SET `win_money` = ? " +
             "WHERE `rate_id` = ?;";
+    private static final String SQL_FOR_GET_ACTIVE_RATES_FOR_USER = "SELECT `rate`.`event_id`, `money`, `event_name`, `win_money`, `date`, `rate_type` " +
+            "FROM `rate` " +
+            "JOIN `event` " +
+            "ON `rate`.`event_id` = `event`.`event_id` " +
+            "WHERE `user_id` = ? " +
+            "AND `win_money` IS NULL " +
+            "ORDER BY `date` " +
+            "DESC;";
+    private static final String SQL_FOR_GET_FINISHED_RATES_FOR_USER = "SELECT `rate`.`event_id`, `money`, `event_name`, `win_money`, `date`, `rate_type` " +
+            "FROM `rate` " +
+            "JOIN `event` " +
+            "ON `rate`.`event_id` = `event`.`event_id` " +
+            "WHERE `user_id` = ? " +
+            "AND `win_money` IS NOT NULL " +
+            "ORDER BY `date`;";
+    private static final Map<String, String> SQL_MAP_FOR_ADD_RATE = new HashMap<>();
+    static {
+        SQL_MAP_FOR_ADD_RATE.put(WIN, "INSERT INTO `rate`(`user_id`, `event_id`, `money`, `rate_type`, `event_member1_id`) " +
+                "VALUES(?, ?, ?, ?, ?);");
+        SQL_MAP_FOR_ADD_RATE.put(DRAW, "INSERT INTO `rate`(`user_id`, `event_id`, `money`, `rate_type`) " +
+                "VALUES(?, ?, ?, ?);");
+        SQL_MAP_FOR_ADD_RATE.put(EXACT_SCORE, "INSERT INTO `rate`(`user_id`, `event_id`, `money`, `rate_type`, " +
+                "`event_member1_id`, `event_member1_score`, `event_member2_id`, `event_member2_score`) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?);");
+    }
 
     private static final Logger log = Logger.getLogger(RateDAOImpl.class);
     private static final RateDAOImpl instance = new RateDAOImpl();
@@ -40,21 +65,13 @@ public class RateDAOImpl implements RateDAO{
     @Override
     public List<Rate> getActiveRatesForUser(int userId) throws DAOException {
         List<Rate> result = new ArrayList<>();
-        String sql = "SELECT `rate`.`event_id`, `money`, `event_name`, `win_money`, `date`, `rate_type` " +
-                "FROM `rate` " +
-                "JOIN `event` " +
-                "ON `rate`.`event_id` = `event`.`event_id` " +
-                "WHERE `user_id` = ? " +
-                "AND `win_money` IS NULL " +
-                "ORDER BY `date` " +
-                "DESC;";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_GET_ACTIVE_RATES_FOR_USER);
                 statement.setInt(1, userId);
                 statement.execute();
                 try {
@@ -98,20 +115,13 @@ public class RateDAOImpl implements RateDAO{
     @Override
     public List<Rate> getFinishedRatesForUser(int userId) throws DAOException {
         List<Rate> result = new ArrayList<>();
-        String sql = "SELECT `rate`.`event_id`, `money`, `event_name`, `win_money`, `date`, `rate_type` " +
-                "FROM `rate` " +
-                "JOIN `event` " +
-                "ON `rate`.`event_id` = `event`.`event_id` " +
-                "WHERE `user_id` = ? " +
-                "AND `win_money` IS NOT NULL " +
-                "ORDER BY `date`;";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try{
             connection = pool.getConnection();
             try{
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_GET_FINISHED_RATES_FOR_USER);
                 statement.setInt(1, userId);
                 statement.execute();
                 try {
@@ -155,14 +165,6 @@ public class RateDAOImpl implements RateDAO{
 
     @Override
     public Rate addRate(Rate rate) throws DAOException {
-        Map<String, String> sqlMap = new HashMap<>();
-        sqlMap.put(WIN, "INSERT INTO `rate`(`user_id`, `event_id`, `money`, `rate_type`, `event_member1_id`) " +
-                "VALUES(?, ?, ?, ?, ?);");
-        sqlMap.put(DRAW, "INSERT INTO `rate`(`user_id`, `event_id`, `money`, `rate_type`) " +
-                "VALUES(?, ?, ?, ?);");
-        sqlMap.put(EXACT_SCORE, "INSERT INTO `rate`(`user_id`, `event_id`, `money`, `rate_type`, " +
-                "`event_member1_id`, `event_member1_score`, `event_member2_id`, `event_member2_score`) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?);");
         Connection connection = null;
         PreparedStatement statement = null;
         try{
@@ -170,7 +172,7 @@ public class RateDAOImpl implements RateDAO{
             connection.setAutoCommit(false);
             Savepoint savepoint = connection.setSavepoint();
             try {
-                statement = connection.prepareStatement(sqlMap.get(rate.getType()));
+                statement = connection.prepareStatement(SQL_MAP_FOR_ADD_RATE.get(rate.getType()));
                 statement.setInt(1, rate.getUserId());
                 statement.setInt(2, rate.getEventId());
                 statement.setBigDecimal(3, rate.getSum());

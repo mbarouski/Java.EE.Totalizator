@@ -9,9 +9,13 @@ import sport.totalizator.entity.EventResult;
 import java.sql.*;
 
 public class EventResultDAOImpl implements EventResultDAO {
-    private static final String SQL_FOR_GET_EVENT_RESULT_BY_EVENT = "SELECT `event_id`, `winner_id`, `loser_id`, `winner_score`, `loser_score` " +
+    private static final String SQL_FOR_GET_EVENT_RESULT_BY_EVENT = "SELECT `event_id`, `winner_id`, `loser_id`, " +
+            "`winner_score`, `loser_score` " +
             "FROM `eventresult` " +
             "WHERE `event_id` = ?;";
+    private static final String SQL_FOR_ADD_EVENT_RESULT = "INSERT INTO `eventresult`(`event_id`, `winner_id`, " +
+            "`winner_score`, `loser_id`, `loser_score`) " +
+            "VALUES(?, ?, ?, ?, ?)";
 
     private static final Logger log = Logger.getLogger(EventResultDAOImpl.class);
     private static final EventResultDAOImpl instance = new EventResultDAOImpl();
@@ -25,14 +29,12 @@ public class EventResultDAOImpl implements EventResultDAO {
 
     @Override
     public EventResult addEventResult(EventResult eventResult) throws DAOException {
-        String sql = "INSERT INTO `eventresult`(`event_id`, `winner_id`, `winner_score`, `loser_id`, `loser_score`) " +
-                "VALUES(?, ?, ?, ?, ?)";
         Connection connection = null;
         PreparedStatement statement = null;
         try{
             connection = pool.getConnection();
             try {
-                statement = connection.prepareStatement(sql);
+                statement = connection.prepareStatement(SQL_FOR_ADD_EVENT_RESULT);
                 statement.setInt(1, eventResult.getEventId());
                 statement.setInt(2, eventResult.getWinnerId());
                 statement.setInt(3, eventResult.getWinnerScore());
