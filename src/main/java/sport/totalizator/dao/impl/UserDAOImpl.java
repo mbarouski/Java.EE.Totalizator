@@ -39,6 +39,9 @@ public class UserDAOImpl implements UserDAO {
     private static final String SQL_FOR_HAVE_MONEY = "SELECT `balance` >= ? AS `flag` " +
             "FROM `user` " +
             "WHERE `user_id` = ?;";
+    private static final String SQL_FOR_BAN_USERS = "UPDATE `user` " +
+            "SET `banned` = true " +
+            "WHERE `user_id` in (?);";
 
     public static UserDAOImpl getInstance(){
         return instance;
@@ -331,6 +334,15 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+    private String insertListToQuery(String sql, List<Integer> idList){
+        StringBuilder sb = new StringBuilder();
+        for(Integer i : idList){
+            sb.append("'" + i + "',");
+        }
+        sb.deleteCharAt(sb.lastIndexOf(","));
+        return sql.replace("?", sb.toString());
+    }
+
     @Override
     public boolean haveMoney(int userId, BigDecimal money) throws DAOException {
         Connection connection = null;
@@ -374,5 +386,33 @@ public class UserDAOImpl implements UserDAO {
             }
         }
         return result;
+    }
+
+    @Override
+    public void banUsers(List<Integer> idList) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            try {
+
+                statement = connection.prepareStatement(insertListToQuery(SQL_FOR_BAN_USERS, idList));
+                statement.executeUpdate();
+            } catch (SQLException exc) {
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
     }
 }

@@ -11,6 +11,8 @@ import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.MD5Converter;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
     private static final Logger log = Logger.getLogger(UserServiceImpl.class);
     private static final UserServiceImpl instance = new UserServiceImpl();
@@ -77,6 +79,26 @@ public class UserServiceImpl implements UserService {
             user.setActiveRates(rateDAO.getActiveRatesForUser(user.getUserId()));
             user.setFinishedRates(rateDAO.getFinishedRatesForUser(user.getUserId()));
             return user;
+        } catch (DAOException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
+        }
+    }
+
+    @Override
+    public List<User> getAllUsers() throws ServiceException {
+        try{
+            return userDAO.getAllUsers();
+        } catch (DAOException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
+        }
+    }
+
+    @Override
+    public void banUsers(List<Integer> idList) throws ServiceException {
+        try{
+            userDAO.banUsers(idList);
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);

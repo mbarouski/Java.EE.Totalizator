@@ -34,7 +34,11 @@ public enum CommandEnum {
     ADD_MEMBER("addMember"),
     ADD_CATEGORY("addCategory"),
     SHOW_ADD_LEAGUE_PAGE("showAddLeaguePage"),
-    SHOW_ADD_MEMBER_PAGE("showAddMemberPage");
+    SHOW_ADD_MEMBER_PAGE("showAddMemberPage"),
+    SHOW_ADMIN_PAGE("showAdminPage"),
+    BAN("ban"),
+    UNBAN("unban"),
+    CHANGE_ROLE("changeRole");
 
 
     private String value;

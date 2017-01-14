@@ -93,11 +93,17 @@
                                     <option value="${member.id}">${member.name}</option>
                                 </c:forEach>
                             </select>
+                            <select id="member-select" name="member-select-2" required >
+                                <option selected>Выберите участника</option>
+                                <c:forEach var="member" items="${members}">
+                                    <option value="${member.id}">${member.name}</option>
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
-                    <div class="add-member-select-btn-div">
-                        <button onclick="addMemberSelect(); return false;">Добавить участника</button>
-                    </div>
+                    <%--<div class="add-member-select-btn-div">--%>
+                        <%--<button onclick="addMemberSelect(); return false;">Добавить участника</button>--%>
+                    <%--</div>--%>
                     <div class="btn-container">
                         <button class="submit-btn" type="submit">Добавить событие</button>
                     </div>

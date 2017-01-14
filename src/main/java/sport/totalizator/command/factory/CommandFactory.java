@@ -51,6 +51,10 @@ public class CommandFactory {
         commands.put(ADD_MEMBER, new AddMemberCommand());
         commands.put(SHOW_ADD_MEMBER_PAGE, new ShowAddMemberPageCommand());
         commands.put(SHOW_ADD_LEAGUE_PAGE, new ShowAddLeaguePageCommand());
+        commands.put(SHOW_ADMIN_PAGE, new ShowAdminPageCommand());
+        commands.put(BAN, new BanCommand());
+        commands.put(UNBAN, new UnbanCommand());
+        commands.put(CHANGE_ROLE, new ChangeRoleCommand());
     }
 
     public ICommand createCommand(CommandEnum command){

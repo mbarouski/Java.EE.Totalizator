@@ -24,4 +24,6 @@ public interface UserDAO {
     void withdrawMoneyFromUser(int userId, BigDecimal money) throws DAOException;
 
     boolean haveMoney(int userId, BigDecimal money) throws DAOException;
+
+    void banUsers(List<Integer> idList) throws DAOException;
 }
