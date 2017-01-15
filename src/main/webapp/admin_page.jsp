@@ -29,17 +29,17 @@
                             </thead>
                             <c:forEach items="${users}" var="user">
                                 <tr>
-                                    <td><input type="checkbox" id="${user.userId}" onchange="onCheckboxClick(this)"/></td>
+                                    <td><input type="checkbox" name="checkbox" id="${user.userId}" onchange="onCheckboxClick(this)"/></td>
                                     <td><p>${user.login}</p></td>
-                                    <td><p>${user.role}</p></td>
-                                    <td><p>${user.banned}</p></td>
+                                    <td><p id="role-p">${user.role}</p></td>
+                                    <td><p id="banned-p">${user.banned}</p></td>
                                 </tr>
                             </c:forEach>
                         </table>
                     </div>
                     <div class="input-div">
-                        <button class="admin-btn" onclick="return false;" onsubmit="return false;">Сменить роль на</button>
-                        <select name="role">
+                        <button class="admin-btn" onclick="changeRole()">Сменить роль на</button>
+                        <select id="role" name="role">
                             <option selected value="USER">USER</option>
                             <option selected value="MODERATOR">MODERATOR</option>
                             <option selected value="ADMINISTRATOR">ADMINISTRATOR</option>

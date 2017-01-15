@@ -26,4 +26,8 @@ public interface UserDAO {
     boolean haveMoney(int userId, BigDecimal money) throws DAOException;
 
     void banUsers(List<Integer> idList) throws DAOException;
+
+    void unbanUsers(List<Integer> idList) throws DAOException;
+
+    void changeRoleForUsers(List<Integer> idList, String role) throws DAOException;
 }

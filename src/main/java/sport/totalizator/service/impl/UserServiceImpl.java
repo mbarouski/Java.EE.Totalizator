@@ -104,4 +104,24 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(exc);
         }
     }
+
+    @Override
+    public void unbanUsers(List<Integer> idList) throws ServiceException {
+        try{
+            userDAO.unbanUsers(idList);
+        } catch (DAOException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
+        }
+    }
+
+    @Override
+    public void changeRoleForUsers(List<Integer> idList, String role) throws ServiceException {
+        try{
+            userDAO.changeRoleForUsers(idList, role);
+        } catch (DAOException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
+        }
+    }
 }

@@ -42,6 +42,12 @@ public class UserDAOImpl implements UserDAO {
     private static final String SQL_FOR_BAN_USERS = "UPDATE `user` " +
             "SET `banned` = true " +
             "WHERE `user_id` in (?);";
+    private static final String SQL_FOR_UNBAN_USERS = "UPDATE `user` " +
+            "SET `banned` = false " +
+            "WHERE `user_id` in (?);";
+    private static final String SQL_FOR_CHANGE_ROLE_FOR_USERS = "UPDATE `user` " +
+            "SET `role` = ? " +
+            "WHERE `user_id` in (&);";
 
     public static UserDAOImpl getInstance(){
         return instance;
@@ -397,6 +403,74 @@ public class UserDAOImpl implements UserDAO {
             try {
 
                 statement = connection.prepareStatement(insertListToQuery(SQL_FOR_BAN_USERS, idList));
+                statement.executeUpdate();
+            } catch (SQLException exc) {
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+    }
+
+    @Override
+    public void unbanUsers(List<Integer> idList) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            try {
+
+                statement = connection.prepareStatement(insertListToQuery(SQL_FOR_UNBAN_USERS, idList));
+                statement.executeUpdate();
+            } catch (SQLException exc) {
+                log.error(exc);
+                throw new DAOException(exc);
+            } finally {
+                if(statement != null){
+                    statement.close();
+                }
+            }
+        } catch (SQLException exc){
+            log.error(exc);
+            throw new DAOException(exc);
+        } finally {
+            if(connection != null){
+                pool.returnConnectionToPool(connection);
+            }
+        }
+    }
+
+    private String prepareSql(String sql, List<Integer> idList){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < idList.size(); i++){
+            sb.append("?,");
+        }
+        sb.deleteCharAt(sb.lastIndexOf(","));
+        return sql.replace("&", sb.toString());
+    }
+
+    @Override
+    public void changeRoleForUsers(List<Integer> idList, String role) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = pool.getConnection();
+            try {
+                statement = connection.prepareStatement(prepareSql(SQL_FOR_CHANGE_ROLE_FOR_USERS, idList));
+                statement.setString(1, role);
+                for(int i = 0; i < idList.size(); i++){
+                    statement.setInt(i+2, idList.get(i));
+                }
                 statement.executeUpdate();
             } catch (SQLException exc) {
                 log.error(exc);

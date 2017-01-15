@@ -3,6 +3,7 @@ package sport.totalizator.command.impl;
 import org.apache.log4j.Logger;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
+import sport.totalizator.entity.User;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
@@ -21,6 +22,7 @@ public class BanCommand implements ICommand {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
+        checkRoots(req, new User.Role[]{User.Role.ADMINISTRATOR});
         String[] stringIdList = req.getParameter("id-list").split(",");
         List<Integer> idList = new ArrayList<>();
         for(String str : stringIdList){
