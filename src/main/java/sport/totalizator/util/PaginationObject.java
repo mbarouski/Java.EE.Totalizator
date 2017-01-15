@@ -3,9 +3,14 @@ package sport.totalizator.util;
 import java.util.List;
 
 public class PaginationObject<T> {
+    public static final int PER_PAGE = 2;
+    public static final int DEFAULT_PAGE = 1;
+
     private int page;
     private int pageCount;
     private List<T> elementList;
+
+    public PaginationObject(){}
 
     public PaginationObject(int page, int pageCount, List<T> elementList) {
         this.page = page;

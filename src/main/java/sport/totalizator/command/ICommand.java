@@ -21,7 +21,7 @@ public interface ICommand {
                 return;
             }
         }
-        throw new UnauthorizedException("Not enough roots for this operation");
+        throw new UnauthorizedException("Not enough permissions for this operation");
     }
 
     void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException;

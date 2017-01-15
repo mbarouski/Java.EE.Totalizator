@@ -12,11 +12,14 @@ import sport.totalizator.exception.EventException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.DateParser;
+import sport.totalizator.util.PaginationObject;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
+
+import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
 public class EventServiceImpl implements EventService {
     private static final EventServiceImpl instance = new EventServiceImpl();
@@ -37,9 +40,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getAllNotEndedEvents() throws ServiceException {
+    public PaginationObject<Event> getAllNotEndedEvents(int page) throws ServiceException {
         try {
-            return eventDAO.getAllNotEndedEvents();
+            PaginationObject<Event> paginationObject = new PaginationObject<>();
+            List<Event> events = eventDAO.getAllNotEndedEvents();
+            paginationObject.setPageCount((int)Math.ceil(events.size() / PaginationObject.PER_PAGE));
+            paginationObject.setPage(page);
+            int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
+            int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;
+            paginationObject.setElementList(events.subList(start, end));
+            return paginationObject;
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);
@@ -47,9 +57,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getAllNotEndedEventsSortedByDate() throws ServiceException {
+    public PaginationObject<Event> getAllNotEndedEventsSortedByDate(int page) throws ServiceException {
         try {
-            return eventDAO.getAllNotEndedEventsSortedByDate();
+            PaginationObject<Event> paginationObject = new PaginationObject<>();
+            List<Event> events = eventDAO.getAllNotEndedEventsSortedByDate();
+            paginationObject.setPageCount((int)Math.ceil(events.size() / PaginationObject.PER_PAGE));
+            paginationObject.setPage(page);
+            int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
+            int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;
+            paginationObject.setElementList(events.subList(start, end));
+            return paginationObject;
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);
@@ -57,10 +74,17 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getAllNotEndedEventsByCategoryId(String categoryId) throws ServiceException {
+    public PaginationObject<Event> getAllNotEndedEventsByCategoryId(String categoryId, int page) throws ServiceException {
         try {
             int intLeagueId = Integer.parseInt(categoryId);
-            return eventDAO.getAllNotEndedEventsByCategoryId(intLeagueId);
+            PaginationObject<Event> paginationObject = new PaginationObject<>();
+            List<Event> events = eventDAO.getAllNotEndedEventsByCategoryId(intLeagueId);
+            paginationObject.setPageCount((int)Math.ceil(events.size() / PaginationObject.PER_PAGE));
+            paginationObject.setPage(page);
+            int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
+            int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;
+            paginationObject.setElementList(events.subList(start, end));
+            return paginationObject;
         } catch (DAOException | NumberFormatException exc){
             log.error(exc);
             throw new ServiceException(exc);
@@ -68,9 +92,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getAllEndedEvents() throws ServiceException {
+    public PaginationObject<Event> getAllEndedEvents(int page) throws ServiceException {
         try {
-            return eventDAO.getAllEndedEvents();
+            PaginationObject<Event> paginationObject = new PaginationObject<>();
+            List<Event> events = eventDAO.getAllEndedEvents();
+            paginationObject.setPageCount((int)Math.ceil(events.size() / PaginationObject.PER_PAGE));
+            paginationObject.setPage(page);
+            int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
+            int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;
+            paginationObject.setElementList(events.subList(start, end));
+            return paginationObject;
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);

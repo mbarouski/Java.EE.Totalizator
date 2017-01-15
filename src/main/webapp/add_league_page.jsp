@@ -5,10 +5,8 @@
 <head>
     <meta charset="utf-8">
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="styles/form.css" />" />
     <script src="<c:url value="js/load_data.js" />"></script>
-    <link rel="stylesheet" type="text/css" href="<c:url value="styles/jquery/jquery.datetimepicker.css" />"/>
     <title>Totalizator</title>
 </head>
 <body>
@@ -35,16 +33,16 @@
                     </c:if>
 
                     <div class="input-div">
-                        <label>Категория</label>
+                        <label><fmt:message bundle="${loc}" key="label.category" /></label>
                         <select name="category-id" required>
-                            <option selected>Выберите категорию</option>
+                            <option selected><fmt:message bundle="${loc}" key="label.select-category" /></option>
                             <c:forEach var="category" items="${categories}">
                                 <option value="${category.id}">${category.name}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="input-div">
-                        <label>Название</label>
+                        <label><fmt:message bundle="${loc}" key="label.name" /></label>
                         <input type="text" name="name" required />
                     </div>
                     <div class="btn-container">

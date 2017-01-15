@@ -6,6 +6,7 @@ import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.exception.UnauthorizedException;
+import sport.totalizator.util.MessageLocalizer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,10 +31,13 @@ public class MainController extends HttpServlet {
             CommandEnum commandEnum = CommandEnum.getEnum(commandName);
             command = commandFactory.createCommand(commandEnum);
             command.execute(req, resp);
-        }
-        catch (CommandException | UnauthorizedException exc){
+        } catch (UnauthorizedException exc){
             log.error(exc);
             req.setAttribute("message", exc.getMessage());
+            req.getRequestDispatcher("error_page.jsp").forward(req, resp);
+        } catch (Exception exc){
+            log.error(exc);
+            req.setAttribute("message", MessageLocalizer.getLocalizedForCurrentLocaleMessage("err.smth-error", req));
             req.getRequestDispatcher("error_page.jsp").forward(req, resp);
         }
     }

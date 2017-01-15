@@ -3,6 +3,7 @@ package sport.totalizator.service;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.UserException;
 import sport.totalizator.service.exception.ServiceException;
+import sport.totalizator.util.PaginationObject;
 
 import java.util.List;
 

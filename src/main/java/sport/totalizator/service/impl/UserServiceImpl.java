@@ -10,6 +10,7 @@ import sport.totalizator.exception.UserException;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.MD5Converter;
+import sport.totalizator.util.PaginationObject;
 
 import java.util.List;
 
@@ -58,14 +59,17 @@ public class UserServiceImpl implements UserService {
     public User login(String login, String password) throws ServiceException, UserException {
         try {
             User user = userDAO.getUserByLogin(login);
-            if((user != null) && (user.getPassHash().equals(MD5Converter.getHash(password)))) {
-                return user;
-            }
-            else {
+            if((user == null) || (!user.getPassHash().equals(MD5Converter.getHash(password)))){
                 User errorUser = new User();
                 errorUser.setLogin(login);
                 throw new UserException("err.password-or-login-incorrect", errorUser);
             }
+            if(user.isBanned()){
+                User errorUser = new User();
+                errorUser.setLogin(login);
+                throw new UserException("err.you-are-banned", errorUser);
+            }
+            return user;
         } catch (DAOException exc){
             log.error(exc);
             throw new ServiceException(exc);

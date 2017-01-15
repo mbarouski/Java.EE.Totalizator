@@ -47,6 +47,10 @@ public enum CommandEnum {
         this.value = value;
     }
 
+    public String getValue(){
+        return value;
+    }
+
     public static CommandEnum getEnum(String value) throws IllegalArgumentException{
         for(CommandEnum commandEnum : values()){
             if(commandEnum.value.equals(value)){

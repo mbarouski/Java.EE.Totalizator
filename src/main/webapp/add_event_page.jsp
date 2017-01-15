@@ -5,7 +5,6 @@
 <head>
     <meta charset="utf-8">
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="styles/form.css" />" />
     <script src="<c:url value="js/load_data.js" />"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="styles/jquery/jquery.datetimepicker.css" />"/>
@@ -34,78 +33,71 @@
                         </div>
                     </c:if>
                     <div class="input-div">
-                        <label>Название</label>
+                        <label><fmt:message bundle="${loc}" key="label.name" /></label>
                         <input type="text" name="name" required />
                     </div>
                     <div class="input-div">
-                        <label>Ссылка на трансляцию</label>
+                        <label><fmt:message bundle="${loc}" key="label.live-link" /></label>
                         <input type="text" name="liveTranslation" />
                     </div>
                     <div class="input-div">
-                        <label>Категория</label>
+                        <label><fmt:message bundle="${loc}" key="label.category" /></label>
                         <select id="category-select" name="category-id" onchange="setLeaguesSelect()" required>
-                            <option value="0" selected>Выберите категорию</option>
+                            <option value="0" selected><fmt:message bundle="${loc}" key="label.select-category" /></option>
                             <c:forEach var="category" items="${categories}">
                                 <option value="${category.id}">${category.name}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="input-div">
-                        <label>Лига</label>
+                        <label><fmt:message bundle="${loc}" key="label.league" /></label>
                         <select id="league-select" name="league-id" onchange="setMembersSelect()" required >
-                            <option selected>Выберите лигу</option>
+                            <option selected><fmt:message bundle="${loc}" key="label.select-league" /></option>
                             <c:forEach var="league" items="${leagues}">
                                 <option value="${league.id}">${league.name}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="input-div">
-                        <label>Дата</label>
+                        <label><fmt:message bundle="${loc}" key="label.date" /></label>
                         <input type="text" value="" id="datetimepicker" name="date"/>
                     </div>
                     <div class="input-div">
-                        <label>Типы ставок</label>
+                        <label><fmt:message bundle="${loc}" key="label.rate-types" /></label>
                         <div class="checkbox-div">
                         <div class="checkbox">
-                            <label>Выигрыш</label>
+                            <label><fmt:message bundle="${loc}" key="WIN" /></label>
                             <div><input type="checkbox" name="winRate" value="WIN" /></div>
                         </div>
                         <div class="checkbox">
-                            <label>Ничья</label>
+                            <label><fmt:message bundle="${loc}" key="DRAW" /></label>
                             <div><input type="checkbox" name="drawRate" value="DRAW"></div>
                         </div>
-                        <%--<div class="checkbox">--%>
-                            <%--<label>Первый гол</label>--%>
-                            <%--<div><input type="checkbox" name="firstGoalRate" value="FIRST_GOAL"></div>--%>
-                        <%--</div>--%>
                         <div class="checkbox">
-                            <label>Точный счёт</label>
+                            <label><fmt:message bundle="${loc}" key="EXACT_SCORE" /></label>
                             <div><input type="checkbox" name="exactScoreRate" value="EXACT_SCORE"></div>
                         </div>
                     </div>
                     </div>
                     <div class="input-div">
-                        <label>Участники</label>
+                        <label><fmt:message bundle="${loc}" key="label.members" /></label>
                         <div class="member-div">
                             <select id="member-select" name="member-select-1" required >
-                                <option selected>Выберите участника</option>
+                                <option selected><fmt:message bundle="${loc}" key="label.select-member" /></option>
                                 <c:forEach var="member" items="${members}">
                                     <option value="${member.id}">${member.name}</option>
                                 </c:forEach>
                             </select>
                             <select id="member-select" name="member-select-2" required >
-                                <option selected>Выберите участника</option>
+                                <option selected><fmt:message bundle="${loc}" key="label.select-member" /></option>
                                 <c:forEach var="member" items="${members}">
                                     <option value="${member.id}">${member.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
                     </div>
-                    <%--<div class="add-member-select-btn-div">--%>
-                        <%--<button onclick="addMemberSelect(); return false;">Добавить участника</button>--%>
-                    <%--</div>--%>
                     <div class="btn-container">
-                        <button class="submit-btn" type="submit">Добавить событие</button>
+                        <button class="submit-btn" type="submit"><fmt:message bundle="${loc}" key="link.addEvent" /></button>
                     </div>
                 </form>
             </div>

@@ -56,7 +56,7 @@
                     </c:when>
                     <c:when test="${empty sessionScope.username}">
                         <div class="register-warn-div">
-                            <p>Please, register or log in to make rate.</p>
+                            <p><fmt:message bundle="${loc}" key="link.log-in-to-make-rate" /></p>
                         </div>
                     </c:when>
                 </c:choose>

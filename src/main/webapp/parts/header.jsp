@@ -23,7 +23,7 @@
                     <a class="${tab_classes[2]}" href="<c:url value="main?command=showPersonalPage" />"><span><fmt:message bundle="${loc}" key="link.personalPage" /></span></a>
                 </c:if>
                 <c:if test="${sessionScope.role eq 'ADMINISTRATOR'}">
-                    <a class="${tab_classes[2]}" href="<c:url value="main?command=showAdminPage" />"><span><fmt:message bundle="${loc}" key="link.adminPanel" /></span></a>
+                    <a class="${tab_classes[3]}" href="<c:url value="main?command=showAdminPage" />"><span><fmt:message bundle="${loc}" key="link.adminPanel" /></span></a>
                 </c:if>
                 </div>
             <div class="login-menu-item-container">

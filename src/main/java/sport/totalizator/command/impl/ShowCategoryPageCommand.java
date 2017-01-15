@@ -21,19 +21,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static sport.totalizator.command.CommandEnum.SHOW_CATEGORY_PAGE;
+import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
+
 public class ShowCategoryPageCommand implements ICommand {
     private static final Logger log = Logger.getLogger(AddCategoriesToRequestCommand.class);
 
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         EventService eventService = ServiceFactory.getInstance().getEventService();
+        int page;
+        try{
+            page = Integer.parseInt(req.getParameter("page"));
+        } catch (NumberFormatException exc){
+            page = DEFAULT_PAGE;
+        }
         try {
-            List<Event> eventList = eventService.getAllNotEndedEventsByCategoryId(req.getParameter("categoryId"));
-            req.setAttribute("events", eventList);
+            req.setAttribute("events", eventService.getAllNotEndedEventsByCategoryId(req.getParameter("categoryId"), page));
         }
         catch (ServiceException exc){
             log.error(exc);
         }
+        req.setAttribute("command", SHOW_CATEGORY_PAGE.getValue());
         req.getRequestDispatcher("main_page.jsp").forward(req, resp);
     }
 }

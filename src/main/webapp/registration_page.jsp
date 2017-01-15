@@ -36,11 +36,11 @@
                             value="<c:out value="${user.login}"/>"/>
                     </div>
                     <div class="input-div">
-                        <label>Пароль</label>
+                        <label><fmt:message bundle="${loc}" key="label.password" /></label>
                         <input id="pass-input" type="password" name="password" required />
                     </div>
                     <div class="input-div">
-                        <label>Подтверждение пароля</label>
+                        <label><fmt:message bundle="${loc}" key="label.confirm-password" /></label>
                         <input id="pass-confirm-input" type="password" name="password-confirm" required />
                     </div>
                     <div class="input-div">

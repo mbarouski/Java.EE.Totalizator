@@ -20,7 +20,7 @@ public class UserDAOImpl implements UserDAO {
     private final ConnectionPool pool = ConnectionPool.getConnectionPool();
     private static final String SQL_FOR_GET_ALL_USERS = "SELECT * FROM `user`";
     private static final String SQL_FOR_CREATE_USER = "INSERT INTO `user`(`login`, `pass_hash`, `email`) VALUES (?, ?, ?);";
-    private static final String SQL_FOR_GET_USER_BY_LOGIN = "SELECT `login`, `pass_hash` , `role` " +
+    private static final String SQL_FOR_GET_USER_BY_LOGIN = "SELECT `login`, `pass_hash` , `role`, `banned` " +
             "FROM `user` " +
             "WHERE `login` = ?";
     private static final String SQL_FOR_GET_FULL_USER_INFORMATION_BY_LOGIN = "SELECT `login` , `role`, `balance`, " +
@@ -154,6 +154,7 @@ public class UserDAOImpl implements UserDAO {
                         user.setPassHash(resultSet.getString("pass_hash"));
                         user.setLogin(resultSet.getString("login"));
                         user.setRole(User.Role.valueOf(resultSet.getString("role").toUpperCase()));
+                        user.setBanned(resultSet.getBoolean("banned"));
                     }
                 } catch (SQLException exc){
                     log.error(exc);

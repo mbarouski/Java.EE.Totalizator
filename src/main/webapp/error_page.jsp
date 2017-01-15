@@ -8,7 +8,7 @@
 <body>
     <div class="error-div">
         <h1>${message}</h1>
-        <a href="<c:url value="main?command=showMainPage" />">Main page</a>
+        <a href="<c:url value="main?command=showMainPage" />"><fmt:message bundle="${loc}" key="link.main-page" /></a>
     </div>
 </body>
 </html>

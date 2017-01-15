@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="<c:url value="styles/pagination.css"/>" rel="stylesheet" />
 	<title>Totalizator</title>
 </head>
 <body>
@@ -15,7 +15,7 @@
 			<%@ include file="parts/left_menu.jsp" %>
 			<div class="center-part">
 				<%@ include file="parts/admin_panel.jsp" %>
-				<c:forEach var="event" items="${events}">
+				<c:forEach var="event" items="${events.elementList}">
 					<div class="event">
 						<div class="event-main">
 							<h5 class="event-name"><c:out value="${event.eventName}" /></h5>
@@ -27,6 +27,7 @@
 						</div>
 					</div>
 				</c:forEach>
+				<%@ include file="parts/pagination.jsp" %>
 			</div>
 		</div>
 		<%@ include file="parts/footer.jsp" %>

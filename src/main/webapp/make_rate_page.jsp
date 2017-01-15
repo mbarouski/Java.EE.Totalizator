@@ -37,17 +37,17 @@
                     <div class="input-div">
                         <label>Rate type</label>
                         <select id="rate-type-select" name="rate-type" size="1" onchange="onRateTypeSelectChange()">
-                            <option selected value="">Choose rate type</option>
-                            <option value="WIN">Win</option>
-                            <option value="DRAW">Draw</option>
-                            <option value="EXACT_SCORE">Exact score</option>
+                            <option selected value=""><fmt:message bundle="${loc}" key="label.choose-rate-type" /></option>
+                            <option value="WIN"><fmt:message bundle="${loc}" key="WIN" /></option>
+                            <option value="DRAW"><fmt:message bundle="${loc}" key="DRAW" /></option>
+                            <option value="EXACT_SCORE"><fmt:message bundle="${loc}" key="EXACT_SCORE" /></option>
                         </select>
                     </div>
                     <div id="changable-part" class="changable-part">
 
                     </div>
                     <div class="input-div">
-                        <label>Money</label>
+                        <label><fmt:message bundle="${loc}" key="label.money" /></label>
                         <input placeholder="XXX.XX" type="text" name="money" pattern="[0-9]{1,3}\.[0-9]{1,2}" required
                                value="<c:out value="${rate.sum}"/>"/>
                     </div>

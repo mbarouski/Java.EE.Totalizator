@@ -23,6 +23,7 @@ public class ShowAdminPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         checkRoots(req, new User.Role[]{User.Role.ADMINISTRATOR});
+        req.setAttribute("tab_classes", new String[] {"", "", "", "active"});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         try{
             req.setAttribute("users", userService.getAllUsers());

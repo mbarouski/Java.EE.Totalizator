@@ -5,7 +5,6 @@
 <head>
     <meta charset="utf-8">
     <link href="<c:url value="styles/styles.css" />" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="styles/form.css" />" />
     <link rel="stylesheet" href="<c:url value="styles/admin.css" />" />
     <script src="js/admin.js"></script>
@@ -22,10 +21,10 @@
                     <div class="input-div">
                         <table class="user-table">
                             <thead>
-                                <th>Отметить</th>
-                                <th>Имя</th>
-                                <th>Роль</th>
-                                <th>Блокировка</th>
+                                <th><fmt:message bundle="${loc}" key="label.mark" /></th>
+                                <th><fmt:message bundle="${loc}" key="label.username" /></th>
+                                <th><fmt:message bundle="${loc}" key="label.role" /></th>
+                                <th><fmt:message bundle="${loc}" key="label.block" /></th>
                             </thead>
                             <c:forEach items="${users}" var="user">
                                 <tr>
@@ -38,7 +37,7 @@
                         </table>
                     </div>
                     <div class="input-div">
-                        <button class="admin-btn" onclick="changeRole()">Сменить роль на</button>
+                        <button class="admin-btn" onclick="changeRole()"><fmt:message bundle="${loc}" key="label.change-role-on" /></button>
                         <select id="role" name="role">
                             <option selected value="USER">USER</option>
                             <option selected value="MODERATOR">MODERATOR</option>
@@ -46,10 +45,8 @@
                         </select>
                     </div>
                     <div class="input-div">
-                        <button class="admin-btn" onclick="ban()">Заблокировать</button>
-                    </div>
-                    <div class="input-div">
-                        <button class="admin-btn" onclick="unban()">Разблокировать</button>
+                        <button class="admin-btn" onclick="ban()"><fmt:message bundle="${loc}" key="label.ban" /></button>
+                        <button class="admin-btn" onclick="unban()"><fmt:message bundle="${loc}" key="label.unban" /></button>
                     </div>
                 </form>
             </div>

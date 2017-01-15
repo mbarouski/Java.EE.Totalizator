@@ -26,18 +26,18 @@
                         <div class="balance-h4-div">
                             <h4>${user.balance}$</h4>
                         </div>
-                        <a class="balance-btn" href="<c:url value="main?command=showWithdrawMoneyPage"/>">Вывести деньги</a>
-                        <a class="balance-btn" href="<c:url value="main?command=showFillUpBalancePage"/>">Пополнить баланс</a>
+                        <a class="balance-btn" href="<c:url value="main?command=showWithdrawMoneyPage"/>"><fmt:message bundle="${loc}" key="link.withdraw" /></a>
+                        <a class="balance-btn" href="<c:url value="main?command=showFillUpBalancePage"/>"><fmt:message bundle="${loc}" key="link.fill-up" /></a>
                     </div>
                 </div>
                 <div class="active-rates-div">
                     <hr>
-                    <h4>Активные ставки</h4>
+                    <h4><fmt:message bundle="${loc}" key="label.active-rates" /></h4>
                     <table border="1">
                         <tr class="table-header">
-                            <th>Событие</th>
-                            <th>Сумма ставки</th>
-                            <th>Тип ставки</th>
+                            <th><fmt:message bundle="${loc}" key="label.event" /></th>
+                            <th><fmt:message bundle="${loc}" key="label.amount" /></th>
+                            <th><fmt:message bundle="${loc}" key="label.rate-type" /></th>
                         </tr>
                         <c:forEach var="rate" items="${user.activeRates}">
                             <tr>
@@ -51,13 +51,13 @@
                 <hr>
                 <div class="finished-rates-div">
                     <hr>
-                    <h4>Законченные ставки</h4>
+                    <h4><fmt:message bundle="${loc}" key="label.finished-rates" /></h4>
                     <table border="1">
                         <tr class="table-header">
-                            <th>Событие</th>
-                            <th>Сумма ставки</th>
-                            <th>Тип ставки</th>
-                            <th>Выигрыш</th>
+                            <th><fmt:message bundle="${loc}" key="label.event" /></th>
+                            <th><fmt:message bundle="${loc}" key="label.amount" /></th>
+                            <th><fmt:message bundle="${loc}" key="label.rate-type" /></th>
+                            <th><fmt:message bundle="${loc}" key="label.win-amount" /></th>
                         </tr>
                         <c:forEach var="rate" items="${user.finishedRates}">
                             <tr>

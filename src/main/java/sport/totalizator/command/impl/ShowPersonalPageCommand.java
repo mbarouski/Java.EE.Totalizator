@@ -25,7 +25,7 @@ public class ShowPersonalPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         checkRoots(req, new User.Role[]{MODERATOR, USER, ADMINISTRATOR});
-        req.setAttribute("tab_classes", new String[] {"", "", "active"});
+        req.setAttribute("tab_classes", new String[] {"", "", "active", ""});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         String login = (String) req.getSession().getAttribute("username");
         try {

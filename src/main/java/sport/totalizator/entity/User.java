@@ -112,4 +112,6 @@ public class User {
     public void setFinishedRates(List<Rate> finishedRates) {
         this.finishedRates = finishedRates;
     }
+
+
 }
