@@ -15,12 +15,13 @@ import java.io.IOException;
 import static sport.totalizator.entity.User.Role.ADMINISTRATOR;
 import static sport.totalizator.entity.User.Role.MODERATOR;
 import static sport.totalizator.entity.User.Role.USER;
+import static sport.totalizator.util.JspPathes.ADD_EVENT_PAGE;
 
 public class ShowAddEventPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         checkRoots(req, new User.Role[]{MODERATOR});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
-        req.getRequestDispatcher("add_event_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(ADD_EVENT_PAGE).forward(req, resp);
     }
 }

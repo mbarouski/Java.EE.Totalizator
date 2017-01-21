@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static sport.totalizator.util.JspPathes.ERROR_PAGE;
+
 
 public class MainController extends HttpServlet {
     private static final CommandFactory commandFactory = CommandFactory.getFactory();
@@ -34,11 +36,11 @@ public class MainController extends HttpServlet {
         } catch (UnauthorizedException exc){
             log.error(exc);
             req.setAttribute("message", exc.getMessage());
-            req.getRequestDispatcher("error_page.jsp").forward(req, resp);
+            req.getRequestDispatcher(ERROR_PAGE).forward(req, resp);
         } catch (Exception exc){
             log.error(exc);
             req.setAttribute("message", MessageLocalizer.getLocalizedForCurrentLocaleMessage("err.smth-error", req));
-            req.getRequestDispatcher("error_page.jsp").forward(req, resp);
+            req.getRequestDispatcher(ERROR_PAGE).forward(req, resp);
         }
     }
 

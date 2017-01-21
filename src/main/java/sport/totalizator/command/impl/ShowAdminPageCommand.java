@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static sport.totalizator.util.JspPathes.ADMIN_PAGE;
+
 public class ShowAdminPageCommand implements ICommand {
     private static final Logger log = Logger.getLogger(ShowAdminPageCommand.class);
     private UserService userService = ServiceFactory.getInstance().getUserService();
@@ -31,6 +33,6 @@ public class ShowAdminPageCommand implements ICommand {
             log.error(exc);
             throw new CommandException(exc);
         }
-        req.getRequestDispatcher("admin_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(ADMIN_PAGE).forward(req, resp);
     }
 }

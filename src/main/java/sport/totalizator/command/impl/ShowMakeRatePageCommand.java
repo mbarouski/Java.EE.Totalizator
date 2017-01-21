@@ -16,6 +16,7 @@ import java.io.IOException;
 import static sport.totalizator.entity.User.Role.ADMINISTRATOR;
 import static sport.totalizator.entity.User.Role.MODERATOR;
 import static sport.totalizator.entity.User.Role.USER;
+import static sport.totalizator.util.JspPathes.MAKE_RATE_PAGE;
 
 public class ShowMakeRatePageCommand implements ICommand{
     private final static Logger log = Logger.getLogger(ShowMakeRatePageCommand.class);
@@ -25,6 +26,6 @@ public class ShowMakeRatePageCommand implements ICommand{
         checkRoots(req, new User.Role[]{USER, MODERATOR, ADMINISTRATOR});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         req.setAttribute("eventId", req.getParameter("eventId"));
-        req.getRequestDispatcher("make_rate_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(MAKE_RATE_PAGE).forward(req, resp);
     }
 }

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static sport.totalizator.command.CommandEnum.SHOW_CATEGORY_PAGE;
+import static sport.totalizator.util.JspPathes.MAIN_PAGE;
 import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
 public class ShowCategoryPageCommand implements ICommand {
@@ -46,6 +47,6 @@ public class ShowCategoryPageCommand implements ICommand {
         req.setAttribute("categoryPage", true);
         req.setAttribute("categoryId", categoryId);
         req.setAttribute("command", SHOW_CATEGORY_PAGE.getValue());
-        req.getRequestDispatcher("main_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(MAIN_PAGE).forward(req, resp);
     }
 }

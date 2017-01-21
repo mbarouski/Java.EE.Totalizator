@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static sport.totalizator.entity.User.Role.MODERATOR;
+import static sport.totalizator.util.JspPathes.ADD_RESULT_PAGE;
 
 public class ShowAddEventResultPageCommand implements ICommand {
     private static final Logger log = Logger.getLogger(ShowAddEventResultPageCommand.class);
@@ -38,6 +39,6 @@ public class ShowAddEventResultPageCommand implements ICommand {
             log.error(exc);
             throw new CommandException(exc);
         }
-        req.getRequestDispatcher("add_result_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(ADD_RESULT_PAGE).forward(req, resp);
     }
 }

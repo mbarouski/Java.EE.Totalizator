@@ -18,6 +18,7 @@ import java.io.IOException;
 import static sport.totalizator.entity.User.Role.ADMINISTRATOR;
 import static sport.totalizator.entity.User.Role.MODERATOR;
 import static sport.totalizator.entity.User.Role.USER;
+import static sport.totalizator.util.JspPathes.PERSONAL_PAGE;
 
 public class ShowPersonalPageCommand implements ICommand {
     private UserService userService = ServiceFactory.getInstance().getUserService();
@@ -34,6 +35,6 @@ public class ShowPersonalPageCommand implements ICommand {
         catch (ServiceException exc){
             throw new CommandException(exc);
         }
-        req.getRequestDispatcher("personal_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(PERSONAL_PAGE).forward(req, resp);
     }
 }

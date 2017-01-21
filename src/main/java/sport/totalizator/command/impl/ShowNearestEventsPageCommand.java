@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static sport.totalizator.command.CommandEnum.SHOW_NEAREST_EVENTS_PAGE_COMMAND;
+import static sport.totalizator.util.JspPathes.MAIN_PAGE;
 import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
 public class ShowNearestEventsPageCommand implements ICommand {
@@ -38,6 +39,6 @@ public class ShowNearestEventsPageCommand implements ICommand {
             throw new CommandException(exc);
         }
         req.setAttribute("command", SHOW_NEAREST_EVENTS_PAGE_COMMAND.getValue());
-        req.getRequestDispatcher("main_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(MAIN_PAGE).forward(req, resp);
     }
 }

@@ -13,12 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static sport.totalizator.entity.User.Role.MODERATOR;
+import static sport.totalizator.util.JspPathes.ADD_MEMBER_PAGE;
 
 public class ShowAddMemberPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         checkRoots(req, new User.Role[]{MODERATOR});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
-        req.getRequestDispatcher("add_member_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(ADD_MEMBER_PAGE).forward(req, resp);
     }
 }

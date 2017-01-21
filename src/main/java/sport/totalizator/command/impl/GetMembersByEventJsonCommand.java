@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static sport.totalizator.util.JspPathes.JSON;
+
 public class GetMembersByEventJsonCommand implements ICommand{
     private static final Logger log = Logger.getLogger(GetMembersByEventJsonCommand.class);
     private MemberService memberService = ServiceFactory.getInstance().getMemberService();
@@ -33,7 +35,7 @@ public class GetMembersByEventJsonCommand implements ICommand{
         }
         resp.setHeader("Content-type", "json");
         req.setAttribute("json", JsonSerializer.json(members));
-        req.getRequestDispatcher("json.jsp").forward(req, resp);
+        req.getRequestDispatcher(JSON).forward(req, resp);
     }
 }
 

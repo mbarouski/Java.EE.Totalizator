@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static sport.totalizator.util.JspPathes.EVENT_PAGE;
+
 public class ShowEventPageCommand implements ICommand{
     private static final Logger log = Logger.getLogger(ShowEventPageCommand.class);
 
@@ -37,6 +39,6 @@ public class ShowEventPageCommand implements ICommand{
             log.error(exc);
             throw new CommandException(exc);
         }
-        req.getRequestDispatcher("event_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(EVENT_PAGE).forward(req, resp);
     }
 }
