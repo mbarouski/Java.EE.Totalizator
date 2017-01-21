@@ -96,7 +96,7 @@ public class EventServiceImpl implements EventService {
         try {
             PaginationObject<Event> paginationObject = new PaginationObject<>();
             List<Event> events = eventDAO.getAllEndedEvents();
-            paginationObject.setPageCount((int)Math.ceil(events.size() / PaginationObject.PER_PAGE));
+            paginationObject.setPageCount((int)Math.ceil((double)events.size() / PaginationObject.PER_PAGE));
             paginationObject.setPage(page);
             int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
             int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;

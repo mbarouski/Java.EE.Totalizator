@@ -55,6 +55,7 @@ public class RateServiceImpl implements RateService {
             rate.setMember1Id(checkInt(member1Id, rateException, "err.member-id-is-invalid"));
         }
         if(type.equals(EXACT_SCORE)){
+            rate.setMember1Id(checkInt(member1Id, rateException, "err.member-id-is-invalid"));
             rate.setMember2Id(checkInt(member2Id, rateException, "err.member-id-is-invalid"));
             rate.setMember1Score(checkInt(member1Score, rateException, "err.member-score-is-invalid"));
             rate.setMember2Score(checkInt(member2Score, rateException, "err.member-score-is-invalid"));

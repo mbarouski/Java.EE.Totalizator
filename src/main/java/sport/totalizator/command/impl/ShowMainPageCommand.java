@@ -4,10 +4,6 @@ import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
-import sport.totalizator.dao.EventDAO;
-import sport.totalizator.dao.exception.DAOException;
-import sport.totalizator.dao.impl.CategoryDAOImpl;
-import sport.totalizator.dao.impl.EventDAOImpl;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
@@ -19,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static sport.totalizator.command.CommandEnum.SHOW_MAIN_PAGE;
+import static sport.totalizator.util.JspPathes.MAIN_PAGE;
 import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
 public class ShowMainPageCommand implements ICommand {
@@ -40,6 +37,6 @@ public class ShowMainPageCommand implements ICommand {
         catch (ServiceException exc){
             throw new CommandException(exc);
         }
-        req.getRequestDispatcher("main_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(MAIN_PAGE).forward(req, resp);
     }
 }

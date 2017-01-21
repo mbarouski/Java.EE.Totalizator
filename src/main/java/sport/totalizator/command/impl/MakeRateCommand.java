@@ -5,6 +5,7 @@ import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
+import sport.totalizator.entity.Rate;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.RateException;
 import sport.totalizator.exception.UnauthorizedException;
@@ -37,8 +38,9 @@ public class MakeRateCommand implements ICommand{
         String member1Score = req.getParameter("member-1-score");
         String member2Score = req.getParameter("member-2-score");
         String username = (String)req.getSession().getAttribute("username");
+        Rate rate = null;
         try {
-            rateService.makeRate(type, eventId, username, money, member1Id, member1Score, member2Id, member2Score);
+            rate = rateService.makeRate(type, eventId, username, money, member1Id, member1Score, member2Id, member2Score);
         }
         catch(ServiceException exc){
             log.error(exc);
@@ -52,6 +54,7 @@ public class MakeRateCommand implements ICommand{
         }
         req.setAttribute("rate", eventId);
         req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.rate-maked", req));
+        req.setAttribute("rate", rate);
         CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAKE_RATE_PAGE).execute(req, resp);
     }
 }
