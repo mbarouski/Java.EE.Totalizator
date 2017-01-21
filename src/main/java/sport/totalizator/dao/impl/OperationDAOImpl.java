@@ -36,37 +36,26 @@ public class OperationDAOImpl implements OperationDAO {
     }
 
     @Override
-    public Operation addOperation(Operation operation) throws DAOException, OperationException {
-        Connection connection = null;
+    public Operation addOperation(Connection connection, Operation operation) throws DAOException, OperationException {
         PreparedStatement statement = null;
-        try{
-            connection = pool.getConnection();
-            connection.setAutoCommit(false);
-            Savepoint savepoint = connection.setSavepoint();
-            try {
-                statement = connection.prepareStatement(SQL_FOR_ADD_OPERATION);
-                statement.setInt(1, operation.getUserId());
-                statement.setString(2, operation.getOperationType());
-                statement.setBigDecimal(3, operation.getAmount());
-                statement.setString(4, operation.getCardNumber());
-                statement.setString(5, operation.getValidityDate());
-                statement.executeUpdate();
-            } catch (SQLException exc) {
-                connection.rollback(savepoint);
-                log.error(exc);
-                throw new DAOException(exc);
-            } finally {
-                connection.setAutoCommit(true);
-                if(statement != null){
-                    statement.close();
-                }
-            }
-        } catch (SQLException exc){
+        try {
+            statement = connection.prepareStatement(SQL_FOR_ADD_OPERATION);
+            statement.setInt(1, operation.getUserId());
+            statement.setString(2, operation.getOperationType());
+            statement.setBigDecimal(3, operation.getAmount());
+            statement.setString(4, operation.getCardNumber());
+            statement.setString(5, operation.getValidityDate());
+            statement.executeUpdate();
+        } catch (SQLException exc) {
             log.error(exc);
             throw new DAOException(exc);
         } finally {
-            if(connection != null){
-                pool.returnConnectionToPool(connection);
+            if(statement != null){
+                try {
+                    statement.close();
+                } catch (SQLException sqlExc){
+                    log.error(sqlExc);
+                }
             }
         }
         return operation;

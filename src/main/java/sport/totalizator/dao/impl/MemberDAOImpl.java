@@ -92,36 +92,29 @@ public class MemberDAOImpl implements MemberDAO {
 
 
     @Override
-    public void attachMembersToEvent(List<Integer> memberIds, int eventId) throws DAOException {
+    public void attachMembersToEvent(Connection connection, List<Integer> memberIds, int eventId) throws DAOException {
         for(Integer memberId : memberIds){
-            attachMemberToEvent(memberId, eventId);
+            attachMemberToEvent(connection, memberId, eventId);
         }
     }
 
-    private void attachMemberToEvent(int memberId, int eventId) throws DAOException{
-        Connection connection = null;
+    private void attachMemberToEvent(Connection connection, int memberId, int eventId) throws DAOException{
         PreparedStatement statement = null;
-        try{
-            connection = pool.getConnection();
-            try {
-                statement = connection.prepareStatement(SQL_FOR_ATTACH_MEMBER_TO_EVENT);
-                statement.setInt(1, eventId);
-                statement.setInt(2, memberId);
-                statement.executeUpdate();
-            } catch (SQLException exc){
-                log.error(exc);
-                throw new DAOException(exc);
-            } finally {
-                if(statement != null){
-                    statement.close();
-                }
-            }
+        try {
+            statement = connection.prepareStatement(SQL_FOR_ATTACH_MEMBER_TO_EVENT);
+            statement.setInt(1, eventId);
+            statement.setInt(2, memberId);
+            statement.executeUpdate();
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
         } finally {
-            if(connection != null){
-                pool.returnConnectionToPool(connection);
+            if(statement != null){
+                try {
+                    statement.close();
+                } catch (SQLException exc) {
+                    log.error(exc);
+                }
             }
         }
     }

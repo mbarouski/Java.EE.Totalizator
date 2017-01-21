@@ -276,69 +276,47 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void fillUpBalanceForUser(int userId, BigDecimal money) throws DAOException {
-        Connection connection = null;
+    public void fillUpBalanceForUser(Connection connection, int userId, BigDecimal money) throws DAOException {
         PreparedStatement statement = null;
-        try{
-            connection = pool.getConnection();
-            connection.setAutoCommit(false);
-            Savepoint savepoint = connection.setSavepoint();
-            try {
-                statement = connection.prepareStatement(SQL_FOR_FILL_UP_BALANCE_FOR_USER);
-                statement.setBigDecimal(1, money);
-                statement.setInt(2, userId);
-                statement.executeUpdate();
-            } catch (SQLException exc) {
-                connection.rollback(savepoint);
-                log.error(exc);
-                throw new DAOException(exc);
-            } finally {
-                connection.setAutoCommit(true);
-                if(statement != null){
-                    statement.close();
-                }
-            }
-        } catch (SQLException exc){
+        try {
+            statement = connection.prepareStatement(SQL_FOR_FILL_UP_BALANCE_FOR_USER);
+            statement.setBigDecimal(1, money);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException exc) {
             log.error(exc);
             throw new DAOException(exc);
         } finally {
-            if(connection != null){
-                pool.returnConnectionToPool(connection);
+            if(statement != null){
+                try {
+                    statement.close();
+                } catch (SQLException sqlExc){
+                    log.error(sqlExc);
+                }
             }
         }
     }
 
     @Override
-    public void withdrawMoneyFromUser(int userId, BigDecimal money) throws DAOException {
-        Connection connection = null;
+    public void withdrawMoneyFromUser(Connection connection, int userId, BigDecimal money) throws DAOException {
         PreparedStatement statement = null;
-        try{
-            connection = pool.getConnection();
-            connection.setAutoCommit(false);
-            Savepoint savepoint = connection.setSavepoint();
             try {
                 statement = connection.prepareStatement(SQL_FOR_WITHDRAW_MONEY_FROM_USER);
                 statement.setBigDecimal(1, money);
                 statement.setInt(2, userId);
                 statement.executeUpdate();
             } catch (SQLException exc) {
-                connection.rollback(savepoint);
                 log.error(exc);
                 throw new DAOException(exc);
             } finally {
-                connection.setAutoCommit(true);
                 if(statement != null){
-                    statement.close();
+                    try {
+                        statement.close();
+                    } catch (SQLException exc){
+                        log.error(exc);
+                    }
                 }
             }
-        } catch (SQLException exc){
-            log.error(exc);
-            throw new DAOException(exc);
-        } finally {
-            if(connection != null){
-                pool.returnConnectionToPool(connection);
-            }
-        }
     }
 
     private String insertListToQuery(String sql, List<Integer> idList){

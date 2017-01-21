@@ -6,6 +6,7 @@ import sport.totalizator.entity.User;
 import sport.totalizator.exception.UserException;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.util.List;
 
 public interface UserDAO {
@@ -19,9 +20,9 @@ public interface UserDAO {
 
     int getUserIdByLogin(String login) throws DAOException;
 
-    void fillUpBalanceForUser(int userId, BigDecimal money) throws DAOException;
+    void fillUpBalanceForUser(Connection connection, int userId, BigDecimal money) throws DAOException;
 
-    void withdrawMoneyFromUser(int userId, BigDecimal money) throws DAOException;
+    void withdrawMoneyFromUser(Connection connection, int userId, BigDecimal money) throws DAOException;
 
     boolean haveMoney(int userId, BigDecimal money) throws DAOException;
 

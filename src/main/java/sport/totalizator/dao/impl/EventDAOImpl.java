@@ -202,57 +202,47 @@ public class EventDAOImpl implements EventDAO{
     }
 
     @Override
-    public Event addEvent(Event event) throws DAOException {
-        Connection connection = null;
+    public Event addEvent(Connection connection, Event event) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try{
-            connection = pool.getConnection();
-            try {
-                statement = connection.prepareStatement(SQL_FOR_ADD_EVENT, Statement.RETURN_GENERATED_KEYS);
-                statement.setString(1, event.getEventName());
-                statement.setInt(2, event.getLeagueId());
-                statement.setString(3, event.getRateTypes());
-                statement.setString(4, event.getLiveTranslationLink());
-                statement.setTimestamp(5, new Timestamp(event.getEventDate().getTime()));
-                int result = statement.executeUpdate();
-                try{
-                    resultSet = statement.getGeneratedKeys();
-                    resultSet.next();
-                    event.setEventId(resultSet.getInt(1));
-                } catch (SQLException exc){
-                    log.error(exc);
-                    throw new DAOException(exc);
-                } finally {
-                    if(resultSet != null){
-                        resultSet.close();
-                    }
-                }
+        try {
+            statement = connection.prepareStatement(SQL_FOR_ADD_EVENT, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, event.getEventName());
+            statement.setInt(2, event.getLeagueId());
+            statement.setString(3, event.getRateTypes());
+            statement.setString(4, event.getLiveTranslationLink());
+            statement.setTimestamp(5, new Timestamp(event.getEventDate().getTime()));
+            int result = statement.executeUpdate();
+            try{
+                resultSet = statement.getGeneratedKeys();
+                resultSet.next();
+                event.setEventId(resultSet.getInt(1));
             } catch (SQLException exc){
                 log.error(exc);
                 throw new DAOException(exc);
             } finally {
-                if(statement != null){
-                    statement.close();
+                if(resultSet != null){
+                    resultSet.close();
                 }
             }
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
         } finally {
-            if(connection != null){
-                pool.returnConnectionToPool(connection);
+            if(statement != null){
+                try {
+                    statement.close();
+                } catch (SQLException exc){
+                    log.error(exc);
+                }
             }
         }
         return event;
     }
 
     @Override
-    public void finishEvent(int eventId) throws DAOException {
-        Connection connection = null;
+    public void finishEvent(Connection connection, int eventId) throws DAOException {
         PreparedStatement statement = null;
-        try{
-            connection = pool.getConnection();
             try {
                 statement = connection.prepareStatement(SQL_FOR_FINISH_EVENT);
                 statement.setInt(1, eventId);
@@ -262,16 +252,12 @@ public class EventDAOImpl implements EventDAO{
                 throw new DAOException(exc);
             } finally {
                 if(statement != null){
-                    statement.close();
+                    try {
+                        statement.close();
+                    } catch (SQLException exc){
+                        log.error(exc);
+                    }
                 }
             }
-        } catch (SQLException exc){
-            log.error(exc);
-            throw new DAOException(exc);
-        } finally {
-            if(connection != null){
-                pool.returnConnectionToPool(connection);
-            }
-        }
     }
 }

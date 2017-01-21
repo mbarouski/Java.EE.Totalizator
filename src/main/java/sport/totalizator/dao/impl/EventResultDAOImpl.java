@@ -28,33 +28,26 @@ public class EventResultDAOImpl implements EventResultDAO {
     EventResultDAOImpl(){}
 
     @Override
-    public EventResult addEventResult(EventResult eventResult) throws DAOException {
-        Connection connection = null;
+    public EventResult addEventResult(Connection connection, EventResult eventResult) throws DAOException {
         PreparedStatement statement = null;
-        try{
-            connection = pool.getConnection();
-            try {
-                statement = connection.prepareStatement(SQL_FOR_ADD_EVENT_RESULT);
-                statement.setInt(1, eventResult.getEventId());
-                statement.setInt(2, eventResult.getWinnerId());
-                statement.setInt(3, eventResult.getWinnerScore());
-                statement.setInt(4, eventResult.getLoserId());
-                statement.setInt(5, eventResult.getLoserScore());
-                statement.executeUpdate();
-            } catch (SQLException exc){
-                log.error(exc);
-                throw new DAOException(exc);
-            } finally {
-                if(statement != null){
-                    statement.close();
-                }
-            }
+        try {
+            statement = connection.prepareStatement(SQL_FOR_ADD_EVENT_RESULT);
+            statement.setInt(1, eventResult.getEventId());
+            statement.setInt(2, eventResult.getWinnerId());
+            statement.setInt(3, eventResult.getWinnerScore());
+            statement.setInt(4, eventResult.getLoserId());
+            statement.setInt(5, eventResult.getLoserScore());
+            statement.executeUpdate();
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
         } finally {
-            if(connection != null){
-                pool.returnConnectionToPool(connection);
+            if(statement != null){
+                try {
+                    statement.close();
+                } catch (SQLException sqlExc){
+                    log.error(sqlExc);
+                }
             }
         }
         return eventResult;

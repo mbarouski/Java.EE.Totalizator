@@ -7,6 +7,7 @@ import sport.totalizator.dao.RateDAO;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
+import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Event;
 import sport.totalizator.entity.EventResult;
 import sport.totalizator.entity.Rate;
@@ -15,6 +16,9 @@ import sport.totalizator.service.EventResultService;
 import sport.totalizator.service.exception.ServiceException;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,6 +34,7 @@ public class EventResultServiceImpl implements EventResultService {
     EventDAO eventDAO;
     RateDAO rateDAO;
     UserDAO userDAO;
+    ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 
     public static EventResultService getInstance(){
         return instance;
@@ -65,18 +70,38 @@ public class EventResultServiceImpl implements EventResultService {
         if(eventResultException.getErrorMessageList().size() > 0){
             throw eventResultException;
         }
+        Connection connection = null;
+        Savepoint savepoint = null;
         try{
-            eventResultDAO.addEventResult(eventResult);
-            eventDAO.finishEvent(eventResult.getEventId());
-            distributePrize(eventResult);
-        } catch (DAOException exc){
+            connection.setAutoCommit(false);
+            connection.setSavepoint();
+            eventResultDAO.addEventResult(connection, eventResult);
+            eventDAO.finishEvent(connection, eventResult.getEventId());
+            distributePrize(connection, savepoint, eventResult);
+        } catch (DAOException | SQLException exc){
+            try {
+                if(savepoint != null) {
+                    connection.rollback(savepoint);
+                }
+            } catch (SQLException sqlExc){
+                log.error(sqlExc);
+            }
             log.error(exc);
             throw new ServiceException(exc);
+        } finally {
+            if(connection != null){
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException exc){
+                    log.error(exc);
+                }
+                connectionPool.returnConnectionToPool(connection);
+            }
         }
         return eventResult;
     }
 
-    private void distributePrize(EventResult eventResult){
+    private void distributePrize(Connection connection, Savepoint savepoint, EventResult eventResult){
         (new Thread(new Runnable() {
             @Override
             public void run() {
@@ -97,11 +122,16 @@ public class EventResultServiceImpl implements EventResultService {
                         rate.setWin(moneyPerPerson);
                     }
                     for(Rate rate : rateList){
-                        rateDAO.setWinForRate(rate);
-                        userDAO.fillUpBalanceForUser(rate.getUserId(), rate.getWin());
+                        rateDAO.setWinForRate(connection, rate);
+                        userDAO.fillUpBalanceForUser(connection, rate.getUserId(), rate.getWin());
                     }
-                } catch (Exception exc){
-                    log.error(exc);
+                    connection.commit();
+                } catch (DAOException | SQLException exc){
+                    try {
+                        connection.rollback(savepoint);
+                    } catch (SQLException sqlExc){
+                        log.error(sqlExc);
+                    }
                 }
             }
         })).run();

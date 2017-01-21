@@ -6,6 +6,7 @@ import sport.totalizator.dao.EventResultDAO;
 import sport.totalizator.dao.MemberDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
+import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Event;
 import sport.totalizator.entity.EventResult;
 import sport.totalizator.exception.EventException;
@@ -14,7 +15,10 @@ import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.DateParser;
 import sport.totalizator.util.PaginationObject;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,6 +28,7 @@ import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 public class EventServiceImpl implements EventService {
     private static final EventServiceImpl instance = new EventServiceImpl();
     private static final Logger log = Logger.getLogger(EventServiceImpl.class);
+    ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 
     private EventDAO eventDAO;
     private MemberDAO memberDAO;
@@ -44,7 +49,7 @@ public class EventServiceImpl implements EventService {
         try {
             PaginationObject<Event> paginationObject = new PaginationObject<>();
             List<Event> events = eventDAO.getAllNotEndedEvents();
-            paginationObject.setPageCount((int)Math.ceil(events.size() / PaginationObject.PER_PAGE));
+            paginationObject.setPageCount((int)Math.ceil((double)events.size() / PaginationObject.PER_PAGE));
             paginationObject.setPage(page);
             int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
             int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;
@@ -61,7 +66,7 @@ public class EventServiceImpl implements EventService {
         try {
             PaginationObject<Event> paginationObject = new PaginationObject<>();
             List<Event> events = eventDAO.getAllNotEndedEventsSortedByDate();
-            paginationObject.setPageCount((int)Math.ceil(events.size() / PaginationObject.PER_PAGE));
+            paginationObject.setPageCount((int)Math.ceil((double)events.size() / PaginationObject.PER_PAGE));
             paginationObject.setPage(page);
             int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
             int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;
@@ -79,7 +84,7 @@ public class EventServiceImpl implements EventService {
             int intLeagueId = Integer.parseInt(categoryId);
             PaginationObject<Event> paginationObject = new PaginationObject<>();
             List<Event> events = eventDAO.getAllNotEndedEventsByCategoryId(intLeagueId);
-            paginationObject.setPageCount((int)Math.ceil(events.size() / PaginationObject.PER_PAGE));
+            paginationObject.setPageCount((int)Math.ceil((double)events.size() / PaginationObject.PER_PAGE));
             paginationObject.setPage(page);
             int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
             int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;
@@ -96,8 +101,8 @@ public class EventServiceImpl implements EventService {
         try {
             PaginationObject<Event> paginationObject = new PaginationObject<>();
             List<Event> events = eventDAO.getAllEndedEvents();
-            paginationObject.setPageCount((int)Math.ceil((double)events.size() / PaginationObject.PER_PAGE));
             paginationObject.setPage(page);
+            paginationObject.setPageCount((int)Math.ceil((double)events.size() / PaginationObject.PER_PAGE));
             int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
             int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;
             paginationObject.setElementList(events.subList(start, end));
@@ -138,6 +143,8 @@ public class EventServiceImpl implements EventService {
     public Event addEvent(String name, String leagueId, String rateTypes, String liveTranslationLink,
                           String date, List<Integer> memberIds)
             throws ServiceException, EventException{
+        Connection connection = null;
+        Savepoint savepoint = null;
         try {
             Event event = new Event();
             EventException eventException = new EventException(event);
@@ -164,12 +171,29 @@ public class EventServiceImpl implements EventService {
             if(!eventException.getErrorMessageList().isEmpty()){
                 throw eventException;
             }
-            event =  eventDAO.addEvent(event);
-            memberDAO.attachMembersToEvent(memberIds, event.getEventId());
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+            savepoint = connection.setSavepoint();
+            event =  eventDAO.addEvent(connection, event);
+            memberDAO.attachMembersToEvent(connection, memberIds, event.getEventId());
+            connection.commit();
             return event;
-        } catch (DAOException | ParseException exc){
+        } catch (DAOException | ParseException | SQLException exc){
+            try {
+                connection.rollback(savepoint);
+            } catch (SQLException sqlExc){
+                log.error(sqlExc);
+            }
             log.error(exc);
             throw new ServiceException(exc);
+        } finally {
+            if(connection != null){
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException exc){
+                    log.error(exc);
+                }
+            }
         }
     }
 }

@@ -164,13 +164,8 @@ public class RateDAOImpl implements RateDAO{
     }
 
     @Override
-    public Rate addRate(Rate rate) throws DAOException {
-        Connection connection = null;
+    public Rate addRate(Connection connection, Rate rate) throws DAOException {
         PreparedStatement statement = null;
-        try{
-            connection = pool.getConnection();
-            connection.setAutoCommit(false);
-            Savepoint savepoint = connection.setSavepoint();
             try {
                 statement = connection.prepareStatement(SQL_MAP_FOR_ADD_RATE.get(rate.getType()));
                 statement.setInt(1, rate.getUserId());
@@ -188,23 +183,17 @@ public class RateDAOImpl implements RateDAO{
                 }
                 statement.executeUpdate();
             } catch (SQLException exc) {
-                connection.rollback(savepoint);
                 log.error(exc);
                 throw new DAOException(exc);
             } finally {
-                connection.setAutoCommit(true);
                 if(statement != null){
-                    statement.close();
+                    try {
+                        statement.close();
+                    } catch (SQLException exc){
+                        log.error(exc);
+                    }
                 }
             }
-        } catch (SQLException exc){
-            log.error(exc);
-            throw new DAOException(exc);
-        } finally {
-            if(connection != null){
-                pool.returnConnectionToPool(connection);
-            }
-        }
         return rate;
     }
 
@@ -307,35 +296,24 @@ public class RateDAOImpl implements RateDAO{
     }
 
     @Override
-    public void setWinForRate(Rate rate) throws DAOException {
-        Connection connection = null;
+    public void setWinForRate(Connection connection, Rate rate) throws DAOException {
         PreparedStatement statement = null;
-        try{
-            connection = pool.getConnection();
-            connection.setAutoCommit(false);
-            Savepoint savepoint = connection.setSavepoint();
             try {
                 statement = connection.prepareStatement(SQL_FOR_SET_WIN_FOR_RATE);
                 statement.setBigDecimal(1, rate.getWin());
                 statement.setInt(2, rate.getRateId());
                 statement.executeUpdate();
             } catch (SQLException exc) {
-                connection.rollback(savepoint);
                 log.error(exc);
                 throw new DAOException(exc);
             } finally {
-                connection.setAutoCommit(true);
                 if(statement != null){
-                    statement.close();
+                    try {
+                        statement.close();
+                    } catch (SQLException exc){
+                        log.error(exc);
+                    }
                 }
             }
-        } catch (SQLException exc){
-            log.error(exc);
-            throw new DAOException(exc);
-        } finally {
-            if(connection != null){
-                pool.returnConnectionToPool(connection);
-            }
-        }
     }
 }

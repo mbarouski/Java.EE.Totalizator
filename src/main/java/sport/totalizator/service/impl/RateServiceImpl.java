@@ -5,12 +5,16 @@ import sport.totalizator.dao.RateDAO;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
+import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Rate;
 import sport.totalizator.exception.RateException;
 import sport.totalizator.service.RateService;
 import sport.totalizator.service.exception.ServiceException;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Savepoint;
 
 import static sport.totalizator.entity.Rate.EXACT_SCORE;
 import static sport.totalizator.entity.Rate.WIN;
@@ -18,6 +22,7 @@ import static sport.totalizator.entity.Rate.WIN;
 public class RateServiceImpl implements RateService {
     private static final RateServiceImpl instance = new RateServiceImpl();
     private static final Logger log = Logger.getLogger(RateServiceImpl.class);
+    ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 
     private UserDAO userDAO;
     private RateDAO rateDAO;
@@ -70,17 +75,36 @@ public class RateServiceImpl implements RateService {
         if(rateException.getErrorMessageList().size() != 0){
             throw rateException;
         }
+        Connection connection = null;
+        Savepoint savepoint = null;
         try{
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+            savepoint = connection.setSavepoint();
             rate.setUserId(userDAO.getUserIdByLogin(username));
             if(!userDAO.haveMoney(rate.getUserId(), rate.getSum())){
                 rateException.addErrorMessage("err.not-enough-money");
                 throw rateException;
             }
-            userDAO.withdrawMoneyFromUser(rate.getUserId(), rate.getSum());
-            rateDAO.addRate(rate);
-        } catch (DAOException exc){
+            userDAO.withdrawMoneyFromUser(connection, rate.getUserId(), rate.getSum());
+            rateDAO.addRate(connection, rate);
+            connection.commit();
+        } catch (DAOException | SQLException exc){
+            try{
+                connection.rollback(savepoint);
+            } catch (SQLException sqlExc){
+                log.error(sqlExc);
+            }
             log.error(exc);
             throw new ServiceException(exc);
+        } finally {
+            if(connection != null){
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException exc){
+                    log.error(exc);
+                }
+            }
         }
         return rate;
     }

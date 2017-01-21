@@ -31,17 +31,20 @@ public class ShowCategoryPageCommand implements ICommand {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         EventService eventService = ServiceFactory.getInstance().getEventService();
         int page;
+        String categoryId = req.getParameter("categoryId");;
         try{
             page = Integer.parseInt(req.getParameter("page"));
         } catch (NumberFormatException exc){
             page = DEFAULT_PAGE;
         }
         try {
-            req.setAttribute("events", eventService.getAllNotEndedEventsByCategoryId(req.getParameter("categoryId"), page));
+            req.setAttribute("events", eventService.getAllNotEndedEventsByCategoryId(categoryId, page));
         }
         catch (ServiceException exc){
             log.error(exc);
         }
+        req.setAttribute("categoryPage", true);
+        req.setAttribute("categoryId", categoryId);
         req.setAttribute("command", SHOW_CATEGORY_PAGE.getValue());
         req.getRequestDispatcher("main_page.jsp").forward(req, resp);
     }

@@ -3,6 +3,7 @@ package sport.totalizator.dao;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.entity.Event;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface EventDAO {
@@ -16,8 +17,8 @@ public interface EventDAO {
 
     Event getEventById(int eventId) throws DAOException;
 
-    Event addEvent(Event event) throws DAOException;
+    Event addEvent(Connection connection, Event event) throws DAOException;
 
-    void finishEvent(int eventId) throws DAOException;
+    void finishEvent(Connection connection, int eventId) throws DAOException;
 
 }

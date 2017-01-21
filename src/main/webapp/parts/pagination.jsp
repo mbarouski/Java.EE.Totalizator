@@ -5,10 +5,17 @@
             <c:forEach var="page" begin="1" end="${events.pageCount}" >
                 <c:choose>
                     <c:when test="${page == events.page}">
-                        <li><a class="current-page" href="<c:url value="main?command=${command}&page=${page}"/>">${page}</a></li>
+                        <li><a href="#" class="current-page" >${page}</a></li>
                     </c:when>
                     <c:when test="${page != events.page}">
-                        <li><a href="<c:url value="main?command=${command}&page=${page}"/>">${page}</a></li>
+                        <c:choose>
+                            <c:when test="${categoryPage}">
+                                <li><a href="<c:url value="main?command=${command}&page=${page}&categoryId=${categoryId}"/>">${page}</a></li>
+                            </c:when>
+                            <c:when test="true">
+                                <li><a href="<c:url value="main?command=${command}&page=${page}"/>">${page}</a></li>
+                            </c:when>
+                        </c:choose>
                     </c:when>
                 </c:choose>
             </c:forEach>
