@@ -18,7 +18,7 @@ ul.pagination li a {
     text-decoration: none;
     transition: all 0.2s linear;
     border-radius: 20%;
-    border: 0px solid #eba11a;
+    border: 0px dotted #eba11a;
     margin-right: 3px;
 }
 

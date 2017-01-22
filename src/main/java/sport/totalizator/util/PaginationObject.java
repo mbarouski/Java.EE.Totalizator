@@ -3,7 +3,7 @@ package sport.totalizator.util;
 import java.util.List;
 
 public class PaginationObject<T> {
-    public static final int PER_PAGE = 2;
+    public static final int PER_PAGE = 5;
     public static final int DEFAULT_PAGE = 1;
 
     private int page;

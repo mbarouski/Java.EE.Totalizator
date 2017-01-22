@@ -14,7 +14,7 @@ public class JspPathes {
     public final static String ADD_RESULT_PAGE = "add_result_page.jsp";
     public final static String ADD_LEAGUE_PAGE = "add_league_page.jsp";
     public final static String ADD_MEMBER_PAGE = "add_member_page.jsp";
-    public final static String ADMIN_PAGE = "add_member_page.jsp";
+    public final static String ADMIN_PAGE = "admin_page.jsp";
     public final static String EVENT_PAGE = "event_page.jsp";
     public final static String JSON = "json.jsp";
 }
