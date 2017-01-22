@@ -12,6 +12,9 @@
                             <c:when test="${categoryPage}">
                                 <li><a href="<c:url value="main?command=${command}&page=${page}&categoryId=${categoryId}"/>">${page}</a></li>
                             </c:when>
+                            <c:when test="${searchPage}">
+                                <li><a href="<c:url value="main?command=${command}&page=${page}&search=${search}"/>">${page}</a></li>
+                            </c:when>
                             <c:when test="true">
                                 <li><a href="<c:url value="main?command=${command}&page=${page}"/>">${page}</a></li>
                             </c:when>

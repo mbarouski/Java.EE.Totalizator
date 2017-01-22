@@ -17,6 +17,8 @@ public interface EventService {
 
     PaginationObject<Event> getAllNotEndedEventsByCategoryId(String categoryId, int page) throws ServiceException;
 
+    PaginationObject<Event> searchEvents(String searchQuery, int page) throws ServiceException;
+
     PaginationObject<Event> getAllEndedEvents(int page) throws ServiceException;
 
     Event getEventById(int eventId) throws ServiceException;

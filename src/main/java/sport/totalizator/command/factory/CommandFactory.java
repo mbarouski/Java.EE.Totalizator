@@ -55,6 +55,7 @@ public class CommandFactory {
         commands.put(BAN, new BanCommand());
         commands.put(UNBAN, new UnbanCommand());
         commands.put(CHANGE_ROLE, new ChangeRoleCommand());
+        commands.put(SEARCH_EVENT, new SearchEventCommand());
     }
 
     public ICommand createCommand(CommandEnum command){

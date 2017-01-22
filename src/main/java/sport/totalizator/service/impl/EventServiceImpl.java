@@ -97,6 +97,23 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public PaginationObject<Event> searchEvents(String searchQuery, int page) throws ServiceException {
+        try {
+            PaginationObject<Event> paginationObject = new PaginationObject<>();
+            List<Event> events = eventDAO.searchEvents(searchQuery);
+            paginationObject.setPageCount((int)Math.ceil((double)events.size() / PaginationObject.PER_PAGE));
+            paginationObject.setPage(page);
+            int start = (paginationObject.getPage()-1) * PaginationObject.PER_PAGE;
+            int end = start + PaginationObject.PER_PAGE > events.size() ? events.size() : start + PaginationObject.PER_PAGE;
+            paginationObject.setElementList(events.subList(start, end));
+            return paginationObject;
+        } catch (DAOException | NumberFormatException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
+        }
+    }
+
+    @Override
     public PaginationObject<Event> getAllEndedEvents(int page) throws ServiceException {
         try {
             PaginationObject<Event> paginationObject = new PaginationObject<>();

@@ -43,6 +43,14 @@ public class EventDAOImpl implements EventDAO{
             "ON `event`.`league_id` = `league`.`league_id` " +
             "WHERE `event_status` = 'FINISHED' " +
             "OR `event_start_date` < now();";
+    private static final String SQL_FOR_SEARCH_EVENTS = "SELECT `event`.`event_id` " +
+            "AS `id`, `event_name`, `event_category_id`, `league_name`, " +
+            "`event_status`, `event_start_date` AS `date` " +
+            "FROM `event` " +
+            "LEFT JOIN `league` " +
+            "ON `event`.`league_id` = `league`.`league_id` " +
+            "WHERE MATCH(`event_name`) " +
+            "AGAINST (? IN BOOLEAN MODE);";
     private static final String SQL_GOR_GET_ALL_NOT_ENDED_EVENTS = "SELECT `event`.`event_id` AS `id`, `event_name`, `league_name`, " +
             "`event_status`, `event_start_date` AS `date` " +
             "FROM `event` " +
@@ -121,6 +129,23 @@ public class EventDAOImpl implements EventDAO{
 
     public List<Event> getAllNotEndedEventsByCategoryId(int categoryId) throws DAOException {
         return getEventsBySql(SQL_FOR_GET_ALL_NOT_ENDED_EVENTS_BY_CATEGORY_ID, categoryId);
+    }
+
+    @Override
+    public List<Event> searchEvents(String searchQuery) throws DAOException {
+        return getEventsBySql(SQL_FOR_SEARCH_EVENTS, wrapSearchQuery(searchQuery));
+    }
+
+    private String wrapSearchQuery(String searchQuery){
+        searchQuery = searchQuery.replaceAll(" +", " ").trim();
+        searchQuery = searchQuery.replaceAll("[^a-zA-Z0-9а-яА-Я]+", " ");
+        StringBuilder sb = new StringBuilder();
+        for(String str : searchQuery.split("[^A-Za-zа-яА-Я0-9]")){
+            sb.append("*");
+            sb.append(str);
+            sb.append("*");
+        }
+        return sb.toString();
     }
 
     public List<Event> getAllEndedEvents() throws DAOException {

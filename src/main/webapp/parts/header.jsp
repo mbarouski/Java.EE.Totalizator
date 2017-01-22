@@ -8,8 +8,9 @@
             <img class="logo" src="<c:url value="images/logo.png" />" alt="logo" />
         </div>
         <div class="bg-dark">
-            <form class="search">
-                <input type="text" name="what-search" />
+            <form class="search" method="get" action="<c:url value="main"/>">
+                <input type="text" name="search" required pattern="[a-zA-Z0-9 а-яА-Я]+" value="<c:out value="${search}"/>"/>
+                <input type="text" name="command" hidden value="searchEvent"/>
                 <button class="search-btn" type="submit"><fmt:message bundle="${loc}" key="btn.search" /></button>
             </form>
         </div>

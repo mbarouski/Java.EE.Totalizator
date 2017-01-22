@@ -13,6 +13,8 @@ public interface EventDAO {
 
     List<Event> getAllNotEndedEventsByCategoryId(int categoryId) throws DAOException;
 
+    List<Event> searchEvents(String searchQuery) throws DAOException;
+
     List<Event> getAllEndedEvents() throws DAOException;
 
     Event getEventById(int eventId) throws DAOException;
