@@ -41,7 +41,7 @@
                                 <option value="${member.id}">${member.name}</option>
                             </c:forEach>
                         </select>
-                        <input name="winner-score" type="text" pattern="[0-9]+"/>
+                        <input name="winner-score" type="text" pattern="[0-9]+" title="<fmt:message bundle="${loc}" key="help.numbers"/>"/>
                     </div>
                     <div class="input-div">
                         <label><fmt:message bundle="${loc}" key="label.choose-loser"/></label>
@@ -51,7 +51,7 @@
                                 <option value="${member.id}">${member.name}</option>
                             </c:forEach>
                         </select>
-                        <input name="loser-score" type="text" pattern="[0-9]+"/>
+                        <input name="loser-score" type="text" pattern="[0-9]+" title="<fmt:message bundle="${loc}" key="help.numbers"/>"/>
                     </div>
                     <div class="btn-container">
                         <button style="width: 300px;" class="submit-btn" type="submit"><fmt:message bundle="${loc}" key="link.addEventResult"/></button>

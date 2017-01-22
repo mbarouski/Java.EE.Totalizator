@@ -52,7 +52,7 @@
 
                     <div class="input-div">
                         <label><fmt:message bundle="${loc}" key="label.name" /></label>
-                        <input type="text" name="name" required />
+                        <input type="text" name="name" required title="<fmt:message bundle="${loc}" key="help.eng-rus-letters-numbers-space"/>" pattern="[a-zA-Z0-9 а-яА-Я-]+"/>
                     </div>
 
                     <div class="btn-container">

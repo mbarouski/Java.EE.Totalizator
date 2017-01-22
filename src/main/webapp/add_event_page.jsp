@@ -34,7 +34,7 @@
                     </c:if>
                     <div class="input-div">
                         <label><fmt:message bundle="${loc}" key="label.name" /></label>
-                        <input type="text" name="name" required />
+                        <input type="text" name="name" required title="<fmt:message bundle="${loc}" key="help.eng-rus-letters-numbers-space"/>" pattern="[a-zA-Z0-9 а-яА-Я-]+"/>
                     </div>
                     <div class="input-div">
                         <label><fmt:message bundle="${loc}" key="label.live-link" /></label>
@@ -110,6 +110,6 @@
 <script src="<c:url value="js/jquery/jquery.js" />"></script>
 <script src="<c:url value="js/jquery/jquery.datetimepicker.full.js" />"></script>
 <script>
-    $('#datetimepicker').datetimepicker({value:'2015/04/15 05:03',step:10});
+    $('#datetimepicker').datetimepicker({value: new Date,step:10});
 </script>
 </html>
