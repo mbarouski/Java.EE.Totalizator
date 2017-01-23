@@ -13,6 +13,7 @@ import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.DateParser;
+import sport.totalizator.util.NumberValidator;
 import sport.totalizator.util.PaginationObject;
 
 import java.sql.Connection;
@@ -79,7 +80,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public PaginationObject<Event> getAllNotEndedEventsByCategoryId(String categoryId, int page) throws ServiceException {
         try {
-            int intLeagueId = Integer.parseInt(categoryId);
+            int intLeagueId = NumberValidator.parseInt(categoryId, 0);
             PaginationObject<Event> paginationObject = new PaginationObject<>();
             List<Event> events = eventDAO.getAllNotEndedEventsByCategoryId(intLeagueId);
             paginationObject.setPageCount((int)Math.ceil((double)events.size() / PaginationObject.PER_PAGE));
@@ -167,14 +168,7 @@ public class EventServiceImpl implements EventService {
                 eventException.addMessage("err.event-empty-name");
             }
             event.setEventName(name);
-            int intLeagueId;
-            try {
-                intLeagueId = Integer.parseInt(leagueId);
-            }
-            catch (NumberFormatException exc){
-                log.error(exc);
-                intLeagueId = 0;
-            }
+            int intLeagueId = NumberValidator.parseInt(leagueId, eventException, "err.incorrect-league");
             event.setLeagueId(intLeagueId);
             Date sqlDate = DateParser.parse(date);
             if(sqlDate.before(Date.valueOf(LocalDate.now()))){

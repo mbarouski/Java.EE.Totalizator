@@ -8,6 +8,7 @@ import sport.totalizator.entity.League;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.LeagueService;
 import sport.totalizator.service.exception.ServiceException;
+import sport.totalizator.util.NumberValidator;
 
 import java.util.List;
 
@@ -42,12 +43,7 @@ public class LeagueServiceImpl implements LeagueService {
             leagueException.addMessage("err.name-is-invalid");
         }
         league.setName(name);
-        int intCategoryId = 0;
-        try{
-            intCategoryId = Integer.parseInt(categoryId);
-        } catch (NumberFormatException exc){
-            log.error(exc);
-        }
+        int intCategoryId = NumberValidator.parseInt(categoryId, leagueException, "err.incorrect-category");
         league.setCategoryId(intCategoryId);
         if(leagueException.getErrorMessageList().size() > 0){
             throw leagueException;

@@ -11,6 +11,7 @@ import sport.totalizator.entity.Operation;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.PaySystemService;
 import sport.totalizator.service.exception.ServiceException;
+import sport.totalizator.util.NumberValidator;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -51,13 +52,8 @@ public class PaySystemServiceImpl implements PaySystemService {
             operationException.addMessage("err.card-code-is-invalid");
         }
         operation.setCardCode(cardCode);
-        BigDecimal bigDecimalAmount;
-        try{
-            bigDecimalAmount = BigDecimal.valueOf(Double.parseDouble(amount));
-            operation.setAmount(bigDecimalAmount);
-        } catch (NumberFormatException exc){
-            operationException.addMessage("err.amount-is-invalid");
-        }
+        BigDecimal bigDecimalAmount = BigDecimal.valueOf(NumberValidator.parseDouble(amount, operationException, "err.amount-is-invalid"));
+        operation.setAmount(bigDecimalAmount);
         if(operationException.getErrorMessageList().size() != 0){
             throw operationException;
         }
@@ -110,13 +106,9 @@ public class PaySystemServiceImpl implements PaySystemService {
             operationException.addMessage("err.validity-date-is-invalid");
         }
         operation.setValidityDate(validityDate);
-        BigDecimal bigDecimalAmount;
-        try{
-            bigDecimalAmount = BigDecimal.valueOf(Double.parseDouble(amount));
-            operation.setAmount(bigDecimalAmount);
-        } catch (NumberFormatException exc){
-            operationException.addMessage("err.amount-is-invalid");
-        }
+        BigDecimal bigDecimalAmount = BigDecimal.valueOf(NumberValidator.parseDouble(amount,
+                    operationException, "err.amount-is-invalid"));
+        operation.setAmount(bigDecimalAmount);
         if(operationException.getErrorMessageList().size() != 0){
             throw operationException;
         }

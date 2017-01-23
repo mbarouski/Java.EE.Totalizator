@@ -9,6 +9,7 @@ import sport.totalizator.service.MemberService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
 import sport.totalizator.util.JsonSerializer;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,7 @@ public class GetMembersByEventJsonCommand implements ICommand{
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        int eventId = Integer.parseInt(req.getParameter("eventId"));
+        int eventId = NumberValidator.parseInt(req.getParameter("eventId"), 0);
         List<Member> members = new ArrayList<Member>();
         try {
             members = memberService.getMembersByEvent(eventId);

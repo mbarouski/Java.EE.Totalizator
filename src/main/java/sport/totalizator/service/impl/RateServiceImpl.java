@@ -10,6 +10,7 @@ import sport.totalizator.entity.Rate;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.RateService;
 import sport.totalizator.service.exception.ServiceException;
+import sport.totalizator.util.NumberValidator;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -36,17 +37,6 @@ public class RateServiceImpl implements RateService {
         userDAO = DAOFactory.getFactory().getUserDAO();
     }
 
-    private int checkInt(String stringValue, ExceptionWithErrorList rateException, String errorMessage){
-        int intValue;
-        try{
-            intValue = Integer.parseInt(stringValue);
-            return intValue;
-        } catch (NumberFormatException exc){
-            rateException.addMessage(errorMessage);
-            return 0;
-        }
-    }
-
     @Override
     public Rate makeRate(String type, String eventId, String username, String money,
                          String member1Id, String member1Score, String member2Id, String member2Score)
@@ -57,23 +47,18 @@ public class RateServiceImpl implements RateService {
             rateException.addMessage("err.rate-type-is-invalid");
         }
         rate.setType(type);
-        rate.setEventId(checkInt(eventId, rateException, "err.event-id-is-invalid"));
+        rate.setEventId(NumberValidator.parseInt(eventId, rateException, "err.event-id-is-invalid"));
         if(type.equals(WIN)){
-            rate.setMember1Id(checkInt(member1Id, rateException, "err.member-id-is-invalid"));
+            rate.setMember1Id(NumberValidator.parseInt(member1Id, rateException, "err.member-id-is-invalid"));
         }
         if(type.equals(EXACT_SCORE)){
-            rate.setMember1Id(checkInt(member1Id, rateException, "err.member-id-is-invalid"));
-            rate.setMember2Id(checkInt(member2Id, rateException, "err.member-id-is-invalid"));
-            rate.setMember1Score(checkInt(member1Score, rateException, "err.member-score-is-invalid"));
-            rate.setMember2Score(checkInt(member2Score, rateException, "err.member-score-is-invalid"));
+            rate.setMember1Id(NumberValidator.parseInt(member1Id, rateException, "err.member-id-is-invalid"));
+            rate.setMember2Id(NumberValidator.parseInt(member2Id, rateException, "err.member-id-is-invalid"));
+            rate.setMember1Score(NumberValidator.parseInt(member1Score, rateException, "err.member-score-is-invalid"));
+            rate.setMember2Score(NumberValidator.parseInt(member2Score, rateException, "err.member-score-is-invalid"));
         }
-        BigDecimal bigDecimalmoney;
-        try{
-            bigDecimalmoney = BigDecimal.valueOf(Double.parseDouble(money));
-            rate.setSum(bigDecimalmoney);
-        } catch (NumberFormatException exc){
-            rateException.addMessage("err.amount-is-invalid");
-        }
+        BigDecimal bigDecimalmoney = BigDecimal.valueOf(NumberValidator.parseDouble(money,
+                rateException, "err.amount-is-invalid"));
         if(rateException.getErrorMessageList().size() != 0){
             throw rateException;
         }

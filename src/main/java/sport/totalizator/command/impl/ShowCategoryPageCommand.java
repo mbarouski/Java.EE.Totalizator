@@ -14,6 +14,7 @@ import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,13 +32,8 @@ public class ShowCategoryPageCommand implements ICommand {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         EventService eventService = ServiceFactory.getInstance().getEventService();
-        int page;
-        String categoryId = req.getParameter("categoryId");;
-        try{
-            page = Integer.parseInt(req.getParameter("page"));
-        } catch (NumberFormatException exc){
-            page = DEFAULT_PAGE;
-        }
+        int page = NumberValidator.parseInt(req.getParameter("page"), 1);
+        String categoryId = req.getParameter("categoryId");
         try {
             req.setAttribute("events", eventService.getAllNotEndedEventsByCategoryId(categoryId, page));
         }

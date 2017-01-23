@@ -11,6 +11,7 @@ import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ public class ShowEventPageCommand implements ICommand{
         if(eventId == null){
             eventId = (String)req.getAttribute("eventId");
         }
-        int intEventId = Integer.parseInt(eventId);
+        int intEventId = NumberValidator.parseInt(eventId);
         try {
             Event event = eventService.getEventById(intEventId);
             req.setAttribute("event", event);

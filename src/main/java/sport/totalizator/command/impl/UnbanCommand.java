@@ -8,6 +8,7 @@ import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class UnbanCommand implements ICommand {
         String[] stringIdList = req.getParameter("id-list").split(",");
         List<Integer> idList = new ArrayList<>();
         for(String str : stringIdList){
-            idList.add(Integer.parseInt(str));
+            idList.add(NumberValidator.parseInt(str));
         }
         try{
             userService.unbanUsers(idList);

@@ -10,6 +10,7 @@ import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.MemberService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,10 +32,10 @@ public class ShowAddEventResultPageCommand implements ICommand {
         if(eventId == null){
             eventId = (String)req.getAttribute("eventId");
         }
+        int intEventId = NumberValidator.parseInt(eventId, 0);
+        req.setAttribute("eventId", eventId);
         try{
-            int intEventId = Integer.parseInt(eventId);
             req.setAttribute("members", memberService.getMembersByEvent(intEventId));
-            req.setAttribute("eventId", eventId);
         } catch (ServiceException | NumberFormatException exc){
             log.error(exc);
             throw new CommandException(exc);

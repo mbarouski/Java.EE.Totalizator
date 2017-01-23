@@ -8,6 +8,7 @@ import sport.totalizator.service.LeagueService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
 import sport.totalizator.util.JsonSerializer;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ public class GetLeaguesByCategoryJsonCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
         LeagueService leagueService = ServiceFactory.getInstance().getLeagueService();
-        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        int categoryId = NumberValidator.parseInt(req.getParameter("categoryId"), 0);
         List<League> leagues = new ArrayList<>();
         try {
             leagues = leagueService.getLeaguesByCategory(categoryId);

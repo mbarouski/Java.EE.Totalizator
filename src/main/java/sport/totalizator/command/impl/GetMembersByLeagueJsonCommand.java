@@ -10,6 +10,7 @@ import sport.totalizator.service.MemberService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
 import sport.totalizator.util.JsonSerializer;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class GetMembersByLeagueJsonCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException {
         MemberService memberService = ServiceFactory.getInstance().getMemberService();
-        int leagueId = Integer.parseInt(req.getParameter("leagueId"));
+        int leagueId = NumberValidator.parseInt(req.getParameter("leagueId"), 0);
         List<Member> members = new ArrayList<Member>();
         try {
             members = memberService.getMembersByLeague(leagueId);

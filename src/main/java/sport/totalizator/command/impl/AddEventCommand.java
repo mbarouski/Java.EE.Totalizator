@@ -13,6 +13,7 @@ import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
 import sport.totalizator.util.MessageLocalizer;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -84,10 +85,13 @@ public class AddEventCommand implements ICommand {
         List<Integer> memberIds = new ArrayList<>();
         String memberSelectName = "member-select-";
         int i = 1;
+        int number;
         String memberId;
         try {
             while ((memberId = req.getParameter(memberSelectName + i)) != null) {
-                memberIds.add(Integer.parseInt(memberId));
+                number = NumberValidator.parseInt(memberId);
+                //todo -> check ids in service method
+                memberIds.add(number);
                 i++;
             }
         } catch (NumberFormatException exc){

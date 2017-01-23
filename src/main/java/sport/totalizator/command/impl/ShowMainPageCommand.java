@@ -8,6 +8,7 @@ import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +26,7 @@ public class ShowMainPageCommand implements ICommand {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         req.setAttribute("tab_classes", new String[] {"active", "", "", ""});
         req.setAttribute("command", SHOW_MAIN_PAGE.getValue());
-        int page;
-        try{
-            page = Integer.parseInt(req.getParameter("page"));
-        } catch (NumberFormatException exc){
-            page = DEFAULT_PAGE;
-        }
+        int page = NumberValidator.parseInt(req.getParameter("page"), 1);
         try {
             req.setAttribute("events", eventService.getAllNotEndedEvents(page));
         }

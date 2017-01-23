@@ -8,6 +8,7 @@ import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class ChangeRoleCommand implements ICommand {
         List<Integer> idList = new ArrayList<>();
         String role = req.getParameter("role");
         for(String str : stringIdList){
-            idList.add(Integer.parseInt(str));
+            idList.add(NumberValidator.parseInt(str));
         }
         try{
             userService.changeRoleForUsers(idList, role);

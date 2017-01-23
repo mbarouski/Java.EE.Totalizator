@@ -9,6 +9,7 @@ import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
+import sport.totalizator.util.NumberValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,13 +28,8 @@ public class SearchEventCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
-        int page;
+        int page = NumberValidator.parseInt(req.getParameter("page"), DEFAULT_PAGE);
         String searchQuery = req.getParameter("search");
-        try{
-            page = Integer.parseInt(req.getParameter("page"));
-        } catch (NumberFormatException exc){
-            page = DEFAULT_PAGE;
-        }
         try {
             req.setAttribute("events", eventService.searchEvents(searchQuery, page));
         }

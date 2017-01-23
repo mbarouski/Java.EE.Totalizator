@@ -8,6 +8,7 @@ import sport.totalizator.entity.Member;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.MemberService;
 import sport.totalizator.service.exception.ServiceException;
+import sport.totalizator.util.NumberValidator;
 
 import java.util.List;
 
@@ -53,19 +54,9 @@ public class MemberServiceImpl  implements MemberService{
             memberException.addMessage("err.name-is-invalid");
         }
         member.setName(name);
-        int intCategoryId = 0;
-        try{
-            intCategoryId = Integer.parseInt(categoryId);
-        } catch (NumberFormatException exc){
-            log.error(exc);
-        }
+        int intCategoryId = NumberValidator.parseInt(categoryId, memberException, "err.incorrect-category");
         member.setCategoryId(intCategoryId);
-        int intLeagueId = 0;
-        try{
-            intLeagueId = Integer.parseInt(leagueId);
-        } catch (NumberFormatException exc){
-            log.error(exc);
-        }
+        int intLeagueId = NumberValidator.parseInt(categoryId, memberException, "err.incorrect-league");
         member.setLeagueId(intLeagueId);
         if(memberException.getErrorMessageList().size() > 0){
             throw memberException;

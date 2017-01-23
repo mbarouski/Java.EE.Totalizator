@@ -13,6 +13,7 @@ import sport.totalizator.entity.Rate;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.EventResultService;
 import sport.totalizator.service.exception.ServiceException;
+import sport.totalizator.util.NumberValidator;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -45,26 +46,15 @@ public class EventResultServiceImpl implements EventResultService {
         userDAO = DAOFactory.getFactory().getUserDAO();
     }
 
-    private int checkInt(String stringValue, ExceptionWithErrorList eventResultException, String errorMessage){
-        int intValue;
-        try{
-            intValue = Integer.parseInt(stringValue);
-            return intValue;
-        } catch (NumberFormatException exc){
-            eventResultException.addMessage(errorMessage);
-            return 0;
-        }
-    }
-
     @Override
     public EventResult addEventResult(String eventId, String winnerId, String loserId, String winnerScore, String loserScore) throws ServiceException, ExceptionWithErrorList {
         EventResult eventResult = new EventResult();
         ExceptionWithErrorList eventResultException = new ExceptionWithErrorList(eventResult);
-        eventResult.setEventId(checkInt(eventId, eventResultException, "err.event-id-is-invalid"));
-        eventResult.setWinnerId(checkInt(winnerId, eventResultException, "err.winner-id-is-invalid"));
-        eventResult.setWinnerScore(checkInt(winnerScore, eventResultException, "err.winner-score-is-invalid"));
-        eventResult.setLoserId(checkInt(loserId, eventResultException, "err.loser-id-is-invalid"));
-        eventResult.setLoserScore(checkInt(loserScore, eventResultException, "err.loser-score-is-invalid"));
+        eventResult.setEventId(NumberValidator.parseInt(eventId, eventResultException, "err.event-id-is-invalid"));
+        eventResult.setWinnerId(NumberValidator.parseInt(winnerId, eventResultException, "err.winner-id-is-invalid"));
+        eventResult.setWinnerScore(NumberValidator.parseInt(winnerScore, eventResultException, "err.winner-score-is-invalid"));
+        eventResult.setLoserId(NumberValidator.parseInt(loserId, eventResultException, "err.loser-id-is-invalid"));
+        eventResult.setLoserScore(NumberValidator.parseInt(loserScore, eventResultException, "err.loser-score-is-invalid"));
         if(eventResultException.getErrorMessageList().size() > 0){
             throw eventResultException;
         }
