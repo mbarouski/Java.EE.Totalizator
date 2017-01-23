@@ -5,8 +5,7 @@ import sport.totalizator.entity.EventResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventResultException extends Exception {
-    private List<String> errorMessageList;
+public class EventResultException extends ExceptionWithErrorList {
     private EventResult eventResult;
 
     public EventResultException() {
@@ -26,19 +25,11 @@ public class EventResultException extends Exception {
     }
 
     public EventResultException(EventResult eventResult){
+        super();
         this.eventResult = eventResult;
-        this.errorMessageList = new ArrayList<>();
     }
 
     public EventResult getEventResult(){
         return eventResult;
-    }
-
-    public List<String> getErrorMessageList() {
-        return errorMessageList;
-    }
-
-    public void addErrorMessage(String message){
-        errorMessageList.add(message);
     }
 }

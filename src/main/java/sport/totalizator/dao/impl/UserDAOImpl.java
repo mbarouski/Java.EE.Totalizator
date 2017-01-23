@@ -115,7 +115,8 @@ public class UserDAOImpl implements UserDAO {
                 connection.rollback(savepoint);
                 log.error(exc);
                 if (exc.getErrorCode() == 1062) {
-                    throw new UserException("err.user-exists", user);
+                    UserException userException = new UserException(user);
+                    userException.addMessage("err.user-exists");
                 } else {
                     throw new DAOException(exc);
                 }

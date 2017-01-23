@@ -39,15 +39,15 @@ public class PaySystemServiceImpl implements PaySystemService {
         Operation operation = new Operation();
         OperationException operationException = new OperationException(operation);
         if((cardNumber == null) || (cardNumber.isEmpty()) || (cardNumber.length() != 16)){
-            operationException.addErrorMessage("err.card-number-is-invalid");
+            operationException.addMessage("err.card-number-is-invalid");
         }
         operation.setCardNumber(cardNumber);
         if((validityDate == null) || (validityDate.isEmpty()) || (validityDate.length() != 5)){
-            operationException.addErrorMessage("err.validity-date-is-invalid");
+            operationException.addMessage("err.validity-date-is-invalid");
         }
         operation.setValidityDate(validityDate);
         if((cardCode == null) || (cardCode.isEmpty()) || (cardCode.length() != 3)){
-            operationException.addErrorMessage("err.card-code-is-invalid");
+            operationException.addMessage("err.card-code-is-invalid");
         }
         operation.setCardCode(cardCode);
         BigDecimal bigDecimalAmount;
@@ -55,7 +55,7 @@ public class PaySystemServiceImpl implements PaySystemService {
             bigDecimalAmount = BigDecimal.valueOf(Double.parseDouble(amount));
             operation.setAmount(bigDecimalAmount);
         } catch (NumberFormatException exc){
-            operationException.addErrorMessage("err.amount-is-invalid");
+            operationException.addMessage("err.amount-is-invalid");
         }
         if(operationException.getErrorMessageList().size() != 0){
             throw operationException;
@@ -69,7 +69,7 @@ public class PaySystemServiceImpl implements PaySystemService {
             savepoint = connection.setSavepoint();
             operation.setUserId(userDAO.getUserIdByLogin(username));
             if(!operationDAO.canFillUpBalanceForUser(operation.getUserId())){
-                operationException.addErrorMessage("err.can-not-fill-up-because-time");
+                operationException.addMessage("err.can-not-fill-up-because-time");
                 throw operationException;
             }
             userDAO.fillUpBalanceForUser(connection, operation.getUserId(), operation.getAmount());
@@ -101,11 +101,11 @@ public class PaySystemServiceImpl implements PaySystemService {
         Operation operation = new Operation();
         OperationException operationException = new OperationException(operation);
         if((cardNumber == null) || (cardNumber.isEmpty()) || (cardNumber.length() != 16)){
-            operationException.addErrorMessage("err.card-number-is-invalid");
+            operationException.addMessage("err.card-number-is-invalid");
         }
         operation.setCardNumber(cardNumber);
         if((validityDate == null) || (validityDate.isEmpty()) || (validityDate.length() != 5)){
-            operationException.addErrorMessage("err.validity-date-is-invalid");
+            operationException.addMessage("err.validity-date-is-invalid");
         }
         operation.setValidityDate(validityDate);
         BigDecimal bigDecimalAmount;
@@ -113,7 +113,7 @@ public class PaySystemServiceImpl implements PaySystemService {
             bigDecimalAmount = BigDecimal.valueOf(Double.parseDouble(amount));
             operation.setAmount(bigDecimalAmount);
         } catch (NumberFormatException exc){
-            operationException.addErrorMessage("err.amount-is-invalid");
+            operationException.addMessage("err.amount-is-invalid");
         }
         if(operationException.getErrorMessageList().size() != 0){
             throw operationException;
@@ -127,7 +127,7 @@ public class PaySystemServiceImpl implements PaySystemService {
             savepoint = connection.setSavepoint();
             operation.setUserId(userDAO.getUserIdByLogin(username));
             if(!userDAO.haveMoney(operation.getUserId(), operation.getAmount())){
-                operationException.addErrorMessage("err.can-not-withdraw-money-because-not-enough");
+                operationException.addMessage("err.can-not-withdraw-money-because-not-enough");
                 throw operationException;
             }
             userDAO.withdrawMoneyFromUser(connection, operation.getUserId(), operation.getAmount());

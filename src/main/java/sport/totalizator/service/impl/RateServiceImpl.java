@@ -42,7 +42,7 @@ public class RateServiceImpl implements RateService {
             intValue = Integer.parseInt(stringValue);
             return intValue;
         } catch (NumberFormatException exc){
-            rateException.addErrorMessage(errorMessage);
+            rateException.addMessage(errorMessage);
             return 0;
         }
     }
@@ -52,7 +52,7 @@ public class RateServiceImpl implements RateService {
         Rate rate = new Rate();
         RateException rateException = new RateException(rate);
         if((type == null) || (type.isEmpty())){
-            rateException.addErrorMessage("err.rate-type-is-invalid");
+            rateException.addMessage("err.rate-type-is-invalid");
         }
         rate.setType(type);
         rate.setEventId(checkInt(eventId, rateException, "err.event-id-is-invalid"));
@@ -70,7 +70,7 @@ public class RateServiceImpl implements RateService {
             bigDecimalmoney = BigDecimal.valueOf(Double.parseDouble(money));
             rate.setSum(bigDecimalmoney);
         } catch (NumberFormatException exc){
-            rateException.addErrorMessage("err.amount-is-invalid");
+            rateException.addMessage("err.amount-is-invalid");
         }
         if(rateException.getErrorMessageList().size() != 0){
             throw rateException;
@@ -83,7 +83,7 @@ public class RateServiceImpl implements RateService {
             savepoint = connection.setSavepoint();
             rate.setUserId(userDAO.getUserIdByLogin(username));
             if(!userDAO.haveMoney(rate.getUserId(), rate.getSum())){
-                rateException.addErrorMessage("err.not-enough-money");
+                rateException.addMessage("err.not-enough-money");
                 throw rateException;
             }
             userDAO.withdrawMoneyFromUser(connection, rate.getUserId(), rate.getSum());

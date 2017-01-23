@@ -5,9 +5,8 @@ import sport.totalizator.entity.Member;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberException extends Exception {
+public class MemberException extends ExceptionWithErrorList {
     private Member member;
-    private List<String> errorMessageList;
 
     public MemberException() {
         super();
@@ -26,19 +25,11 @@ public class MemberException extends Exception {
     }
 
     public MemberException(Member member) {
+        super();
         this.member = member;
-        this.errorMessageList = new ArrayList<>();
-    }
-
-    public void addMessage(String message){
-        this.errorMessageList.add(message);
     }
 
     public Member getMember() {
         return member;
-    }
-
-    public List<String> getErrorMessageList() {
-        return errorMessageList;
     }
 }

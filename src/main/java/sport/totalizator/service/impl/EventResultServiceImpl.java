@@ -53,7 +53,7 @@ public class EventResultServiceImpl implements EventResultService {
             intValue = Integer.parseInt(stringValue);
             return intValue;
         } catch (NumberFormatException exc){
-            eventResultException.addErrorMessage(errorMessage);
+            eventResultException.addMessage(errorMessage);
             return 0;
         }
     }

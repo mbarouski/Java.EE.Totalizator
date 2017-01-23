@@ -59,15 +59,18 @@ public class UserServiceImpl implements UserService {
     public User login(String login, String password) throws ServiceException, UserException {
         try {
             User user = userDAO.getUserByLogin(login);
+            UserException userException = new UserException(user);
             if((user == null) || (!user.getPassHash().equals(MD5Converter.getHash(password)))){
                 User errorUser = new User();
                 errorUser.setLogin(login);
-                throw new UserException("err.password-or-login-incorrect", errorUser);
+                userException.addMessage("err.password-or-login-incorrect");
+                throw userException;
             }
             if(user.isBanned()){
                 User errorUser = new User();
                 errorUser.setLogin(login);
-                throw new UserException("err.you-are-banned", errorUser);
+                userException.addMessage("err.you-are-banned");
+                throw userException;
             }
             return user;
         } catch (DAOException exc){

@@ -2,7 +2,7 @@ package sport.totalizator.exception;
 
 import sport.totalizator.entity.User;
 
-public class UserException extends Exception {
+public class UserException extends ExceptionWithErrorList {
     private User user;
 
     public UserException() {
@@ -21,8 +21,8 @@ public class UserException extends Exception {
         super(cause);
     }
 
-    public UserException(String message, User user){
-        this(message);
+    public UserException(User user){
+        super();
         this.user = user;
     }
 

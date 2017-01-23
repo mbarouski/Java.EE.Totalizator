@@ -5,9 +5,8 @@ import sport.totalizator.entity.League;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeagueException extends Exception {
+public class LeagueException extends ExceptionWithErrorList {
     private League league;
-    private List<String> errorMessageList;
 
     public LeagueException() {
         super();
@@ -26,19 +25,11 @@ public class LeagueException extends Exception {
     }
 
     public LeagueException(League league){
-        this.errorMessageList = new ArrayList<>();
+        super();
         this.league = league;
-    }
-
-    public void addMessage(String message){
-        this.errorMessageList.add(message);
     }
 
     public League getLeague() {
         return league;
-    }
-
-    public List<String> getErrorMessageList() {
-        return errorMessageList;
     }
 }

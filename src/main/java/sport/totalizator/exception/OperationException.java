@@ -5,9 +5,8 @@ import sport.totalizator.entity.Operation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OperationException extends Exception {
+public class OperationException extends ExceptionWithErrorList {
     private Operation operation;
-    private List<String> errorMessageList;
 
     public OperationException() {
     }
@@ -25,19 +24,11 @@ public class OperationException extends Exception {
     }
 
     public OperationException(Operation operation){
-        errorMessageList = new ArrayList<>();
+        super();
         this.operation = operation;
     }
 
     public Operation getOperation() {
         return operation;
-    }
-
-    public List<String> getErrorMessageList(){
-        return errorMessageList;
-    }
-
-    public void addErrorMessage(String message){
-        errorMessageList.add(message);
     }
 }

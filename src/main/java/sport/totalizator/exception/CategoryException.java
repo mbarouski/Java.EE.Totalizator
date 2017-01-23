@@ -5,9 +5,8 @@ import sport.totalizator.entity.Category;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryException extends Exception {
+public class CategoryException extends ExceptionWithErrorList {
     private Category category;
-    private List<String> errorMessageList;
 
     public CategoryException() {
         super();
@@ -26,19 +25,11 @@ public class CategoryException extends Exception {
     }
 
     public CategoryException(Category category) {
+        super();
         this.category = category;
-        this.errorMessageList = new ArrayList<>();
     }
 
     public Category getCategory() {
         return category;
-    }
-
-    public void addMessage(String message){
-        this.errorMessageList.add(message);
-    }
-
-    public List<String> getErrorMessageList() {
-        return errorMessageList;
     }
 }

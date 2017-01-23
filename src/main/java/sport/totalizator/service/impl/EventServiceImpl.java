@@ -166,7 +166,7 @@ public class EventServiceImpl implements EventService {
             Event event = new Event();
             EventException eventException = new EventException(event);
             if(name.isEmpty() || (name == null)){
-                eventException.addErrorMessage("err.event-empty-name");
+                eventException.addMessage("err.event-empty-name");
             }
             event.setEventName(name);
             int intLeagueId;
@@ -180,7 +180,7 @@ public class EventServiceImpl implements EventService {
             event.setLeagueId(intLeagueId);
             Date sqlDate = DateParser.parse(date);
             if(sqlDate.before(Date.valueOf(LocalDate.now()))){
-                eventException.addErrorMessage("err.event-old-date");
+                eventException.addMessage("err.event-old-date");
             }
             event.setEventDate(sqlDate);
             event.setLiveTranslationLink(liveTranslationLink);

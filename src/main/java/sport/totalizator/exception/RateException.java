@@ -5,9 +5,8 @@ import sport.totalizator.entity.Rate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RateException extends Exception {
+public class RateException extends ExceptionWithErrorList {
     private Rate rate;
-    private List<String> errorMessageList;
 
     public RateException() {
         super();
@@ -26,16 +25,8 @@ public class RateException extends Exception {
     }
 
     public RateException(Rate rate){
-        errorMessageList = new ArrayList<>();
+        super();
         this.rate = rate;
-    }
-
-    public List<String> getErrorMessageList(){
-        return errorMessageList;
-    }
-
-    public void addErrorMessage(String message){
-        errorMessageList.add(message);
     }
 
     public Rate getRate() {
