@@ -61,6 +61,7 @@ public class EventResultServiceImpl implements EventResultService {
         Connection connection = null;
         Savepoint savepoint = null;
         try{
+            connection = connectionPool.getConnection();
             connection.setAutoCommit(false);
             connection.setSavepoint();
             eventResultDAO.addEventResult(connection, eventResult);

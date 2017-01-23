@@ -56,7 +56,7 @@ public class MemberServiceImpl  implements MemberService{
         member.setName(name);
         int intCategoryId = NumberValidator.parseInt(categoryId, memberException, "err.incorrect-category");
         member.setCategoryId(intCategoryId);
-        int intLeagueId = NumberValidator.parseInt(categoryId, memberException, "err.incorrect-league");
+        int intLeagueId = NumberValidator.parseInt(leagueId, memberException, "err.incorrect-league");
         member.setLeagueId(intLeagueId);
         if(memberException.getErrorMessageList().size() > 0){
             throw memberException;
