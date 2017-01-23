@@ -46,6 +46,7 @@ public class RateServiceImpl implements RateService {
         if((type == null) || (type.isEmpty())){
             rateException.addMessage("err.rate-type-is-invalid");
         }
+        rate.setSum(BigDecimal.valueOf(NumberValidator.parseDouble(money, rateException, "err.amount-is-invalid")));
         rate.setType(type);
         rate.setEventId(NumberValidator.parseInt(eventId, rateException, "err.event-id-is-invalid"));
         if(type.equals(WIN)){

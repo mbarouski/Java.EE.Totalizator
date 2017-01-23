@@ -34,15 +34,15 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         ExceptionWithErrorList userException = new ExceptionWithErrorList(user);
         if((email == null) || (email.isEmpty()))
-            userException.addMessage("email is empty or null");
+            userException.addMessage("err.email-is-empty-or-null");
         user.setEmail(email);
         if((login == null) || (login.isEmpty())){
-            userException.addMessage("login is empty or null");
+            userException.addMessage("err.login-is-empty-or-null");
         }
         user.setLogin(login);
         if((password == null) || (password.isEmpty()) || (confirmPassword == null)
                 || (confirmPassword.isEmpty()) || (!password.equals(confirmPassword))){
-            userException.addMessage("password or passowrd confirmation is invalid");
+            userException.addMessage("err.password-or-passowrd-confirmation-is-invalid");
         }
         user.setPassHash(MD5Converter.getHash(password));
         if(userException.getErrorMessageList().size() > 0){

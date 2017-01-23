@@ -35,7 +35,7 @@ public class RegisterCommand implements ICommand {
             log.error(exc);
             throw new CommandException(exc);
         } catch (ExceptionWithErrorList exc){
-            req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getMessage(), req));
+            req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getErrorMessageList(), req));
             req.setAttribute("user", exc.getCauseObject());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_REGISTRATION_PAGE).execute(req, resp);
         }

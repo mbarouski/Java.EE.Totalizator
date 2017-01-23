@@ -33,7 +33,7 @@
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.card-number"/></label>
                             <input placeholder="XXXXXXXXXXXXXXXX" type="text" name="card-number" pattern="[0-9]{16}" required
-                                   value="<c:out value="${operation.cardNumber}"/>"/>
+                                   value="<c:out value="${operation.cardNumber}"/>" title="<fmt:message bundle="${loc}" key="help.card-number"/>"/>
                         </div>
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.validity-period"/></label>
@@ -43,7 +43,7 @@
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.amount"/></label>
                             <input placeholder="XXX.XX" type="text" name="amount" pattern="[0-9]{1,3}\.[0-9]{1,2}" required
-                                   value="<c:out value="${operation.amount}"/>"/>
+                                   value="<c:out value="${operation.amount}"/>" title="<fmt:message bundle="${loc}" key="help.amount"/>"/>
                         </div>
                         <div class="btn-container">
                             <button class="register-btn" type="submit"><fmt:message bundle="${loc}" key="link.withdraw" /></button>
