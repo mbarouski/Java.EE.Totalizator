@@ -7,7 +7,7 @@ import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.Event;
 import sport.totalizator.entity.User;
-import sport.totalizator.exception.EventException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
@@ -36,19 +36,21 @@ public class AddEventCommand implements ICommand {
         String date = req.getParameter("date");
         String rateTypes = getRateTypes(req);
         List<Integer> memberIds = getMemberIds(req);
+        Event event = null;
         try {
-            eventService.addEvent(name, leagueId, rateTypes, liveTranslationLink, date, memberIds);
+            event = eventService.addEvent(name, leagueId, rateTypes, liveTranslationLink, date, memberIds);
         }
         catch(ServiceException exc){
             log.error(exc);
             throw new CommandException(exc);
         }
-        catch (EventException exc){
+        catch (ExceptionWithErrorList exc){
             log.error(exc);
             req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getErrorMessageList(), req));
-            req.setAttribute("event", exc.getEvent());
+            req.setAttribute("event", exc.getCauseObject());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_EVENT_PAGE).execute(req, resp);
         }
+        req.setAttribute("event", Object.class.cast(event));
         req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.add-event", req));
         CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_EVENT_PAGE).execute(req, resp);
     }

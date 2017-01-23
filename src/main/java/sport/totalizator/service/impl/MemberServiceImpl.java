@@ -1,12 +1,11 @@
 package sport.totalizator.service.impl;
 
 import org.apache.log4j.Logger;
-import sport.totalizator.dao.LeagueDAO;
 import sport.totalizator.dao.MemberDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.entity.Member;
-import sport.totalizator.exception.MemberException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.MemberService;
 import sport.totalizator.service.exception.ServiceException;
 
@@ -47,9 +46,9 @@ public class MemberServiceImpl  implements MemberService{
     }
 
     @Override
-    public Member addMember(String name, String categoryId, String leagueId) throws ServiceException, MemberException {
+    public Member addMember(String name, String categoryId, String leagueId) throws ServiceException, ExceptionWithErrorList {
         Member member = new Member();
-        MemberException memberException = new MemberException(member);
+        ExceptionWithErrorList memberException = new ExceptionWithErrorList(member);
         if(name.isEmpty() || (name == null)){
             memberException.addMessage("err.name-is-invalid");
         }

@@ -6,8 +6,8 @@ import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.User;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
-import sport.totalizator.exception.UserException;
 import sport.totalizator.service.UserService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
@@ -37,9 +37,9 @@ public class LoginCommand implements ICommand {
 
         } catch (ServiceException exc){
             log.error(exc);
-        } catch (UserException exc){
-            req.setAttribute("user", exc.getUser());
-            req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getMessage(), req));
+        } catch (ExceptionWithErrorList exc){
+            req.setAttribute("user", exc.getCauseObject());
+            req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getErrorMessageList(), req));
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_LOGIN_PAGE).execute(req, resp);
         }
 

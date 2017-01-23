@@ -9,7 +9,7 @@ import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Event;
 import sport.totalizator.entity.EventResult;
-import sport.totalizator.exception.EventException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.DateParser;
@@ -22,8 +22,6 @@ import java.sql.Savepoint;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
-
-import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
 public class EventServiceImpl implements EventService {
     private static final EventServiceImpl instance = new EventServiceImpl();
@@ -159,12 +157,12 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event addEvent(String name, String leagueId, String rateTypes, String liveTranslationLink,
                           String date, List<Integer> memberIds)
-            throws ServiceException, EventException{
+            throws ServiceException, ExceptionWithErrorList {
         Connection connection = null;
         Savepoint savepoint = null;
         try {
             Event event = new Event();
-            EventException eventException = new EventException(event);
+            ExceptionWithErrorList eventException = new ExceptionWithErrorList(event);
             if(name.isEmpty() || (name == null)){
                 eventException.addMessage("err.event-empty-name");
             }

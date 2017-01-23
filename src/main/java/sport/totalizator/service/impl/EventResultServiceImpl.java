@@ -8,10 +8,9 @@ import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.db.jdbc.ConnectionPool;
-import sport.totalizator.entity.Event;
 import sport.totalizator.entity.EventResult;
 import sport.totalizator.entity.Rate;
-import sport.totalizator.exception.EventResultException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.EventResultService;
 import sport.totalizator.service.exception.ServiceException;
 
@@ -20,7 +19,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static sport.totalizator.entity.Rate.DRAW;
@@ -47,7 +45,7 @@ public class EventResultServiceImpl implements EventResultService {
         userDAO = DAOFactory.getFactory().getUserDAO();
     }
 
-    private int checkInt(String stringValue, EventResultException eventResultException, String errorMessage){
+    private int checkInt(String stringValue, ExceptionWithErrorList eventResultException, String errorMessage){
         int intValue;
         try{
             intValue = Integer.parseInt(stringValue);
@@ -59,9 +57,9 @@ public class EventResultServiceImpl implements EventResultService {
     }
 
     @Override
-    public EventResult addEventResult(String eventId, String winnerId, String loserId, String winnerScore, String loserScore) throws ServiceException, EventResultException {
+    public EventResult addEventResult(String eventId, String winnerId, String loserId, String winnerScore, String loserScore) throws ServiceException, ExceptionWithErrorList {
         EventResult eventResult = new EventResult();
-        EventResultException eventResultException = new EventResultException(eventResult);
+        ExceptionWithErrorList eventResultException = new ExceptionWithErrorList(eventResult);
         eventResult.setEventId(checkInt(eventId, eventResultException, "err.event-id-is-invalid"));
         eventResult.setWinnerId(checkInt(winnerId, eventResultException, "err.winner-id-is-invalid"));
         eventResult.setWinnerScore(checkInt(winnerScore, eventResultException, "err.winner-score-is-invalid"));

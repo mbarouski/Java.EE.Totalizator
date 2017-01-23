@@ -1,13 +1,10 @@
 package sport.totalizator.service;
 
-import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.entity.Event;
-import sport.totalizator.exception.EventException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.util.PaginationObject;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 
 public interface EventService {
@@ -25,5 +22,5 @@ public interface EventService {
 
     Event addEvent(String name, String leagueId, String rateTypes, String liveTranslationLink,
                           String date, List<Integer> memberIds)
-            throws ServiceException, EventException;
+            throws ServiceException, ExceptionWithErrorList;
 }

@@ -1,16 +1,15 @@
 package sport.totalizator.service;
 
 import sport.totalizator.entity.User;
-import sport.totalizator.exception.UserException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.exception.ServiceException;
-import sport.totalizator.util.PaginationObject;
 
 import java.util.List;
 
 public interface UserService {
-    User registerUser(String login, String password, String confirmPassword, String email) throws ServiceException, UserException;
+    User registerUser(String login, String password, String confirmPassword, String email) throws ServiceException, ExceptionWithErrorList;
 
-    User login(String login, String password) throws ServiceException, UserException;
+    User login(String login, String password) throws ServiceException, ExceptionWithErrorList;
 
     User getFullUserInformationByLogin(String login) throws  ServiceException;
 

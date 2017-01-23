@@ -5,7 +5,7 @@ import sport.totalizator.dao.CategoryDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.entity.Category;
-import sport.totalizator.exception.CategoryException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.CategoryService;
 import sport.totalizator.service.exception.ServiceException;
 
@@ -24,9 +24,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category addCategory(String name) throws ServiceException, CategoryException {
+    public Category addCategory(String name) throws ServiceException, ExceptionWithErrorList {
         Category category = new Category();
-        CategoryException categoryException = new CategoryException(category);
+        ExceptionWithErrorList categoryException = new ExceptionWithErrorList(category);
         if(name.isEmpty() || (name == null)){
             categoryException.addMessage("err.name-is-invalid");
         }

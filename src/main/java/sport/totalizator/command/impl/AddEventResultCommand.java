@@ -5,9 +5,8 @@ import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
-import sport.totalizator.entity.EventResult;
 import sport.totalizator.entity.User;
-import sport.totalizator.exception.EventResultException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventResultService;
 import sport.totalizator.service.exception.ServiceException;
@@ -36,10 +35,10 @@ public class AddEventResultCommand implements ICommand {
         } catch (ServiceException exc){
             log.error(exc);
             throw new CommandException(exc);
-        } catch (EventResultException exc){
+        } catch (ExceptionWithErrorList exc){
             log.error(exc);
             req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getErrorMessageList(), req));
-            req.setAttribute("eventResult", exc.getEventResult());
+            req.setAttribute("eventResult", exc.getCauseObject());
             req.getRequestDispatcher("add_result_page.jsp").forward(req, resp);
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_EVENT_RESULT_PAGE).execute(req, resp);
         }

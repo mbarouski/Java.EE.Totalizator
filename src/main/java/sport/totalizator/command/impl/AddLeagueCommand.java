@@ -6,10 +6,8 @@ import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.User;
-import sport.totalizator.exception.CategoryException;
-import sport.totalizator.exception.LeagueException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
-import sport.totalizator.service.CategoryService;
 import sport.totalizator.service.LeagueService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
@@ -36,10 +34,10 @@ public class AddLeagueCommand implements ICommand {
             log.error(exc);
             throw new CommandException(exc);
         }
-        catch (LeagueException exc){
+        catch (ExceptionWithErrorList exc){
             log.error(exc);
             req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getErrorMessageList(), req));
-            req.setAttribute("league", exc.getLeague());
+            req.setAttribute("league", exc.getCauseObject());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_LEAGUE_PAGE).execute(req, resp);
         }
         req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.league-is-added", req));

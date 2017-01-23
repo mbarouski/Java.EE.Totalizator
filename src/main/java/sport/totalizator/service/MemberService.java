@@ -1,7 +1,7 @@
 package sport.totalizator.service;
 
 import sport.totalizator.entity.Member;
-import sport.totalizator.exception.MemberException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.exception.ServiceException;
 
 import java.util.List;
@@ -11,5 +11,5 @@ public interface MemberService {
 
     List<Member> getMembersByEvent(int eventId) throws ServiceException;
 
-    Member addMember(String name, String categoryId, String leagueId) throws ServiceException, MemberException;
+    Member addMember(String name, String categoryId, String leagueId) throws ServiceException, ExceptionWithErrorList;
 }

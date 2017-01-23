@@ -6,7 +6,7 @@ import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.User;
-import sport.totalizator.exception.CategoryException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.CategoryService;
 import sport.totalizator.service.exception.ServiceException;
@@ -34,10 +34,10 @@ public class AddCategoryCommand implements ICommand {
             log.error(exc);
             throw new CommandException(exc);
         }
-        catch (CategoryException exc){
+        catch (ExceptionWithErrorList exc){
             log.error(exc);
             req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getErrorMessageList(), req));
-            req.setAttribute("category", exc.getCategory());
+            req.setAttribute("category", exc.getCauseObject());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_CATEGORY_PAGE).execute(req, resp);
         }
         req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.category-is-added", req));

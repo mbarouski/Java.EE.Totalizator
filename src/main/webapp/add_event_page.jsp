@@ -34,7 +34,8 @@
                     </c:if>
                     <div class="input-div">
                         <label><fmt:message bundle="${loc}" key="label.name" /></label>
-                        <input type="text" name="name" required title="<fmt:message bundle="${loc}" key="help.eng-rus-letters-numbers-space"/>" pattern="[a-zA-Z0-9 а-яА-Я-]+"/>
+                        <input type="text" name="name" required title="<fmt:message bundle="${loc}" key="help.eng-rus-letters-numbers-space"/>" pattern="[a-zA-Z0-9 а-яА-Я-]+"
+                            value="<c:out value="${event.eventName}"/>"/>
                     </div>
                     <div class="input-div">
                         <label><fmt:message bundle="${loc}" key="label.live-link" /></label>

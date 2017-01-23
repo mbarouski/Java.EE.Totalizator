@@ -1,9 +1,8 @@
 package sport.totalizator.dao;
 
 import sport.totalizator.dao.exception.DAOException;
-import sport.totalizator.entity.Operation;
 import sport.totalizator.entity.User;
-import sport.totalizator.exception.UserException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -12,7 +11,7 @@ import java.util.List;
 public interface UserDAO {
     List<User> getAllUsers() throws DAOException;
 
-    User createUser(User user) throws DAOException, UserException;
+    User createUser(User user) throws DAOException, ExceptionWithErrorList;
 
     User getUserByLogin(String login) throws DAOException;
 

@@ -4,10 +4,8 @@ import org.apache.log4j.Logger;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
-import sport.totalizator.entity.Operation;
 import sport.totalizator.entity.User;
-import sport.totalizator.exception.UserException;
-import sport.totalizator.util.MessageLocalizer;
+import sport.totalizator.exception.ExceptionWithErrorList;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -98,7 +96,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User createUser(User user) throws DAOException, UserException {
+    public User createUser(User user) throws DAOException, ExceptionWithErrorList {
         Connection connection = null;
         PreparedStatement statement = null;
         try{
@@ -115,7 +113,7 @@ public class UserDAOImpl implements UserDAO {
                 connection.rollback(savepoint);
                 log.error(exc);
                 if (exc.getErrorCode() == 1062) {
-                    UserException userException = new UserException(user);
+                    ExceptionWithErrorList userException = new ExceptionWithErrorList(user);
                     userException.addMessage("err.user-exists");
                 } else {
                     throw new DAOException(exc);

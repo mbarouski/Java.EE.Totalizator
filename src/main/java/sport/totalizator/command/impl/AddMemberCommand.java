@@ -6,9 +6,8 @@ import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.User;
-import sport.totalizator.exception.MemberException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
-import sport.totalizator.service.LeagueService;
 import sport.totalizator.service.MemberService;
 import sport.totalizator.service.exception.ServiceException;
 import sport.totalizator.service.factory.ServiceFactory;
@@ -36,10 +35,10 @@ public class AddMemberCommand implements ICommand {
             log.error(exc);
             throw new CommandException(exc);
         }
-        catch (MemberException exc){
+        catch (ExceptionWithErrorList exc){
             log.error(exc);
             req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getErrorMessageList(), req));
-            req.setAttribute("member", exc.getMember());
+            req.setAttribute("member", exc.getCauseObject());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_MEMBER_PAGE).execute(req, resp);
         }
         req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.member-is-added", req));

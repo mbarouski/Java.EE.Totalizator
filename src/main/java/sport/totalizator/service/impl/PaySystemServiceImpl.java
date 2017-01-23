@@ -8,7 +8,7 @@ import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.dao.impl.OperationDAOImpl;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Operation;
-import sport.totalizator.exception.OperationException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.PaySystemService;
 import sport.totalizator.service.exception.ServiceException;
 
@@ -35,9 +35,10 @@ public class PaySystemServiceImpl implements PaySystemService {
     }
 
     @Override
-    public Operation fillUpBalance(String username, String cardNumber, String validityDate, String cardCode, String amount) throws ServiceException, OperationException {
+    public Operation fillUpBalance(String username, String cardNumber, String validityDate, String cardCode, String amount)
+            throws ServiceException, ExceptionWithErrorList {
         Operation operation = new Operation();
-        OperationException operationException = new OperationException(operation);
+        ExceptionWithErrorList operationException = new ExceptionWithErrorList(operation);
         if((cardNumber == null) || (cardNumber.isEmpty()) || (cardNumber.length() != 16)){
             operationException.addMessage("err.card-number-is-invalid");
         }
@@ -97,9 +98,10 @@ public class PaySystemServiceImpl implements PaySystemService {
     }
 
     @Override
-    public Operation withdrawMoney(String username, String cardNumber, String validityDate, String amount) throws ServiceException, OperationException {
+    public Operation withdrawMoney(String username, String cardNumber, String validityDate, String amount)
+            throws ServiceException, ExceptionWithErrorList {
         Operation operation = new Operation();
-        OperationException operationException = new OperationException(operation);
+        ExceptionWithErrorList operationException = new ExceptionWithErrorList(operation);
         if((cardNumber == null) || (cardNumber.isEmpty()) || (cardNumber.length() != 16)){
             operationException.addMessage("err.card-number-is-invalid");
         }

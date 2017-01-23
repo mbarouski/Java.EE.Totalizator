@@ -7,7 +7,7 @@ import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
 import sport.totalizator.entity.Rate;
 import sport.totalizator.entity.User;
-import sport.totalizator.exception.RateException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.RateService;
 import sport.totalizator.service.exception.ServiceException;
@@ -46,10 +46,10 @@ public class MakeRateCommand implements ICommand{
             log.error(exc);
             throw new CommandException(exc);
         }
-        catch (RateException exc){
+        catch (ExceptionWithErrorList exc){
             log.error(exc);
             req.setAttribute("error", MessageLocalizer.getLocalizedForCurrentLocaleMessage(exc.getErrorMessageList(), req));
-            req.setAttribute("rate", exc.getRate());
+            req.setAttribute("rate", exc.getCauseObject());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAKE_RATE_PAGE).execute(req, resp);
         }
         req.setAttribute("rate", eventId);

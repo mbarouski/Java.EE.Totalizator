@@ -5,7 +5,7 @@ import sport.totalizator.dao.LeagueDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.entity.League;
-import sport.totalizator.exception.LeagueException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.LeagueService;
 import sport.totalizator.service.exception.ServiceException;
 
@@ -35,9 +35,9 @@ public class LeagueServiceImpl implements LeagueService {
     }
 
     @Override
-    public League addLeague(String name, String categoryId) throws ServiceException, LeagueException {
+    public League addLeague(String name, String categoryId) throws ServiceException, ExceptionWithErrorList {
         League league = new League();
-        LeagueException leagueException = new LeagueException(league);
+        ExceptionWithErrorList leagueException = new ExceptionWithErrorList(league);
         if(name.isEmpty() || (name == null)){
             leagueException.addMessage("err.name-is-invalid");
         }

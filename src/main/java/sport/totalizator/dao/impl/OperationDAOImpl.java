@@ -5,12 +5,8 @@ import sport.totalizator.dao.OperationDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Operation;
-import sport.totalizator.exception.OperationException;
-import sport.totalizator.exception.UserException;
 
 import java.sql.*;
-import java.sql.Date;
-import java.util.*;
 
 public class OperationDAOImpl implements OperationDAO {
     private static final long ONE_DAY = 86_400_000;
@@ -36,7 +32,7 @@ public class OperationDAOImpl implements OperationDAO {
     }
 
     @Override
-    public Operation addOperation(Connection connection, Operation operation) throws DAOException, OperationException {
+    public Operation addOperation(Connection connection, Operation operation) throws DAOException {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_FOR_ADD_OPERATION);

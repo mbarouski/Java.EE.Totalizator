@@ -7,7 +7,7 @@ import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.db.jdbc.ConnectionPool;
 import sport.totalizator.entity.Rate;
-import sport.totalizator.exception.RateException;
+import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.RateService;
 import sport.totalizator.service.exception.ServiceException;
 
@@ -36,7 +36,7 @@ public class RateServiceImpl implements RateService {
         userDAO = DAOFactory.getFactory().getUserDAO();
     }
 
-    private int checkInt(String stringValue, RateException rateException, String errorMessage){
+    private int checkInt(String stringValue, ExceptionWithErrorList rateException, String errorMessage){
         int intValue;
         try{
             intValue = Integer.parseInt(stringValue);
@@ -48,9 +48,11 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
-    public Rate makeRate(String type, String eventId, String username, String money, String member1Id, String member1Score, String member2Id, String member2Score) throws ServiceException, RateException {
+    public Rate makeRate(String type, String eventId, String username, String money,
+                         String member1Id, String member1Score, String member2Id, String member2Score)
+            throws ServiceException, ExceptionWithErrorList {
         Rate rate = new Rate();
-        RateException rateException = new RateException(rate);
+        ExceptionWithErrorList rateException = new ExceptionWithErrorList(rate);
         if((type == null) || (type.isEmpty())){
             rateException.addMessage("err.rate-type-is-invalid");
         }

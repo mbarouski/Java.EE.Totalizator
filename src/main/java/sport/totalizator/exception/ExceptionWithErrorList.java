@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExceptionWithErrorList extends Exception {
-    private Class typeOfCauseObject;
     private Object causeObject;
 
     public ExceptionWithErrorList() {
         super();
     }
 
-    public ExceptionWithErrorList(Object causeObject, Class typeOfCauseObject) {
+    public ExceptionWithErrorList(Object causeObject) {
         super();
-        this.typeOfCauseObject = typeOfCauseObject;
         this.causeObject = causeObject;
         this.errorMessageList = new ArrayList<>();
     }
@@ -42,9 +40,5 @@ public class ExceptionWithErrorList extends Exception {
 
     public Object getCauseObject(){
         return this.causeObject;
-    }
-
-    public Class getTypeOfCauseObject(){
-        return this.typeOfCauseObject;
     }
 }
