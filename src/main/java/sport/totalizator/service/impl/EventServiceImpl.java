@@ -156,7 +156,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event addEvent(String name, String leagueId, String rateTypes, String liveTranslationLink,
+    public Event addEvent(String name, String leagueId, String liveTranslationLink,
                           String date, List<Integer> memberIds)
             throws ServiceException, ExceptionWithErrorList {
         Connection connection = null;
@@ -176,7 +176,6 @@ public class EventServiceImpl implements EventService {
             }
             event.setEventDate(sqlDate);
             event.setLiveTranslationLink(liveTranslationLink);
-            event.setRateTypes(rateTypes);
             if(!eventException.getErrorMessageList().isEmpty()){
                 throw eventException;
             }

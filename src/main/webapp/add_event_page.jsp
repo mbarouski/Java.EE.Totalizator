@@ -63,23 +63,7 @@
                         <label><fmt:message bundle="${loc}" key="label.date" /></label>
                         <input type="text" value="" id="datetimepicker" name="date"/>
                     </div>
-                    <div class="input-div">
-                        <label><fmt:message bundle="${loc}" key="label.rate-types" /></label>
-                        <div class="checkbox-div">
-                        <div class="checkbox">
-                            <label><fmt:message bundle="${loc}" key="WIN" /></label>
-                            <div><input type="checkbox" name="winRate" value="WIN" /></div>
-                        </div>
-                        <div class="checkbox">
-                            <label><fmt:message bundle="${loc}" key="DRAW" /></label>
-                            <div><input type="checkbox" name="drawRate" value="DRAW"></div>
-                        </div>
-                        <div class="checkbox">
-                            <label><fmt:message bundle="${loc}" key="EXACT_SCORE" /></label>
-                            <div><input type="checkbox" name="exactScoreRate" value="EXACT_SCORE"></div>
-                        </div>
-                    </div>
-                    </div>
+
                     <div class="input-div">
                         <label><fmt:message bundle="${loc}" key="label.members" /></label>
                         <div class="member-div">

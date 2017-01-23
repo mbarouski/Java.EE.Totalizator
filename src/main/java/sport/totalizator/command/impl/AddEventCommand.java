@@ -35,11 +35,10 @@ public class AddEventCommand implements ICommand {
         String leagueId = req.getParameter("league-id");
         String liveTranslationLink = req.getParameter("liveTranslation");
         String date = req.getParameter("date");
-        String rateTypes = getRateTypes(req);
         List<Integer> memberIds = getMemberIds(req);
         Event event = null;
         try {
-            event = eventService.addEvent(name, leagueId, rateTypes, liveTranslationLink, date, memberIds);
+            event = eventService.addEvent(name, leagueId, liveTranslationLink, date, memberIds);
         }
         catch(ServiceException exc){
             log.error(exc);
@@ -54,31 +53,6 @@ public class AddEventCommand implements ICommand {
         req.setAttribute("event", Object.class.cast(event));
         req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.add-event", req));
         CommandFactory.getFactory().createCommand(CommandEnum.SHOW_ADD_EVENT_PAGE).execute(req, resp);
-    }
-
-    private String getRateTypes(HttpServletRequest req){
-        StringBuilder sb = new StringBuilder();
-        List<String> rateTypes = new ArrayList<>();
-        if(req.getParameter("winRate") != null){
-            rateTypes.add("WIN");
-        }
-        if(req.getParameter("drawRate") != null){
-            rateTypes.add("DRAW");
-        }
-        if(req.getParameter("firstGoalRate") != null){
-            rateTypes.add("FIRST_GOAL");
-        }
-        if(req.getParameter("exactScoreRate") != null){
-            rateTypes.add("EXACT_SCORE");
-        }
-        if(!rateTypes.isEmpty()) {
-            sb.append(rateTypes.get(0));
-            for (int i = 1; i < rateTypes.size(); i++) {
-                sb.append(',');
-                sb.append(rateTypes.get(i));
-            }
-        }
-        return sb.toString();
     }
 
     private List<Integer> getMemberIds(HttpServletRequest req){

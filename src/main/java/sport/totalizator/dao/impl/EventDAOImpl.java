@@ -58,15 +58,15 @@ public class EventDAOImpl implements EventDAO{
             "ON `event`.`league_id` = `league`.`league_id` " +
             "WHERE `event_status` = 'POSTED' " +
             "AND `event_start_date` > now();";
-    private static final String SQL_FOR_GET_EVENT_BY_ID = "SELECT `event_id` AS `id`, `event_name`, `rate_types`, `event_status`, " +
+    private static final String SQL_FOR_GET_EVENT_BY_ID = "SELECT `event_id` AS `id`, `event_name`, `event_status`, " +
             "`live_translation_reference` AS `link`, `event_start_date` AS `date`, `league_name` " +
             "FROM `event` " +
             "LEFT JOIN `league` " +
             "ON `event`.`league_id` = `league`.`league_id` " +
             "WHERE `event_id` = ?;";
-    private static final String SQL_FOR_ADD_EVENT = "INSERT INTO `event`(`event_name`, `league_id`, `rate_types`, " +
+    private static final String SQL_FOR_ADD_EVENT = "INSERT INTO `event`(`event_name`, `league_id`, " +
             "`live_translation_reference`, `event_start_date`) " +
-            "VALUES (?, ?, ?, ?, ?);";
+            "VALUES (?, ?, ?, ?);";
 
     private static final Logger log = Logger.getLogger(EventDAOImpl.class);
     private static final EventDAOImpl instance = new EventDAOImpl();
@@ -234,9 +234,8 @@ public class EventDAOImpl implements EventDAO{
             statement = connection.prepareStatement(SQL_FOR_ADD_EVENT, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, event.getEventName());
             statement.setInt(2, event.getLeagueId());
-            statement.setString(3, event.getRateTypes());
-            statement.setString(4, event.getLiveTranslationLink());
-            statement.setTimestamp(5, new Timestamp(event.getEventDate().getTime()));
+            statement.setString(3, event.getLiveTranslationLink());
+            statement.setTimestamp(4, new Timestamp(event.getEventDate().getTime()));
             int result = statement.executeUpdate();
             try{
                 resultSet = statement.getGeneratedKeys();

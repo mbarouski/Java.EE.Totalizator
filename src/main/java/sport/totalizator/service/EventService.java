@@ -20,7 +20,7 @@ public interface EventService {
 
     Event getEventById(int eventId) throws ServiceException;
 
-    Event addEvent(String name, String leagueId, String rateTypes, String liveTranslationLink,
+    Event addEvent(String name, String leagueId, String liveTranslationLink,
                           String date, List<Integer> memberIds)
             throws ServiceException, ExceptionWithErrorList;
 }
