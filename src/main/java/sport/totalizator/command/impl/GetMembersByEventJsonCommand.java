@@ -20,6 +20,10 @@ import java.util.List;
 
 import static sport.totalizator.util.JspPathes.JSON;
 
+/**
+ * {@link ICommand} implementaion that helps us to get list of
+ * {@link Member} instances that belongs to {@link sport.totalizator.entity.Event} in JSON format.
+ */
 public class GetMembersByEventJsonCommand implements ICommand{
     private static final Logger log = Logger.getLogger(GetMembersByEventJsonCommand.class);
     private MemberService memberService = ServiceFactory.getInstance().getMemberService();

@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * {@link Filter} extension that sets locale to session if it isn't.
+ */
 @WebFilter(urlPatterns = { "/*" },
     initParams = { @WebInitParam(name = "defaultLocale", value = "ru") })
 public class LocaleFilter implements Filter {

@@ -18,13 +18,16 @@ import java.io.IOException;
 
 import static sport.totalizator.util.JspPathes.ADMIN_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of administrator's page.
+ */
 public class ShowAdminPageCommand implements ICommand {
     private static final Logger log = Logger.getLogger(ShowAdminPageCommand.class);
     private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, new User.Role[]{User.Role.ADMINISTRATOR});
+        checkPermissions(req, new User.Role[]{User.Role.ADMINISTRATOR});
         req.setAttribute("tab_classes", new String[] {"", "", "", "active"});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         try{

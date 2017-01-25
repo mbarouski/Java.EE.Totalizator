@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * {@link ICommand} implementaion that performs changing of locale value in session.
+ */
 public class ChangeLocaleCommand implements ICommand{
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp)

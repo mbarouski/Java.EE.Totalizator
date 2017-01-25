@@ -19,6 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * {@link ICommand} implementaion that performs logging in process of user.
+ */
 public class LoginCommand implements ICommand {
     private static final Logger log = Logger.getLogger(LoginCommand.class);
 

@@ -11,6 +11,10 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * {@link ConnectionPool} is class that provides us for {@link Connection}s to database.
+ * Singleton.
+ */
 public class ConnectionPool {
     private static final Logger log = Logger.getLogger(ConnectionPool.class);
     private static final Properties properties = DBPropertiesReader.getDBProperties();
@@ -48,6 +52,10 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Method that gives us {@link Connection} to database.
+     * @return
+     */
     public Connection getConnection(){
         Connection connection;
         try {
@@ -60,6 +68,10 @@ public class ConnectionPool {
         return connection;
     }
 
+    /**
+     * Method that gets {@link Connection} and returns it to {@link ConnectionPool}.
+     * @param c
+     */
     public void returnConnectionToPool(Connection c){
         lockForReturnConnection.lock();
         if(!connections.contains(c)) {

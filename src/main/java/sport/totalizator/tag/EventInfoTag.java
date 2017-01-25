@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 
+/**
+ * {@link EventInfoTag} represents JSP tag that shows short {@link sport.totalizator.entity.Event}'s info.
+ */
 public class EventInfoTag extends SimpleTagSupport {
     private String eventName;
     private String eventLeague;

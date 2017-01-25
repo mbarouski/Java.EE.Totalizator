@@ -3,6 +3,7 @@ package sport.totalizator.command.impl;
 import org.apache.log4j.Logger;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
+import sport.totalizator.entity.Category;
 import sport.totalizator.entity.League;
 import sport.totalizator.service.LeagueService;
 import sport.totalizator.service.exception.ServiceException;
@@ -19,6 +20,10 @@ import java.util.List;
 
 import static sport.totalizator.util.JspPathes.JSON;
 
+/**
+ * {@link ICommand} implementaion that helps us to get list of
+ * {@link League} instances that belongs to {@link Category} in JSON format.
+ */
 public class GetLeaguesByCategoryJsonCommand implements ICommand {
     private static final Logger log = Logger.getLogger(GetLeaguesByCategoryJsonCommand.class);
 

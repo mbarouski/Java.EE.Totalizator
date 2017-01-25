@@ -1,5 +1,8 @@
 package sport.totalizator.exception;
 
+/**
+ * {@link Exception} extension that we can throw in cases when user is not logged, but it's necessary.}
+ */
 public class UnauthorizedException extends Exception {
     public UnauthorizedException() {
     }

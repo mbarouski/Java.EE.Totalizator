@@ -23,13 +23,16 @@ import static sport.totalizator.entity.User.Role.ADMINISTRATOR;
 import static sport.totalizator.entity.User.Role.MODERATOR;
 import static sport.totalizator.entity.User.Role.USER;
 
+/**
+ * {@link ICommand} implementaion that performs rate making.
+ */
 public class MakeRateCommand implements ICommand{
     private static final Logger log = Logger.getLogger(MakeRateCommand.class);
     private RateService rateService = ServiceFactory.getInstance().getRateService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, new User.Role[]{MODERATOR, ADMINISTRATOR, USER});
+        checkPermissions(req, new User.Role[]{MODERATOR, ADMINISTRATOR, USER});
         String type = req.getParameter("rate-type");
         String money = req.getParameter("money");
         String eventId = req.getParameter("event-id");

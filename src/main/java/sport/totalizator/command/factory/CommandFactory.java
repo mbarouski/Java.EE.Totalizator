@@ -9,6 +9,11 @@ import java.util.Map;
 
 import static sport.totalizator.command.CommandEnum.*;
 
+/**
+ * CommandFactory is instance of Factory pattern that helps us
+ * to get implementation of {@link ICommand} interface by enum {@link CommandEnum}.
+ * Singleton.
+ */
 public class CommandFactory {
     private static final CommandFactory factory = new CommandFactory();
     public static CommandFactory getFactory(){
@@ -58,6 +63,11 @@ public class CommandFactory {
         commands.put(SEARCH_EVENT, new SearchEventCommand());
     }
 
+    /**
+     * Method returns us {@link ICommand} implementation by {@link CommandEnum} value.
+     * @param command {@link CommandEnum} value that identifies {@link ICommand} implementation.
+     * @return {@link ICommand} implementation.
+     */
     public ICommand createCommand(CommandEnum command){
         if(commands.containsKey(command)){
             return commands.get(command);

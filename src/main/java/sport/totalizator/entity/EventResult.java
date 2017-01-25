@@ -1,5 +1,8 @@
 package sport.totalizator.entity;
 
+/**
+ * {@link EventResult} represents entity of event result in database.
+ */
 public class EventResult {
     private int eventId;
     private int winnerId;

@@ -5,6 +5,7 @@ import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.impl.CategoryDAOImpl;
+import sport.totalizator.entity.Category;
 import sport.totalizator.exception.UnauthorizedException;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * {@link ICommand} implementaion that performs attaching
+ * {@link Category} instances to request instance.
+ */
 public class AddCategoriesToRequestCommand implements ICommand {
     private static final Logger log = Logger.getLogger(AddCategoriesToRequestCommand.class);
 

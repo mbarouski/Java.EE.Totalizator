@@ -4,6 +4,7 @@ import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
+import sport.totalizator.entity.Event;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
@@ -19,6 +20,9 @@ import static sport.totalizator.command.CommandEnum.SHOW_MAIN_PAGE;
 import static sport.totalizator.util.JspPathes.MAIN_PAGE;
 import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of not finished {@link Event}s.
+ */
 public class ShowMainPageCommand implements ICommand {
     private EventService eventService = ServiceFactory.getInstance().getEventService();
 

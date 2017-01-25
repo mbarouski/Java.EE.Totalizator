@@ -3,6 +3,10 @@ package sport.totalizator.dao.factory;
 import sport.totalizator.dao.*;
 import sport.totalizator.dao.impl.*;
 
+/**
+ * DAOFactory is implementation of factory pattern that allows us to get
+ * some DAO object. Singleton.
+ */
 public class DAOFactory {
     private static final DAOFactory factory = new DAOFactory();
 

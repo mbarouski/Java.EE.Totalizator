@@ -14,10 +14,13 @@ import java.io.IOException;
 
 import static sport.totalizator.util.JspPathes.FILL_UP_BALANCE_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of page for filling up user's balance.
+ */
 public class ShowFillUpPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, new User.Role[] {User.Role.USER, User.Role.ADMINISTRATOR, User.Role.MODERATOR});
+        checkPermissions(req, new User.Role[] {User.Role.USER, User.Role.ADMINISTRATOR, User.Role.MODERATOR});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         req.getRequestDispatcher(FILL_UP_BALANCE_PAGE).forward(req, resp);
     }

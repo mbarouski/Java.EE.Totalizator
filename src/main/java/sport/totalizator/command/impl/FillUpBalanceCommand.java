@@ -22,13 +22,16 @@ import static sport.totalizator.entity.User.Role.ADMINISTRATOR;
 import static sport.totalizator.entity.User.Role.MODERATOR;
 import static sport.totalizator.entity.User.Role.USER;
 
+/**
+ * {@link ICommand} implementaion that performs filling up of user balance.
+ */
 public class FillUpBalanceCommand implements ICommand {
     private static final Logger log = Logger.getLogger(FillUpBalanceCommand.class);
     private PaySystemService paySystemService = ServiceFactory.getInstance().getPaySystemService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, new User.Role[]{MODERATOR, ADMINISTRATOR, USER});
+        checkPermissions(req, new User.Role[]{MODERATOR, ADMINISTRATOR, USER});
         String cardNumber = req.getParameter("card-number");
         String cardCode = req.getParameter("card-code");
         String validityDate = req.getParameter("validity-date");

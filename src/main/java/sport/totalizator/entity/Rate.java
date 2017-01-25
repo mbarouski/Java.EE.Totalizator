@@ -2,6 +2,9 @@ package sport.totalizator.entity;
 
 import java.math.BigDecimal;
 
+/**
+ * {@link Rate} represents entity of rate in database.
+ */
 public class Rate {
     public static final String WIN = "WIN";
     public static final String DRAW = "DRAW";

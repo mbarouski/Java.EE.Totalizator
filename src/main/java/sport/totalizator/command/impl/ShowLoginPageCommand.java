@@ -15,6 +15,9 @@ import java.io.IOException;
 
 import static sport.totalizator.util.JspPathes.LOGIN_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of page for logging in of user.
+ */
 public class ShowLoginPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {

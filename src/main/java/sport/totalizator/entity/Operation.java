@@ -2,6 +2,9 @@ package sport.totalizator.entity;
 
 import java.math.BigDecimal;
 
+/**
+ * {@link Operation} represents entity of operation in database.
+ */
 public class Operation {
     private String cardNumber;
     private String validityDate;

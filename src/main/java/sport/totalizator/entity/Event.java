@@ -5,6 +5,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
+/**
+ * {@link Event} represents entity of event in database.
+ */
 public class Event {
     private int leagueId;
     private String eventName;

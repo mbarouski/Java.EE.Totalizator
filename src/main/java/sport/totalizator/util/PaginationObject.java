@@ -2,6 +2,10 @@ package sport.totalizator.util;
 
 import java.util.List;
 
+/**
+ * {@link PaginationObject} saves state of pagination and items for current page.
+ * @param <T> Type of item.
+ */
 public class PaginationObject<T> {
     public static final int PER_PAGE = 5;
     public static final int DEFAULT_PAGE = 1;

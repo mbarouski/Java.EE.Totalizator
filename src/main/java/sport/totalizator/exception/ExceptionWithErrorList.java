@@ -3,6 +3,10 @@ package sport.totalizator.exception;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@link Exception} extension that allows us to accumulate some error messages in one exception
+ * and saves object that is the cause of exception.
+ */
 public class ExceptionWithErrorList extends Exception {
     private Object causeObject;
 

@@ -26,6 +26,9 @@ import static sport.totalizator.command.CommandEnum.SHOW_CATEGORY_PAGE;
 import static sport.totalizator.util.JspPathes.MAIN_PAGE;
 import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of page with {@link Event}s of {@link sport.totalizator.entity.Category}.
+ */
 public class ShowCategoryPageCommand implements ICommand {
     private static final Logger log = Logger.getLogger(AddCategoriesToRequestCommand.class);
 

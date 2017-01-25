@@ -1,5 +1,8 @@
 package sport.totalizator.util;
 
+/**
+ * Class with constants of JSP pages pathes.
+ */
 public class JspPathes {
     public final static String MAIN_PAGE = "main_page.jsp";
     public final static String MAKE_RATE_PAGE = "make_rate_page.jsp";

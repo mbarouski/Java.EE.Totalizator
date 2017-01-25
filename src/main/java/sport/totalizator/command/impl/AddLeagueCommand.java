@@ -20,13 +20,16 @@ import java.io.IOException;
 
 import static sport.totalizator.entity.User.Role.MODERATOR;
 
+/**
+ * {@link ICommand} implementaion that performs adding new {@link sport.totalizator.entity.League} instance to database.
+ */
 public class AddLeagueCommand implements ICommand {
     private static final Logger log = Logger.getLogger(AddLeagueCommand.class);
     private final LeagueService leagueService = ServiceFactory.getInstance().getLeagueService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, new User.Role[]{MODERATOR});
+        checkPermissions(req, new User.Role[]{MODERATOR});
         try {
             leagueService.addLeague((String)req.getParameter("name"), (String)req.getParameter("category-id"));
         }

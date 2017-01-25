@@ -20,13 +20,16 @@ import java.io.IOException;
 import static sport.totalizator.entity.User.Role.MODERATOR;
 import static sport.totalizator.util.JspPathes.ADD_RESULT_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of add {@link sport.totalizator.entity.EventResult} page.
+ */
 public class ShowAddEventResultPageCommand implements ICommand {
     private static final Logger log = Logger.getLogger(ShowAddEventResultPageCommand.class);
     private MemberService memberService = ServiceFactory.getInstance().getMemberService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, new User.Role[]{MODERATOR});
+        checkPermissions(req, new User.Role[]{MODERATOR});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         String eventId = req.getParameter("eventId");
         if(eventId == null){

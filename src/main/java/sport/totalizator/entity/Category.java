@@ -1,5 +1,8 @@
 package sport.totalizator.entity;
 
+/**
+ * {@link Category} represents entity of category in database.
+ */
 public class Category {
     private String name;
     private int id;

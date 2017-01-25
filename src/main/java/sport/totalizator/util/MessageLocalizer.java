@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+/**
+ * {@link MessageLocalizer} is used for l18n of some labels.
+ */
 public class MessageLocalizer {
     private final static String LOCALE_BUNDLE_NAME = "locale_";
 

@@ -20,12 +20,15 @@ import static sport.totalizator.entity.User.Role.MODERATOR;
 import static sport.totalizator.entity.User.Role.USER;
 import static sport.totalizator.util.JspPathes.PERSONAL_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of personal user's page.
+ */
 public class ShowPersonalPageCommand implements ICommand {
     private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, new User.Role[]{MODERATOR, USER, ADMINISTRATOR});
+        checkPermissions(req, new User.Role[]{MODERATOR, USER, ADMINISTRATOR});
         req.setAttribute("tab_classes", new String[] {"", "", "active", ""});
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);
         String login = (String) req.getSession().getAttribute("username");

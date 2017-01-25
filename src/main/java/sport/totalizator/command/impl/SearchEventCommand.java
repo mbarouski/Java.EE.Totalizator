@@ -21,6 +21,9 @@ import static sport.totalizator.command.CommandEnum.SHOW_CATEGORY_PAGE;
 import static sport.totalizator.util.JspPathes.MAIN_PAGE;
 import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
+/**
+ * {@link ICommand} implementaion that performs searching of events.
+ */
 public class SearchEventCommand implements ICommand {
     private static final Logger log = Logger.getLogger(SearchEventCommand.class);
     private EventService eventService = ServiceFactory.getInstance().getEventService();

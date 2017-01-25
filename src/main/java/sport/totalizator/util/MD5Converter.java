@@ -6,6 +6,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * {@link MD5Converter} is used for calculatin MD5 hash of string value.
+ */
 public class MD5Converter {
     private static final Logger log = Logger.getLogger(MD5Converter.class);
 

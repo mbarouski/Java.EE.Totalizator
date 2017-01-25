@@ -8,6 +8,7 @@ import sport.totalizator.dao.EventDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.impl.CategoryDAOImpl;
 import sport.totalizator.dao.impl.EventDAOImpl;
+import sport.totalizator.entity.Event;
 import sport.totalizator.exception.UnauthorizedException;
 import sport.totalizator.service.EventService;
 import sport.totalizator.service.exception.ServiceException;
@@ -23,6 +24,9 @@ import static sport.totalizator.command.CommandEnum.SHOW_NEAREST_EVENTS_PAGE_COM
 import static sport.totalizator.util.JspPathes.MAIN_PAGE;
 import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of page with the nearest not finished {@link Event}s.
+ */
 public class ShowNearestEventsPageCommand implements ICommand {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
         CommandFactory.getFactory().createCommand(CommandEnum.ADD_CATEGORIES_TO_REQUEST).execute(req, resp);

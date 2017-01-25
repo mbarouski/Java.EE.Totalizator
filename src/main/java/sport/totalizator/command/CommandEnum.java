@@ -1,5 +1,8 @@
 package sport.totalizator.command;
 
+/**
+ * There are all constants that identifies commands in this enum.
+ */
 public enum CommandEnum {
     SHOW_MAIN_PAGE("showMainPage"),
     SHOW_ERROR_PAGE("showErrorPage"),
@@ -48,10 +51,21 @@ public enum CommandEnum {
         this.value = value;
     }
 
+    /**
+     * Method that allows us to get string value of enum.
+     * @return String value for enum.
+     */
     public String getValue(){
         return value;
     }
 
+
+    /**
+     * Mathod that allows us to get enum value by string or get default value if it didn't find relevant enum value.
+     * @param value String value for enum.
+     * @return CommandEnum value.
+     * @throws IllegalArgumentException
+     */
     public static CommandEnum getEnum(String value) throws IllegalArgumentException{
         for(CommandEnum commandEnum : values()){
             if(commandEnum.value.equals(value)){

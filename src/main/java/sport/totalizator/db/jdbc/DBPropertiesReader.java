@@ -3,6 +3,9 @@ package sport.totalizator.db.jdbc;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+/**
+ * {@link DBPropertiesReader} is class that reads properties for {@link ConnectionPool} loading.
+ */
 public class DBPropertiesReader {
     public static Properties getDBProperties(){
         Properties result = new Properties();

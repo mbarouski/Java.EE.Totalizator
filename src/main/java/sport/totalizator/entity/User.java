@@ -3,6 +3,9 @@ package sport.totalizator.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * {@link User} represents entity of user in database.
+ */
 public class User {
     public static enum Role {
         ADMINISTRATOR("ADMINISTRATOR"), USER("USER"), MODERATOR("MODERATOR");

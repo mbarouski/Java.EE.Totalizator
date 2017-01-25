@@ -21,6 +21,10 @@ import java.util.List;
 
 import static sport.totalizator.util.JspPathes.JSON;
 
+/**
+ * {@link ICommand} implementaion that helps us to get list of
+ * {@link Member} instances that belongs to {@link League} in JSON format.
+ */
 public class GetMembersByLeagueJsonCommand implements ICommand {
     private static final Logger log = Logger.getLogger(GetLeaguesByCategoryJsonCommand.class);
 

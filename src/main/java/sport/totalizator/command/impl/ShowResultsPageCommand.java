@@ -22,6 +22,9 @@ import static sport.totalizator.command.CommandEnum.SHOW_RESULTS_PAGE;
 import static sport.totalizator.util.JspPathes.MAIN_PAGE;
 import static sport.totalizator.util.PaginationObject.DEFAULT_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of page with finished {@link sport.totalizator.entity.Event}s.
+ */
 public class ShowResultsPageCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {

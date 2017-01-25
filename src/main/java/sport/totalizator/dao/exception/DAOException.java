@@ -1,5 +1,9 @@
 package sport.totalizator.dao.exception;
 
+/**
+ * {@link DAOException} represents exception that can be thrown in some
+ * method of DAO objects.
+ */
 public class DAOException extends Exception {
     public DAOException() {
         super();

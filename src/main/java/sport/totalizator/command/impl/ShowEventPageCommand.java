@@ -21,6 +21,9 @@ import java.util.List;
 
 import static sport.totalizator.util.JspPathes.EVENT_PAGE;
 
+/**
+ * {@link ICommand} implementaion whose task is showing of page with {@link Event}.
+ */
 public class ShowEventPageCommand implements ICommand{
     private static final Logger log = Logger.getLogger(ShowEventPageCommand.class);
 

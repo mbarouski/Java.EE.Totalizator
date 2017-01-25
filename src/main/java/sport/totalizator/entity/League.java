@@ -2,6 +2,9 @@ package sport.totalizator.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * {@link League} represents entity of league in database.
+ */
 public class League {
     @JsonProperty("id")
     private int id;

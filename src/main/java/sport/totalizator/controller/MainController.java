@@ -16,7 +16,10 @@ import java.io.IOException;
 
 import static sport.totalizator.util.JspPathes.ERROR_PAGE;
 
-
+/**
+ * {@link HttpServlet} implementation that represents the main and signle controller of
+ * this project. This controller delegate all actions to {@link ICommand} implementations.
+ */
 public class MainController extends HttpServlet {
     private static final CommandFactory commandFactory = CommandFactory.getFactory();
     private final static Logger log = Logger.getLogger(MainController.class);
@@ -26,6 +29,13 @@ public class MainController extends HttpServlet {
         processRequest(req, resp);
     }
 
+    /**
+     * Method that handles our post and get requests.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ICommand command = null;
         String commandName = req.getParameter("command");

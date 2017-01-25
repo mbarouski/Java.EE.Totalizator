@@ -5,6 +5,7 @@ import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
+import sport.totalizator.entity.Category;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
@@ -20,13 +21,16 @@ import java.io.IOException;
 
 import static sport.totalizator.entity.User.Role.MODERATOR;
 
+/**
+ * {@link ICommand} implementaion that performs adding new {@link Category} instance to database.
+ */
 public class AddCategoryCommand implements ICommand {
     private static final Logger log = Logger.getLogger(AddCategoryCommand.class);
     private final CategoryService categoryService = ServiceFactory.getInstance().getCategoryService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, CommandException, UnauthorizedException {
-        checkRoots(req, new User.Role[]{MODERATOR});
+        checkPermissions(req, new User.Role[]{MODERATOR});
         try {
             categoryService.addCategory((String)req.getParameter("name"));
         }

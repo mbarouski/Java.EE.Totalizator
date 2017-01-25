@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
+/**
+ * {@link JsonSerializer} is used for transferring some object to JSON format.
+ */
 public class JsonSerializer {
     public static String json(Object obj) throws JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();

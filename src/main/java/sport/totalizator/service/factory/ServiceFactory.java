@@ -3,6 +3,10 @@ package sport.totalizator.service.factory;
 import sport.totalizator.service.*;
 import sport.totalizator.service.impl.*;
 
+/**
+ * ServiceFactory is implementation of factory pattern that allows us to get
+ * some Service object. Singleton.
+ */
 public class ServiceFactory {
     private static final ServiceFactory instance = new ServiceFactory();
 
