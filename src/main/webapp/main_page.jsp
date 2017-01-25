@@ -1,5 +1,6 @@
 ﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="my" uri="http://totalizator.by/tag/myTags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,15 +18,13 @@
 				<%@ include file="parts/admin_panel.jsp" %>
 				<c:forEach var="event" items="${events.elementList}">
 					<div class="event">
-						<div class="event-main">
-							<h5 class="event-name"><c:out value="${event.eventName}" /></h5>
-							<p class="event-league">${event.eventLeague}</p>
-							<time class="event-date">${event.eventDate} ${event.eventTime}</time>
-						</div>
+						<my:event-info-tag eventName="${event.eventName}" eventLeague="${event.eventLeague}"
+										   eventTime="${event.eventTime}" eventDate="${event.eventDate}"></my:event-info-tag>
 						<div class="event-secondary">
 							<a href="<c:url value="main?command=showEventPage&eventId=${event.eventId}" />"><button class="event-btn"><fmt:message bundle="${loc}" key="btn.open" /></button></a>
 						</div>
 					</div>
+
 				</c:forEach>
 				<%@ include file="parts/pagination.jsp" %>
 			</div>
