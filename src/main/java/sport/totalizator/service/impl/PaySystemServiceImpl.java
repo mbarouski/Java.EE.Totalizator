@@ -1,12 +1,14 @@
 package sport.totalizator.service.impl;
 
 import org.apache.log4j.Logger;
+import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.dao.OperationDAO;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.dao.impl.OperationDAOImpl;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.Operation;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.PaySystemService;
@@ -72,6 +74,9 @@ public class PaySystemServiceImpl implements PaySystemService {
             userDAO.fillUpBalanceForUser(connection, operation.getUserId(), operation.getAmount());
             operationDAO.addOperation(connection, operation);
             connection.commit();
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
         } catch (DAOException | SQLException exc){
             try {
                 connection.rollback(savepoint);
@@ -127,6 +132,9 @@ public class PaySystemServiceImpl implements PaySystemService {
             userDAO.withdrawMoneyFromUser(connection, operation.getUserId(), operation.getAmount());
             operationDAO.addOperation(connection, operation);
             connection.commit();
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
         } catch (DAOException | SQLException exc){
             try {
                 if(savepoint != null) {

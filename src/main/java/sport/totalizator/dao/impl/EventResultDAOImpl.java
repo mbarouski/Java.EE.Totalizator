@@ -1,9 +1,11 @@
 package sport.totalizator.dao.impl;
 
 import org.apache.log4j.Logger;
+import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.dao.EventResultDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.EventResult;
 
 import java.sql.*;
@@ -91,6 +93,9 @@ public class EventResultDAOImpl implements EventResultDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);

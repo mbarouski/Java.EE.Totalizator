@@ -5,6 +5,7 @@ import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
@@ -38,7 +39,7 @@ public class WithdrawMoneyCommand implements ICommand {
         try {
             paySystemService.withdrawMoney((String)req.getSession().getAttribute("username"), cardNumber, validityDate, amount);
         }
-        catch(ServiceException exc){
+        catch(ServiceException | ConnectionPoolException exc){
             log.error(exc);
             throw new CommandException(exc);
         }

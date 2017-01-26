@@ -6,6 +6,7 @@ import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.Rate;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.RateService;
@@ -77,7 +78,7 @@ public class RateServiceImpl implements RateService {
             userDAO.withdrawMoneyFromUser(connection, rate.getUserId(), rate.getSum());
             rateDAO.addRate(connection, rate);
             connection.commit();
-        } catch (DAOException | SQLException exc){
+        } catch (DAOException | SQLException | ConnectionPoolException exc){
             try{
                 connection.rollback(savepoint);
             } catch (SQLException sqlExc){

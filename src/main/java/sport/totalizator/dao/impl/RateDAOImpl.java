@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import sport.totalizator.dao.RateDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.Rate;
 
 import java.math.BigDecimal;
@@ -101,7 +102,7 @@ public class RateDAOImpl implements RateDAO{
                     statement.close();
                 }
             }
-        } catch (SQLException exc){
+        } catch (SQLException | ConnectionPoolException exc){
             log.error(exc);
             throw new DAOException(exc);
         } finally {
@@ -152,7 +153,7 @@ public class RateDAOImpl implements RateDAO{
                     statement.close();
                 }
             }
-        } catch (SQLException exc){
+        } catch (SQLException | ConnectionPoolException exc){
             log.error(exc);
             throw new DAOException(exc);
         } finally {
@@ -230,7 +231,7 @@ public class RateDAOImpl implements RateDAO{
                     statement.close();
                 }
             }
-        } catch (SQLException exc){
+        } catch (SQLException | ConnectionPoolException exc){
             log.error(exc);
             throw new DAOException(exc);
         } finally {
@@ -284,7 +285,7 @@ public class RateDAOImpl implements RateDAO{
                     statement.close();
                 }
             }
-        } catch (SQLException exc){
+        } catch (SQLException | ConnectionPoolException exc){
             log.error(exc);
             throw new DAOException(exc);
         } finally {

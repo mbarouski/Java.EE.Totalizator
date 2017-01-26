@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import sport.totalizator.dao.MemberDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.Member;
 
 import java.sql.Connection;
@@ -78,6 +79,9 @@ public class MemberDAOImpl implements MemberDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -156,6 +160,9 @@ public class MemberDAOImpl implements MemberDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -201,6 +208,9 @@ public class MemberDAOImpl implements MemberDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -232,6 +242,9 @@ public class MemberDAOImpl implements MemberDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);

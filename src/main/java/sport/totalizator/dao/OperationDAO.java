@@ -1,6 +1,7 @@
 package sport.totalizator.dao;
 
 import sport.totalizator.dao.exception.DAOException;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.Operation;
 import sport.totalizator.exception.ExceptionWithErrorList;
 
@@ -25,5 +26,5 @@ public interface OperationDAO {
      * @return
      * @throws DAOException
      */
-    boolean canFillUpBalanceForUser(int userId) throws DAOException;
+    boolean canFillUpBalanceForUser(int userId) throws DAOException, ConnectionPoolException;
 }

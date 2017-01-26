@@ -1,5 +1,6 @@
 package sport.totalizator.service;
 
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.Operation;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.service.exception.ServiceException;
@@ -19,7 +20,8 @@ public interface PaySystemService {
      * @throws ServiceException
      * @throws ExceptionWithErrorList
      */
-    Operation fillUpBalance(String username, String cardNumber, String validityDate, String cardCode, String amount) throws ServiceException, ExceptionWithErrorList;
+    Operation fillUpBalance(String username, String cardNumber, String validityDate, String cardCode, String amount)
+            throws ServiceException, ExceptionWithErrorList, ConnectionPoolException;
 
     /**
      * Method checks data for money withdrawing from balance and manages this process.
@@ -31,5 +33,6 @@ public interface PaySystemService {
      * @throws ServiceException
      * @throws ExceptionWithErrorList
      */
-    Operation withdrawMoney(String username, String cardNumber, String validityDate, String amount) throws ServiceException, ExceptionWithErrorList;
+    Operation withdrawMoney(String username, String cardNumber, String validityDate, String amount)
+            throws ServiceException, ExceptionWithErrorList, ConnectionPoolException;
 }

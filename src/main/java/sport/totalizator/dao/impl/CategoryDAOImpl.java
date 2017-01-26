@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import sport.totalizator.dao.CategoryDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.Category;
 
 import java.sql.*;
@@ -53,6 +54,9 @@ public class CategoryDAOImpl implements CategoryDAO{
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc.getMessage());
@@ -87,7 +91,7 @@ public class CategoryDAOImpl implements CategoryDAO{
                     statement.close();
                 }
             }
-        } catch (SQLException exc){
+        } catch (SQLException | ConnectionPoolException exc){
             log.error(exc);
             throw new DAOException(exc);
         } finally {

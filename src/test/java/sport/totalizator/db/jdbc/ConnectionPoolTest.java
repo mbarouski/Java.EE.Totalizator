@@ -7,7 +7,7 @@ import static junit.framework.TestCase.assertEquals;
 
 public class ConnectionPoolTest {
     @Test
-    public void ConnectionPoolTest(){
+    public void ConnectionPoolTest() throws ConnectionPoolException{
         ConnectionPool pool = ConnectionPool.getConnectionPool();
         Connection c = pool.getConnection();
         pool.returnConnectionToPool(c);

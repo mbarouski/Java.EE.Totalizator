@@ -5,6 +5,7 @@ import sport.totalizator.command.CommandEnum;
 import sport.totalizator.command.ICommand;
 import sport.totalizator.command.exception.CommandException;
 import sport.totalizator.command.factory.CommandFactory;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.ExceptionWithErrorList;
 import sport.totalizator.exception.UnauthorizedException;
@@ -40,6 +41,10 @@ public class FillUpBalanceCommand implements ICommand {
             paySystemService.fillUpBalance((String)req.getSession().getAttribute("username"), cardNumber, validityDate, cardCode, amount);
         }
         catch(ServiceException exc){
+            log.error(exc);
+            throw new CommandException(exc);
+        }
+        catch(ConnectionPoolException exc){
             log.error(exc);
             throw new CommandException(exc);
         }

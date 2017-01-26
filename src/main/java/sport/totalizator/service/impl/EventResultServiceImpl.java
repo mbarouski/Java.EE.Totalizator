@@ -8,6 +8,7 @@ import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.EventResult;
 import sport.totalizator.entity.Rate;
 import sport.totalizator.exception.ExceptionWithErrorList;
@@ -67,6 +68,9 @@ public class EventResultServiceImpl implements EventResultService {
             eventResultDAO.addEventResult(connection, eventResult);
             eventDAO.finishEvent(connection, eventResult.getEventId());
             distributePrize(connection, savepoint, eventResult);
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
         } catch (DAOException | SQLException exc){
             try {
                 if(savepoint != null) {

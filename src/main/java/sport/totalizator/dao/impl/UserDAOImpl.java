@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import sport.totalizator.dao.UserDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.User;
 import sport.totalizator.exception.ExceptionWithErrorList;
 
@@ -73,11 +74,12 @@ public class UserDAOImpl implements UserDAO {
                 user.setBanned(resultSet.getBoolean("banned"));
                 result.add(user);
             }
-        }
-        catch (SQLException exc){
+        } catch(ConnectionPoolException exc){
             log.error(exc);
-        }
-        finally {
+            throw new DAOException(exc);
+        } catch (SQLException exc){
+            log.error(exc);
+        } finally {
             pool.returnConnectionToPool(connection);
             try {
                 resultSet.close();
@@ -124,6 +126,9 @@ public class UserDAOImpl implements UserDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -171,6 +176,9 @@ public class UserDAOImpl implements UserDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -220,6 +228,9 @@ public class UserDAOImpl implements UserDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -263,6 +274,9 @@ public class UserDAOImpl implements UserDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -361,6 +375,9 @@ public class UserDAOImpl implements UserDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -390,6 +407,9 @@ public class UserDAOImpl implements UserDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -418,6 +438,9 @@ public class UserDAOImpl implements UserDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);
@@ -458,6 +481,9 @@ public class UserDAOImpl implements UserDAO {
                     statement.close();
                 }
             }
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new DAOException(exc);
         } catch (SQLException exc){
             log.error(exc);
             throw new DAOException(exc);

@@ -3,6 +3,7 @@ package sport.totalizator.dao;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,7 +17,7 @@ public class SelectRequestTest
     private static final Logger log = Logger.getLogger(SelectRequestTest.class);
 
     @Test
-    public void selectRequest(){
+    public void selectRequest() throws ConnectionPoolException{
         ResultSet resultSet = null;
         ConnectionPool pool = ConnectionPool.getConnectionPool();
         Connection c = pool.getConnection();

@@ -7,6 +7,7 @@ import sport.totalizator.dao.MemberDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.dao.factory.DAOFactory;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.Event;
 import sport.totalizator.entity.EventResult;
 import sport.totalizator.exception.ExceptionWithErrorList;
@@ -186,6 +187,9 @@ public class EventServiceImpl implements EventService {
             memberDAO.attachMembersToEvent(connection, memberIds, event.getEventId());
             connection.commit();
             return event;
+        } catch(ConnectionPoolException exc){
+            log.error(exc);
+            throw new ServiceException(exc);
         } catch (DAOException | ParseException | SQLException exc){
             try {
                 connection.rollback(savepoint);
@@ -201,6 +205,7 @@ public class EventServiceImpl implements EventService {
                 } catch (SQLException exc){
                     log.error(exc);
                 }
+                connectionPool.returnConnectionToPool(connection);
             }
         }
     }

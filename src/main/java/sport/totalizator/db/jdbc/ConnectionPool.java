@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -56,14 +57,19 @@ public class ConnectionPool {
      * Method that gives us {@link Connection} to database.
      * @return
      */
-    public Connection getConnection(){
+    public Connection getConnection() throws ConnectionPoolException{
         Connection connection;
         try {
-            connection = connections.take();
+            connection = connections.poll(10, TimeUnit.SECONDS);
+            if(connection == null){
+                throw new ConnectionPoolException();
+            }
         }
         catch(InterruptedException exc){
             connection = null;
             log.error(exc);
+        } finally {
+            log.debug("Connections count: " + connections.size());
         }
         return connection;
     }
@@ -77,6 +83,7 @@ public class ConnectionPool {
         if(!connections.contains(c)) {
             connections.offer(c);
         }
+        log.debug("Connections count: " + connections.size());
         lockForReturnConnection.unlock();
     }
 

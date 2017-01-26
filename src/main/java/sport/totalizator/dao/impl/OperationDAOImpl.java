@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import sport.totalizator.dao.OperationDAO;
 import sport.totalizator.dao.exception.DAOException;
 import sport.totalizator.db.jdbc.ConnectionPool;
+import sport.totalizator.db.jdbc.ConnectionPoolException;
 import sport.totalizator.entity.Operation;
 
 import java.sql.*;
@@ -58,7 +59,7 @@ public class OperationDAOImpl implements OperationDAO {
     }
 
     @Override
-    public boolean canFillUpBalanceForUser(int userId) throws DAOException {
+    public boolean canFillUpBalanceForUser(int userId) throws DAOException, ConnectionPoolException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
