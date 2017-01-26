@@ -61,6 +61,9 @@ public class RateServiceImpl implements RateService {
         }
         BigDecimal bigDecimalmoney = BigDecimal.valueOf(NumberValidator.parseDouble(money,
                 rateException, "err.amount-is-invalid"));
+        if(rate.getMember1Id() == rate.getMember2Id()){
+            rateException.addMessage("err.choose-different-members");
+        }
         if(rateException.getErrorMessageList().size() != 0){
             throw rateException;
         }

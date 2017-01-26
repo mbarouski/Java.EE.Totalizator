@@ -35,11 +35,11 @@
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.name"/></label>
                             <input id="name-input" type="text" name="login" pattern="[a-zA-Z]{1}[a-zA-Z_0-9]{4,}" required 
-                                value="<c:out value="${user.login}"/>"/>
+                                value="<c:out value="${user.login}"/>" title="<fmt:message bundle="${loc}" key="help.login"/>"/>
                         </div>
                         <div class="input-div">
                             <label><fmt:message bundle="${loc}" key="label.password"/></label>
-                            <input id="pass-input" type="password" name="password" required />
+                            <input id="pass-input" type="password" name="password" required  title="<fmt:message bundle="${loc}" key="help.login"/>"/>
                         </div>
                         <div class="btn-container">
                             <button class="register-btn" type="submit"><fmt:message bundle="${loc}" key="link.login" /></button>

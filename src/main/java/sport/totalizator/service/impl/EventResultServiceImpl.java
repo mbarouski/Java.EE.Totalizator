@@ -56,6 +56,9 @@ public class EventResultServiceImpl implements EventResultService {
         eventResult.setWinnerScore(NumberValidator.parseInt(winnerScore, eventResultException, "err.winner-score-is-invalid"));
         eventResult.setLoserId(NumberValidator.parseInt(loserId, eventResultException, "err.loser-id-is-invalid"));
         eventResult.setLoserScore(NumberValidator.parseInt(loserScore, eventResultException, "err.loser-score-is-invalid"));
+        if(eventResult.getWinnerId() == eventResult.getLoserId()){
+            eventResultException.addMessage("err.choose-different-members");
+        }
         if(eventResultException.getErrorMessageList().size() > 0){
             throw eventResultException;
         }

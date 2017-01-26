@@ -55,7 +55,7 @@ public class MakeRateCommand implements ICommand{
             req.setAttribute("rate", exc.getCauseObject());
             CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAKE_RATE_PAGE).execute(req, resp);
         }
-        req.setAttribute("rate", eventId);
+        req.setAttribute("eventId", eventId);
         req.setAttribute("success", MessageLocalizer.getLocalizedForCurrentLocaleMessage("success.rate-maked", req));
         req.setAttribute("rate", rate);
         CommandFactory.getFactory().createCommand(CommandEnum.SHOW_MAKE_RATE_PAGE).execute(req, resp);
