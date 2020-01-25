@@ -15,3 +15,10 @@ Web-application on Java EE for making bets on sport events.
 - `make start_environment`
 - `make compile` - unnecessary if you already built the application
 - `make run`
+
+## Demo
+
+![1](./demo/1.png)
+![2](./demo/2.png)
+![3](./demo/3.png)
+![4](./demo/4.png)
