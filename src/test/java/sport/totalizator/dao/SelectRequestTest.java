@@ -1,6 +1,7 @@
 package sport.totalizator.dao;
 
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
 import sport.totalizator.db.jdbc.ConnectionPool;
 
@@ -11,6 +12,7 @@ import java.sql.Statement;
 
 import static junit.framework.TestCase.assertEquals;
 
+@Ignore
 public class SelectRequestTest
 {
     private static final Logger log = Logger.getLogger(SelectRequestTest.class);
